@@ -1,0 +1,71 @@
+{
+    "data": {
+        "status": 200,
+        "msg": "You've Logged in successfully. Welcome!",
+        "data": [
+            {
+                "id": 322,
+                "fname": "sdfsafds",
+                "lname": "sfdsafsaf",
+                "dob": "",
+                "email": "98@yopmail.com",
+                "profile_pic": null,
+                "gender": "",
+                "address": "",
+                "pincode": 0,
+                "mobile": "9879798779",
+                "standard": 10,
+                "board": 1,
+                "academic_year": "16",
+                "school_name": "",
+                "school_address": "",
+                "mobile_otp_verify": 1,
+                "email_otp_verify": 1,
+                "ip_address": "0.0.0.0",
+                "demo_exam_status": 1,
+                "exam_unique_id": "",
+                "device_token": "",
+                "registration_from": 1,
+                "created_at": "2024-09-14T13:37:39.000Z",
+                "updated_at": "2024-09-14T13:37:39.000Z",
+                "class_id": 10,
+                "board_code": "IC",
+                "board_name": "ICSE",
+                "isFirstLoginAfterDemoExam": 1,
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIyLCJjbGFzc19pZCI6MTAsImNsYXNzIjoxMCwiYm9hcmQiOjEsImZuYW1lIjoic2Rmc2FmZHMiLCJpYXQiOjE3MjYzMjExMDQsImV4cCI6MTcyNjQwNzUwNH0.zixBJcLiLIkjao3No91QRwZBW9Kdw2lzKWzRsA2Cofw",
+                "is_subscribe": 0,
+                "is_subscribe_e_library": 0,
+                "work_status": 1,
+                "work_status_percentage": 20,
+                "scholatic_details_purchase": 0,
+                "competive_details_purchase": 0,
+                "total_scholastic_completed": 0,
+                "total_competitive_completed": 0,
+                "total_competitive_completed_master": 0,
+                "total_scholastic_completed_master": 0,
+                "scholatic_overall": 0,
+                "competitive_overall": 0,
+                "feedback_given": 0,
+                "performance_details_comp": [],
+                "performance_details_sch": []
+            }
+        ],
+        "demo_exam_submit": 1,
+        "exam_unique_id": "",
+        "is_subscribe": 0,
+        "is_subscribe_e_library": 0,
+        "demoquestionscount": [
+            {
+                "exam_category_id": 1,
+                "student_status": 0,
+                "student_id": 322,
+                "headingmsg": "Demo scholastic assessment",
+                "subheading": "Guest user",
+                "exam_date": "2024-09-14T13:37:39.000Z",
+                "is_expired": 0,
+                "expired_text": "Demo assessment expired",
+                "exam_end_date": "2024-09-14T13:37:39.000Z"
+            }
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+diff --git a/node_modules/react-native-chart-kit/dist/ProgressChart.js b/node_modules/react-native-chart-kit/dist/ProgressChart.js
+index b5221e0..eb08283 100644
+--- a/node_modules/react-native-chart-kit/dist/ProgressChart.js
++++ b/node_modules/react-native-chart-kit/dist/ProgressChart.js
+@@ -116,6 +116,7 @@ var ProgressChart = /** @class */ (function (_super) {
+             </G>
+             <G>
+               {pies.map(function (pie, i) {
++            if (!pie.curves[0].item) return null
+             return (<Path key={Math.random()} strokeLinecap="round" strokeLinejoin="round" d={pie.curves[0].sector.path.print()} strokeWidth={strokeWidth} stroke={_this.props.withCustomBarColorFromData
+                 ? withColor(i)
+                 : _this.props.chartConfig.color((i / pies.length) * 0.5 + 0.5, i)}/>);

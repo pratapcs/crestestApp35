@@ -1,0 +1,20 @@
+build multiple env setup
+
+npm == React Native: Multiple Environments Setup (Schemas/Flavors)
+
+1: To run app
+`- "ios": "react-native run-ios --simulator=\"iPhone 14 Pro\" --scheme \"app-development\" ",
+
+"ios:stage": "react-native run-ios --simulator=\"iPhone X\" --scheme \"app-staging\"",
+"ios:prod": "react-native run-ios --simulator=\"iPhone X\" --scheme \"app\"",
+"android": "cd android && ./gradlew clean && cd .. && react-native run-android --variant=developmentDebug --appIdSuffix 'development'",
+"android:stage": "cd android && ./gradlew clean && cd .. && react-native run-android --variant=stagingDebug --appIdSuffix 'staging'",
+"android:prod": "cd android && ./gradlew clean && cd .. && react-native run-android --variant=productionDebug --appIdSuffix 'production'"`
+2: To Generate APK or AAB
+`- "apk": "cd android && ./gradlew clean && ./gradlew assembleDevelopmentRelease",
+
+"apk:prod": "cd android && ./gradlew clean && ./gradlew assembleProductionRelease",
+"apk:stage": "cd android && ./gradlew clean && ./gradlew assembleStagingRelease",
+"aab": "cd android && ./gradlew clean && ./gradlew bundleDevelopmentRelease",
+"aab:prod": "cd android && ./gradlew clean && ./gradlew bundleProductionRelease",
+"aab:stage": "cd android && ./gradlew clean && ./gradlew bundleStagingRelease",`

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Crestest</string>
+    <string name="default_notification_channel_id">knacks_channel_id</string>
+    <string name="splash_slogan">
+        <font color="#FF0707">Post your</font>
+        <font color="#FFFFFF">Knacks</font>
+        <font color="#FF0707">Easily. Connect with</font>
+        <font color="#FFFFFF">Clubs</font>
+        <font color="#FF0707"> / </font>
+        <font color="#FFFFFF">Coaches</font>
+        <font color="#FF0707"> / </font>
+        <font color="#FFFFFF">Mentors</font>
+        <font color="#FF0707">.</font>
+        <font color="#FFFFFF"> Upgrade</font>
+        <font color="#FF0707">your knacks based on</font>
+        <font color="#FFFFFF">Suggestion</font>
+        <font color="#FF0707">. At last reached your</font>
+        <font color="#FFFFFF">Destination</font>
+    </string>
+    <string name="facebook_app_id">1313394476229663</string>
+<!-- <string name="fb_login_protocol_scheme">fb3246983855523581</string> -->
+<string name="facebook_client_token">41e7f6e49f7cc787f862798a38c1ad82</string>
+</resources>
