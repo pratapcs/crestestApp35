@@ -6,7 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/HeaderComponent';
@@ -27,9 +27,7 @@ const { width, height } = Dimensions.get('window');
 import { updateProfileDetails, getProfileDetailsById, getOTPByClassUpdateData, } from '../../store/actions/ProfileAction';
 import { demoUserRecordExistsOrNot } from '../../store/actions/StudentAction';
 import {
-    getClassStandardData,
     getClassStandardByTokenList,
-    loadingClassStandardAction,
 } from "../../store/actions/ClassStandardAction";
 
 import { getSchoolListData, } from '../../store/actions/CommonActions';
@@ -1079,7 +1077,7 @@ const Profile = (props) => {
                                     return <Icon name={isOpened ? 'angle-up' : 'angle-down'} color={colors.inputText} size={22} />;
                                 }}
                                 dropdownIconPosition={'right'}
-                                dropdownStyle={Gstyles.dropdown1DropdownStyle}
+                                dropdownStyle={Gstyles.dropdownSchoolNameListStyle}
                                 // rowStyle={schoolName[0] == 'Create new' ? Gstyles.dropdownNewRowStyle : Gstyles.dropdown1RowStyle}
                                 rowStyle={Gstyles.dropdown1RowStyle}
                                 rowTextStyle={Gstyles.dropdown1RowTxtStyle}

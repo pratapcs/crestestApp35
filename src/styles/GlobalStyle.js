@@ -330,14 +330,17 @@ const Gstyles = StyleSheet.create(
             height: 40,
         },
         dropdown1DropdownStyle: {
-            backgroundColor: '#EFEFEF'
+            backgroundColor: '#EFEFEF',
+        },
+        dropdownSchoolNameListStyle:{
+            backgroundColor: '#EFEFEF',
+            height:240,
         },
         dropdown1RowTxtStyle: {
             color: '#444',
             textAlign: 'left',
             fontSize: width < 500 ? 14 : height * 0.020,
             color: colors.inputText,
-
         },
 
         //end Setlect dropdown list style

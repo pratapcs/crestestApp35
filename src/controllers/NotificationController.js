@@ -12,7 +12,6 @@ import { getData, storeData } from "../utils/Util";
 import Emitter from '../utils/Emitter';
 import * as Events from '../configs/Events';
 import GlobalConfigs from '../configs/GlobalConfigs';
-import { run } from 'jest';
 
 
 const showNotification = (notification, data) => {
