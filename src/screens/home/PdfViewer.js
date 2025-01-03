@@ -406,12 +406,12 @@ const PdfViewer = (props) => {
                             uri: 'data:application/pdf;base64,' + base64Pdf,
                             cache: true,
                         }}
-                        // renderActivityIndicator={() => <View />}
-                        renderActivityIndicator={() => {Emitter.emit(Events.HIDE_PRELOADER); setIsPdfLoading(false)}}
+                        renderActivityIndicator={() => <View />}
+                        // renderActivityIndicator={() => {Emitter.emit(Events.HIDE_PRELOADER); setIsPdfLoading(false)}}
                         onLoadComplete={(numberOfPages, filePath) => {
                             console.log(`Number of pages: ${numberOfPages}`);
                             setIsPdfLoading(false);
-                            // Emitter.emit(Events.HIDE_PRELOADER)
+                            Emitter.emit(Events.HIDE_PRELOADER)
                         }}
 
                         /* onLoadComplete={(numberOfPages, filePath) => {

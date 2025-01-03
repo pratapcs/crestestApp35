@@ -55,7 +55,7 @@
     "react-native-mathjax": "^2.1.2",
     "react-native-orientation-locker": "^1.7.0",
     "react-native-paper": "^5.12.5",
-    "react-native-pdf": "^6.7.1",
+    "react-native-pdf": "6.7.1",
     "react-native-popup-confirm-toast": "^2.3.7",
     "react-native-push-notification": "^8.1.1",
     "react-native-raw-bottom-sheet": "^3.0.0",
