@@ -30,25 +30,19 @@ import {
     getTermsCondition
 } from '../../services/AuthService';
 
-import testJson from '../../screens/auth/test.json'
-
 import Emitter from '../../utils/Emitter';
 import * as Events from '../../configs/Events';
 
 import { demoExamSubmitAction } from '../actions/ScholasticAction'
 import { postDemoStudentRegistrationAction } from '../actions/StudentAction'
 
-import { storeData, getData, clearAllData } from "../../utils/Util";
+import { storeData, clearAllData } from "../../utils/Util";
 
 export function loginAction(email, password, devicetoken, navigation) {
-    console.log("loginAction----------", email, password, devicetoken,)
     Emitter.emit(Events.SHOW_PRELOADER);
     return (dispatch) => {
         login(email, password, devicetoken)
             .then(async (response) => {
-                // response = testJson
-                console.log("response.data.data[0]---", response.data)
-                // response = testJson
                 if (response.data.status === 200) {
                     storeData("crestestUserDetails", JSON.stringify(response.data.data[0]));
                     dispatch(loginConfirmedAction(response.data.data[0]))
@@ -89,11 +83,9 @@ export function userDetailsExistsOrNot(email, mobile, calbackFunction, navigatio
                 if (response.data.status == 200) {
                     dispatch(sendVerificationOtp(mobile, email, navigation))
                     calbackFunction()
-                    // dispatch(recordExistsSuccess(response.data.exist))
                     Emitter.emit(Events.HIDE_PRELOADER);
                 } else if (response.data.status == 410) {
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: 'Error!', message: response.data.msg });
-                    // dispatch(recordExistsFailure(response.data.exist))
                     Emitter.emit(Events.HIDE_PRELOADER);
                 }
             })

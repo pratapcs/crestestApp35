@@ -477,8 +477,8 @@ const ExamsDetails = (props) => {
                                             <>
                                                 <MaterialCommunityIcons name="clock-minus-outline" size={18} color="#fff" />
                                                 <View style={{ overflow: 'hidden', alignItems: 'flex-start', top: -1 }}>
-                                                    {/* <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} /> */}
-                                                    <ExamCounterClockComponent examTime={14440} isPlaying={isPlaying} />
+                                                    <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} />
+                                                    {/* <ExamCounterClockComponent examTime={14440} isPlaying={isPlaying} /> */}
                                                 </View>
                                             </>
                                             :

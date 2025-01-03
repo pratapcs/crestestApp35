@@ -4,12 +4,11 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Dimensions,
     TouchableOpacity,
 } from 'react-native';
 
 //styles
-import { colors, containerInside, rbSheetBorderRdious } from '../../styles/Crestest.config';
+import { colors, containerInside, } from '../../styles/Crestest.config';
 
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import CounterClockComponent from '../../components/CounterClockComponent'
@@ -23,27 +22,18 @@ import { registrationStatusDetails } from '../../store/actions/StudentAction'
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { validateEmail, decryptAES } from "../../utils/Util";
+import { decryptAES } from "../../utils/Util";
 
 import Gstyles from '../../styles/GlobalStyle';
-import { useNavigation } from '@react-navigation/native';
-
-import { COMPETITIVE_EXAM_QUESTIONS_UPLOAD_COMPLETE } from '../../store/constants';
 
 
 const Verification = (props) => {
 
-    const navigation = useNavigation();
     const [emailOtp, setEmailOtp] = useState('');
     const [mobileOtp, setMobileOtp] = useState('');
     const [isShowResendOtp, setIsShowResendOtp] = useState(0);
 
     const time_used = useSelector(state => state.auth.time_used);
-
-    const email_otp = useSelector(state => state.auth.email_otp);
-    const mobile_otp = useSelector(state => state.auth.mobile_otp);
-    const otpValidTime = useSelector(state => state.auth.otpValidTime);
-
 
     const onlyNumber = /^[0-9]+$/;
 
@@ -54,15 +44,11 @@ const Verification = (props) => {
 
 
     useEffect(() => {
-        // console.log("@2222----route--", props)
         console.log("@2222----mobile_otp--", props.params.mobile_otp)
         console.log("@2222----email_otp--", props.params.email_otp)
-
-        // console.log("@11111----route--", props)
     }, []);
 
     useEffect(() => {
-        // console.log("time_used------", "email_otp:", decryptAES(email_otp), "mobile_otp:", decryptAES(mobile_otp), "otpValidTime:", otpValidTime,)
         if (time_used <= 0) {
             setIsShowResendOtp(1)
             setMobileOtp('');
@@ -261,7 +247,6 @@ const Verification = (props) => {
                             />
                         </View>
                     </View>
-                    {/* <View><Text>{`m: ${props.params.mobile_otp} e:${props.params.email_otp}` }</Text></View> */}
 
                     <View style={Gstyles.buttonContainer}>
                         <TouchableOpacity style={[Gstyles.buttonLeftContainer, Gstyles.yellowButtonBackground]} onPress={closeVerificationOption}><Text style={[Gstyles.buttonText, Gstyles.buttonWhiteText]}>Close</Text></ TouchableOpacity>

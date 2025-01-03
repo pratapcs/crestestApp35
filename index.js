@@ -12,6 +12,8 @@ import { store } from './src/store/store';
 
 import { Root as PopupRootProvider } from 'react-native-popup-confirm-toast';
 
+import {Text, TextInput} from 'react-native';
+
 const RNRedux = () => (
     <Provider store={store}>
         <PopupRootProvider>
@@ -22,3 +24,14 @@ const RNRedux = () => (
 
 AppRegistry.registerComponent(appName, () => RNRedux);
 // AppRegistry.registerComponent(appName, () => App);
+
+//ADD this 
+if (Text.defaultProps == null) {
+    Text.defaultProps = {};
+    Text.defaultProps.allowFontScaling = false;
+}
+
+if (TextInput.defaultProps == null) {
+    TextInput.defaultProps = {};
+    TextInput.defaultProps.allowFontScaling = false;
+}

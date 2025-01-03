@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {
   View,
-  Text,
-  Image,
   StatusBar,
-  ScrollView,
   StyleSheet,
   Dimensions,
   Linking,
@@ -24,18 +21,13 @@ import { decryptAES } from "../../utils/Util";
 const CareerGuidance = (props) => {
   // const source = { uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf', cache: true };
   const source = { uri: Config.PDFURL + 'assets/guide.pdf', cache: true };
-  // const source = { uri: Config.PDFURL + 'elibrary/1681908726652IC10PHCH1CM.1.2.3.4.pdf', cache: true };
-  // const source = { uri: props.route.params.elibraryPdfPath, cache: true };
-  // const source = { uri: "https://crestestclv.s3.ap-south-1.amazonaws.com/elibrary/1681908726652IC10PHCH1CM.1.2.3.4.pdf", cache: true };
+  
 
   const awsCredentialsAccessKeyId = useSelector((state) => state.elibrary.awsCredentialsAccessKeyId);
   const awsCredentialsSecretaccessKey = useSelector((state) => state.elibrary.awsCredentialsSecretaccessKey);
   const dispatch = useDispatch();
 
-  const [sourcePdfUrl, setSourcePdfUrl] = useState({
-    uri: Config.PDFURL + 'assets/guide.pdf',
-    cache: true,
-  });
+  
   const [base64Pdf, setBase64Pdf] = useState('');
   const [isPdfLoading, setIsPdfLoading] = useState(true);
 
@@ -101,19 +93,12 @@ const CareerGuidance = (props) => {
         leftIconHandeler={leftIconHandeler}
       />
 
-      {/* <View style={{ flex: 1, backgroundColor: '#e7bc00', alignItems: 'center', justifyContent: 'center', }}>
-                <Text>Career Guidance</Text>
-            </View> */}
-      {/* <Text>{Config.PDFURL + pdfFileName}</Text> */}
+      
       <View style={styles.container}>
         <Pdf
           trustAllCerts={false}
-          source={{ uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf'}}
-          // source={source}
-          /* source={{
-            uri: 'data:application/pdf;base64,' + base64Pdf,
-            cache: true,
-          }} */
+          // source={{ uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf'}}
+          source={source}
           renderActivityIndicator={() => <ActivityIndicator color="red" size={'large'} />}
           onLoadComplete={(numberOfPages, filePath) => {
             console.log(`Number of pages: ${numberOfPages}`);

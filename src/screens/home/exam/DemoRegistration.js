@@ -277,7 +277,6 @@ const DemoRegistration = (props) => {
     }
 
     const onPressOpenVisibleOption = () => {
-        console.log("onPressOpenVisibleOption--123---")
         Emitter.emit(Events.SHOW_MENU_FROM_BOTTOM,
             {
                 // 'component': <EditClubMenuScene navigation={this.props.navigation} parent={this} />,
@@ -412,7 +411,6 @@ const DemoRegistration = (props) => {
     }
 
     const isShowDemoVerificationHandeler = () => {
-        // console.log("isShowDemoVerificationHandeler-Demo----------")
         setIsShowVerification(true)
     }
 
@@ -593,9 +591,9 @@ const DemoRegistration = (props) => {
                                         // maxLength={200}
                                         autoCapitalize='none' //words: first letter of each word.
                                         returnKeyType="next"
-                                        onSubmitEditing={() => {
+                                        /* onSubmitEditing={() => {
                                             passwordRef.current.focus();
-                                        }}
+                                        }} */
                                     />
                                 </View>
 

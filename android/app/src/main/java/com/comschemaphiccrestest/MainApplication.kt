@@ -1,4 +1,4 @@
-package com.crestest
+package com.schemaphic.crestest
 
 import android.app.Application
 import com.facebook.react.PackageList

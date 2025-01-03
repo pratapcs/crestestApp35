@@ -1625,9 +1625,10 @@ const Gstyles = StyleSheet.create(
         },
         privacyPolicyContainer: {
             flex: 1,
-            justifyContent: 'flex-end',
+            // justifyContent: 'flex-end',
             alignItems: 'center',
             paddingVertical: 10,
+            alignSelf:'center'
         },
         privacyPolicytext: {
             fontSize: 12,

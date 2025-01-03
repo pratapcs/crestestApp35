@@ -27,7 +27,6 @@ const PrivacyPolicy = (props) => {
 
     }, []);
 
-    {/* {console.log("privacyPolicy-----", privacyPolicy)} */ }
     return (
         <>
             <Modal

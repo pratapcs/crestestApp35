@@ -105,28 +105,28 @@ android {
     productFlavors {
         production {
             minSdkVersion rootProject.ext.minSdkVersion
-            applicationId "com.crestest"
+            applicationId "com.schemaphic.crestest"
             targetSdkVersion rootProject.ext.targetSdkVersion
-            resValue "string", "build_config_package", "com.crestest"
+            resValue "string", "build_config_package", "com.schemaphic.crestest"
         }
         staging {
             minSdkVersion rootProject.ext.minSdkVersion
-            applicationId "com.crestest"
+            applicationId "com.schemaphic.crestest"
             targetSdkVersion rootProject.ext.targetSdkVersion
-            resValue "string", "build_config_package", "com.crestest"
+            resValue "string", "build_config_package", "com.schemaphic.crestest"
         }
         development {
             minSdkVersion rootProject.ext.minSdkVersion
-            applicationId "com.crestest"
+            applicationId "com.schemaphic.crestest"
             targetSdkVersion rootProject.ext.targetSdkVersion
-            resValue "string", "build_config_package", "com.crestest"
+            resValue "string", "build_config_package", "com.schemaphic.crestest"
         }
     }
    // ---
 
-    namespace "com.crestest"
+    namespace "com.schemaphic.crestest"
     defaultConfig {
-        applicationId "com.crestest"
+        applicationId "com.schemaphic.crestest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -14,9 +14,9 @@ import {
 } from 'react-native';
 
 //styles
-import { colors, container, scrollViewContainer, containerInside, fonts } from '../../styles/Crestest.config';
+import { container, scrollViewContainer, containerInside } from '../../styles/Crestest.config';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -27,27 +27,22 @@ import { validateEmail } from "../../utils/Util";
 import { loginAction, demoLogin, verificationCodeInputOffAction } from '../../store/actions/AuthActions';
 import PrivacyPolicy from '../../components/PrivacyPolicy';
 import { useDispatch } from 'react-redux';
-import { getClassStandardData, getBoardData, } from '../../../store/actions/CommonActions';
 
 import firebaseToken from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 
 import Gstyles from '../../styles/GlobalStyle';
 import topImage from '../../assets/images/login_img.png'
-const { iwidth, iheight } = Image.resolveAssetSource(topImage);
+
 
 const Signin = ({ navigation }) => {
 
     const [email, setEmail] = useState(''); /* pratap.santra18@gmail.com */
     const [password, setPassword] = useState('');/* Pass@123 */
 
-    /* For Archive Login Id : simba@yopmail.com - 123456 /  kar@yopmail.com - Pass@123 */
-
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [devicetoken, setDevicetoken] = useState(true);
-    // const [devicetoken, setDevicetoken] = useState("axdfszxdfs515434asfdsafsa");
-    const [imgWidth, setImgWidth] = useState();
-    const [imgHeight, setImgHeight] = useState();
+    
 
     const [privacyPolicyModal, setPrivacyPolicyModal] = useState(false);
 
@@ -61,12 +56,6 @@ const Signin = ({ navigation }) => {
         emailRef.current.focus();
         console.log("@1")
         getDeviceToken()
-
-        /* Image.getSize(topImage, (width, height) => { 
-            console.log(">>>>>>>>>>", width, height )
-            // setImgWidth(width); setImgHeight(height) 
-        }); */
-        // const a = 0.5;
 
     }, []);
 
@@ -265,7 +254,6 @@ const Signin = ({ navigation }) => {
                                 <TouchableOpacity onPress={() => openPrivacyModal()} style={Gstyles.privacyPolicyContainer}>
                                     <Text style={Gstyles.privacyPolicytext}>Privacy policy</Text>
                                 </TouchableOpacity>
-                                {/* <TouchableOpacity onPress={goToSuccessRegister}><Text style={Gstyles.signupLinkText}>SuccessRegister</Text></TouchableOpacity> */}
                             </View>
 
                         </View>

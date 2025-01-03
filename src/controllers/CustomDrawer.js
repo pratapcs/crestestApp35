@@ -368,7 +368,7 @@ const CustomDrawer = (props) => {
     }
     if (item.id == 12) {
       Linking.openURL(
-        'https://play.google.com/store/apps/details?id=com.crestest&hl=en&gl=US',
+        'https://play.google.com/store/apps/details?id=com.schemaphic.crestest&hl=en&gl=US',
       );
     }
     dispatch(drawerMenuActiveIdUpdateAction(item.id))

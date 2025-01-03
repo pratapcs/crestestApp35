@@ -1,4 +1,4 @@
-package com.crestest
+package com.schemaphic.crestest
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

@@ -24,8 +24,8 @@ import { validateEmail, decryptAES, } from "../../utils/Util";
 // import { loginAction } from '../../store/actions/AuthActions'
 import { useDispatch, useSelector } from 'react-redux';
 
-// import firebaseToken from '@react-native-firebase/app';
-// import messaging from '@react-native-firebase/messaging';
+import firebaseToken from '@react-native-firebase/app';
+import messaging from '@react-native-firebase/messaging';
 
 import Gstyles from '../../styles/GlobalStyle';
 
@@ -97,11 +97,10 @@ const Registration = (props) => {
     const [isShowVerification, setIsShowVerification ] = useState(false)
 
     useEffect(() => {
-        console.log("#1")
         dispatch(verificationCodeInputOffAction(0));
         dispatch(getClassStandardData(navigation));
         dispatch(getBoardData(navigation));
-        // getDeviceToken();
+        getDeviceToken();
     }, []);
 
     useEffect(() => {
@@ -552,9 +551,9 @@ const Registration = (props) => {
                                         // maxLength={200}
                                         autoCapitalize='none' //words: first letter of each word.
                                         returnKeyType="next"
-                                        onSubmitEditing={() => {
+                                        /* onSubmitEditing={() => {
                                             passwordRef.current.focus();
-                                        }}
+                                        }} */
                                     />
                                 </View>
 

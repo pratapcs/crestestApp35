@@ -32,7 +32,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const DemoVerification = (props) => {
 
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
     const [emailOtp, setEmailOtp] = useState('');
     const [mobileOtp, setMobileOtp] = useState('');
     const [isShowResendOtp, setIsShowResendOtp] = useState(0);
@@ -57,11 +57,10 @@ const DemoVerification = (props) => {
         console.log("@2222----mobile_otp--", props.params.mobile_otp)
         console.log("@2222----email_otp--", props.params.email_otp)
 
-        // console.log("@11111----route--", props)
     }, []);
 
     useEffect(() => {
-        // console.log("time_used------", "email_otp:", decryptAES(email_otp), "mobile_otp:", decryptAES(mobile_otp), "otpValidTime:", otpValidTime,)
+        
         if (time_used <= 0) {
             setIsShowResendOtp(1)
             setMobileOtp('');
@@ -216,7 +215,7 @@ const DemoVerification = (props) => {
                         </View>
                     </View>
 
-                    {/* style={Gstyles.timerCounter} */}
+                    
                     <View style={Gstyles.inputContainerTwo}>
                         <View>
                             <View style={[Gstyles.fdr, Gstyles.labelMargin]}>
@@ -255,7 +254,7 @@ const DemoVerification = (props) => {
                                 maxLength={6}
                                 minLength={6}
                                 autoCapitalize='none' //words: first letter of each word.
-                                // returnKeyType="next"
+                                
                                 onSubmitEditing={() => {
                                     SubmitVerificationOption();
                                 }}
