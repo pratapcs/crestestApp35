@@ -6,7 +6,7 @@ import Gstyles from '../../styles/GlobalStyle';
 import { container } from '../../styles/Crestest.config';
 
 
-const Elibrary = ({ navigation }) => {
+const OnlineClasses = ({ navigation }) => {
     const [input, setInput] = useState('');
 
     const leftIconHandeler = () => {
@@ -48,4 +48,4 @@ const Elibrary = ({ navigation }) => {
     );
 };
 
-export default Elibrary;
+export default OnlineClasses;

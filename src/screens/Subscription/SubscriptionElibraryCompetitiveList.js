@@ -17,7 +17,7 @@ import HeaderComponent from '../../components/HeaderComponent';
 import { container } from '../../styles/Crestest.config';
 import CompetitiveElibraryCard from '../Subscription/SubscriptionComponent/CompetitiveElibraryCard';
 import Gstyles from '../../styles/GlobalStyle';
-import { getOnlyLibraryCmData } from '../../store/actions/SubscribeAction';
+import { getOnlyLibraryCmData, getOnlyLibraryCmAction } from '../../store/actions/SubscribeAction';
 
 
 
@@ -51,11 +51,6 @@ const SubscriptionElibraryCompetitiveList = (props) => {
         setType(props.route.params.item.id)
         setCategory(props.route.params.item.exam_category_id)
         dispatch(getOnlyLibraryCmData(props.route.params.item.id, props));
-        /* if(props.route.params.item.id != 2 && props.route.params.item.id != 5){
-            dispatch(getOnlyLibraryCmData(props.route.params.item.id, props));
-        }else{
-            dispatch(getOnlyLibraryCmData(props.route.params.item.id, props));
-        } */
 
     }, []);
 
@@ -69,10 +64,6 @@ const SubscriptionElibraryCompetitiveList = (props) => {
 
     const leftIconHandeler = () => {
         props.navigation.goBack()
-    }
-
-    const addToCart = () => {
-        console.log("addToCart----Subscribe----")
     }
 
     const getCourseValidityDateformat = (date) => {

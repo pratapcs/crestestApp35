@@ -52,7 +52,6 @@ export function ExamCategoryReducer(state = initialState, action) {
     }
     if (action.type === SUBMIT_ANSWER) {
         return {
-            // currentQestionNo: state.currentQestionNo + 1,
             ...state,
             currentQestionNo: action.payload,
         };

@@ -23,7 +23,7 @@ import ExamStartInstructions from '../home/exam/examComponent/ExamStartInstructi
 
 import { getScholasticExamQuestionsDataForSubscriber, getQuestionUploadCompletetAction, getScholasticExamAnswerSubmitForSubscriber, totalAttemptsAction, getscholasticIntermExamSubmitforSubscriber, getScholasticExamAnswerSubmitForSubscriberTimeupSubmit } from '../../store/actions/ScholasticAction';
 
-import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction } from '../../store/actions/demoExamAction';
+import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction, submitAnswer } from '../../store/actions/demoExamAction';
 
 import { getOnlineScholasticModuleQuestionListData, getOnlineScholasticMockQuestionListData, getscholasticexamsdetailsCasestudytData, getOnlineCompetitiveQuestionListData, ModuleMockQuestionUploadAction, competitiveQuestionUploadAction, competitiveExamAnswerSubmitForSubscriber, competitiveExamAnswerSubmitForSubscriberTimeup } from '../../store/actions/OnlineExamAction';
 
@@ -72,10 +72,8 @@ const OnlineExamsDetails = (props) => {
     const callFirstTimeRef = useRef(true);
 
 
-    // const [sampleQuestion, setSampleQuestion] = useState('In the given figure, O is the centre of the circle whose diameter is AB. If ∠AOE = 150° and ∠DAO = 55° then find ∠CBE. <img src="https://admin.clvdev.in//question_images/q_image/1680259500535NTMCH24Q43F43.png" alt="crestest_img" style="width:90%;margin-top:10px;" ')
-
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState(parseInt(currentQestionNo))
-    const [currentQuestion, setCurrentQuestion] = useState('')
+    const [currentQuestion, setCurrentQuestion] = useState([])
     const [selected, setSelected] = useState([]);
     const [is_visited_count, setIs_visited_count] = useState(0)
     const [is_answered_count, setIs_answered_count] = useState(0)
@@ -109,7 +107,10 @@ const OnlineExamsDetails = (props) => {
     const [gestureName, setGestureName] = useState();
 
     const currentQuestionLengthRef = useRef();
-    currentQuestionLengthRef.current = currentQuestion
+    useEffect(() => {
+        currentQuestionLengthRef.current = currentQuestion;
+    }, [currentQuestion]);
+    // currentQuestionLengthRef.current = currentQuestion
 
     const currentTimeRef = useRef();
     currentTimeRef.current = pendingTime;
@@ -118,9 +119,7 @@ const OnlineExamsDetails = (props) => {
     totalAttemptsRef.current = total_attempts;
 
     useEffect(() => {
-        // console.log("examStartInstructionHandeler---123")
         if (callFirstTimeRef.current) {
-            // console.log("examStartInstructionHandeler---examStartInstructionHandeler")
             examStartInstructionHandeler();
         }
         callFirstTimeRef.current = false
@@ -176,8 +175,9 @@ const OnlineExamsDetails = (props) => {
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
             let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
             // updatedVisitData[currentQuestionNumber].is_visited = 1
+            console.log("@123789-------------------------------", updatedVisitData[0])
             setCurrentQuestion(updatedVisitData)
-            // setCurrentQuestion(scholasticQuestionList)
+            
             dispatch(getQuestionUploadCompletetAction(0));
             dispatch(ModuleMockQuestionUploadAction(0));
             dispatch(competitiveQuestionUploadAction(0));
@@ -191,7 +191,6 @@ const OnlineExamsDetails = (props) => {
                 // console.log("props.route.params.examFrom == 3")
                 setExamTime(onlineCompetitiveQuestionList[0].exam_duration)
             }
-
         }
         return () => {
             // dispatch(getQuestionUploadCompletetAction(0));
@@ -205,7 +204,10 @@ const OnlineExamsDetails = (props) => {
 
             if (total_attempts == 1) { // reload exam intermData
                 // console.log("total_attempts == 1 && scholasticQuestionUploaded == 1")
-                currentQuestion[currentQuestionNumber].is_visited = 1; // reload exam intermData // && 
+                // currentQuestion[currentQuestionNumber].is_visited = 1; // reload exam intermData // && 
+                if (currentQuestion?.[currentQuestionNumber]) {
+                    currentQuestion[currentQuestionNumber].is_visited = 1;
+                }
                 if (scholasticQuestionUploaded == 1) {
                     ScholasticExamintermSubmit(currentQestionNo)
                 }
@@ -320,11 +322,12 @@ const OnlineExamsDetails = (props) => {
     }
 
     const uploadQuestion = () => {
-        if (props.route.params.examFrom == 1) {
+        console.log("uploadQuestion---------------------------------------------------------")
+        if (props?.route.params.examFrom == 1) {
             // console.log("@@3331--")
             // console.log("props.route.params.examFrom == 1")
             dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
-        } else if (props.route.params.examFrom == 2) {
+        } else if (props?.route.params.examFrom == 2) {
             // console.log("props.route.params.examFrom == 2")
             if (previousValue.isModuleOrMock == 1) {
                 // console.log("@@11--")
@@ -336,7 +339,7 @@ const OnlineExamsDetails = (props) => {
                 // console.log("@@444--")
                 dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
             }
-        } else if (props.route.params.examFrom == 3) {
+        } else if (props?.route.params.examFrom == 3) {
             // console.log("@@3333333---------", previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype,)
             // console.log("props.route.params.examFrom == 3")
             // console.log("@@5555--")
@@ -407,11 +410,11 @@ const OnlineExamsDetails = (props) => {
         Emitter.emit(Events.SHOW_PRELOADER);
         Emitter.emit(Events.SHOW_MENU_FROM_BOTTOM,
             {
-                'component': <ExamStartInstructions 
-                navigation={navigation} 
-                quitExam={quitExam} 
-                startExam={startExam} 
-                params={{ mobile: 'mobileNumber', email: 'emailId', }} />,
+                'component': <ExamStartInstructions
+                    navigation={navigation}
+                    quitExam={quitExam}
+                    startExam={startExam}
+                    params={{ mobile: 'mobileNumber', email: 'emailId', }} />,
                 'componentHeight': 550,
             });
     }
@@ -555,7 +558,7 @@ const OnlineExamsDetails = (props) => {
 
         // if (examdata != "") {
         // if(props.route.params.examFrom != 3) {
-        dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestionLengthRef.current[0].exam_category, currentTimeRef.current, current_question_number, previousValue.group_subject_id, props)); //props.questionNo
+        dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestionLengthRef.current[0]?.exam_category, currentTimeRef.current, current_question_number, previousValue.group_subject_id, props)); //props.questionNo
         // }
 
     }
@@ -583,6 +586,7 @@ const OnlineExamsDetails = (props) => {
         } else {
             dispatch(competitiveExamAnswerSubmitForSubscriber(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, examdata, previousValue.subtype, previousValue.group_subject_id, page, previousValue.exam_category_id, props))
         }
+        // dispatch(submitAnswer(0)) //
     }
 
     const ScholasticExamSubmitTimeup = () => {
@@ -709,7 +713,9 @@ const OnlineExamsDetails = (props) => {
 
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-                {!!currentQuestion.length && total_attempts < 4 ?
+                
+                {console.log("@123-------------------", currentQuestion.length, total_attempts, currentQuestionNumber)}
+                {!!currentQuestion?.length && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
                             <View style={[Gstyles.examInsideTopContainer, Gstyles.fdr, Gstyles.jcsb]}>
@@ -719,12 +725,12 @@ const OnlineExamsDetails = (props) => {
                                     <View style={Gstyles.examInfoTextContainer}><Text style={Gstyles.examRemainingTextWhite} >{currentQuestionNumber + 1}/{currentQuestion.length}</Text></View>
                                 </View> */}
                                 <View>
-                                    <View style={[Gstyles.examInfoInsideContainer, {height: 30, top:-3 }]}>
+                                    <View style={[Gstyles.examInfoInsideContainer, { height: 30, top: -3 }]}>
 
                                         {!!currentQuestion.length ?
                                             <>
                                                 <MaterialCommunityIcons name="clock-minus-outline" size={18} color="#fff" />
-                                                <View style={{ overflow: 'hidden', alignItems:'flex-start', top:-1 }}>
+                                                <View style={{ overflow: 'hidden', alignItems: 'flex-start', top: -1 }}>
                                                     <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} />
                                                     {/* <ExamCounterClockComponent examTime={14400} isPlaying={isPlaying} /> */}
                                                 </View>
@@ -738,7 +744,7 @@ const OnlineExamsDetails = (props) => {
                                     </View>
                                 </View>
 
-                                <View style={[Gstyles.aic, Gstyles.jcc, { top:2, height: 30, flex: .8, }]}>
+                                <View style={[Gstyles.aic, Gstyles.jcc, { top: 2, height: 30, flex: .8, }]}>
                                     <ScrollView horizontal={true}>
                                         {props.route.params.examFrom == 1 ?
                                             <Text style={Gstyles.examHeading}> Subject: {currentQuestion[0].subject_name} {currentQuestion[0].subject_name != currentQuestion[0].branch_name ? <> / {currentQuestion[0].branch_name} </> : null} / Test: {previousValue.set_no == 'cs1' ? "Case Study" : previousValue.set_no} / {currentQuestion[0].chapter_name} {`(${currentQuestion[0].chapter_title})`
@@ -788,10 +794,10 @@ const OnlineExamsDetails = (props) => {
                                             <View style={{ height: 300 }} >
 
                                                 {currentQuestion != '' ?
-                                                    currentQuestion[currentQuestionNumber].question != '' ?
+                                                    currentQuestion[currentQuestionNumber]?.question != '' ?
                                                         <MathJax
                                                             mathJaxOptions={mmlOptions}
-                                                            html={currentQuestion[currentQuestionNumber].question}
+                                                            html={currentQuestion[currentQuestionNumber]?.question}
 
                                                         // html={sampleQuestion}
                                                         // style={{backgroundColor:'red',}}
@@ -804,7 +810,7 @@ const OnlineExamsDetails = (props) => {
 
                                 </View>
 
-                                
+
                             </View>
 
                             <View style={!answerSheetExpan ? Gstyles.showAnswerContainer : Gstyles.showAnswerBigContainer} >
@@ -825,7 +831,7 @@ const OnlineExamsDetails = (props) => {
                                         >
 
                                             {currentQuestion != '' ?
-                                                Object.keys(currentQuestion[currentQuestionNumber].options[0]).map(([key, value]) => {
+                                                Object.keys(currentQuestion?.[currentQuestionNumber]?.options?.[0] || {}).map(([key, value]) => {
 
                                                     return (
                                                         <React.Fragment key={key}>
@@ -844,11 +850,11 @@ const OnlineExamsDetails = (props) => {
                                                                             <View style={Gstyles.answerOption}>
                                                                                 <>
                                                                                     {currentQuestion != '' ?
-                                                                                        currentQuestion[currentQuestionNumber].options[0][key] == '' ? <ActivityIndicator /> :
+                                                                                        currentQuestion[currentQuestionNumber]?.options[0][key] == '' ? <ActivityIndicator /> :
                                                                                             <>
                                                                                                 <MathJax
                                                                                                     mathJaxOptions={mmlOptions}
-                                                                                                    html={currentQuestion[currentQuestionNumber].options[0][key]}
+                                                                                                    html={currentQuestion[currentQuestionNumber]?.options[0][key]}
                                                                                                     // style={{ backgroundColor: 'red', }}
                                                                                                     // onHeightUpdated={height => console.log(height)}
                                                                                                     onHeightUpdated={{ minHeight: 38, }}
@@ -875,11 +881,11 @@ const OnlineExamsDetails = (props) => {
                                                                             <View style={Gstyles.answerOption}>
                                                                                 <>
                                                                                     {currentQuestion != '' ?
-                                                                                        currentQuestion[currentQuestionNumber].options[0][key] == '' ? <ActivityIndicator /> :
+                                                                                        currentQuestion[currentQuestionNumber]?.options[0][key] == '' ? <ActivityIndicator /> :
                                                                                             <>
                                                                                                 <MathJax
                                                                                                     mathJaxOptions={mmlOptions}
-                                                                                                    html={currentQuestion[currentQuestionNumber].options[0][key]}
+                                                                                                    html={currentQuestion[currentQuestionNumber]?.options[0][key]}
                                                                                                     // style={{ backgroundColor: 'red', }}
                                                                                                     // onHeightUpdated={height => console.log(height)}
                                                                                                     onHeightUpdated={{ minHeight: 38 }}

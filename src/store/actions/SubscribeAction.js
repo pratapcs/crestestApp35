@@ -106,16 +106,17 @@ export function getScSubjectData(props) {
     };
 }
 
-export function getCmSubjectData(type, props) {
+export function getCmSubjectData(type, isVisableData, props) {
     Emitter.emit(Events.SHOW_PRELOADER);
     return (dispatch) => {
         getCmSubject(type)
             .then((response) => {
-                console.log("getCmSubjectData----",)
                 if (response.data.status == 200) {
                     dispatch(getCmSubjectAction(response.data.data));
                     dispatch(subcriptionCourseValidiryAction({ course_validity: response.data?.course_validity, course_available: response.data?.course_available, checkProfile: response.data?.checkProfile }));
                     Emitter.emit(Events.HIDE_PRELOADER);
+                    console.log("@123--")
+                    isVisableData();
                 } else if (response.data.status == 400) {
                     dispatch(logout(props));
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
@@ -128,7 +129,7 @@ export function getCmSubjectData(type, props) {
 
             })
             .catch((error) => {
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 Emitter.emit(Events.HIDE_PRELOADER);
                 return;
             });

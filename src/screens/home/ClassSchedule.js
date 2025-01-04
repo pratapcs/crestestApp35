@@ -4,7 +4,8 @@ import {
     Image,
     StatusBar,
     ScrollView,
-    StyleSheet
+    StyleSheet,
+    Text
 } from 'react-native';
 import Gstyles from '../../styles/GlobalStyle';
 import HeaderComponent from '../../components/HeaderComponent';
@@ -34,7 +35,8 @@ const ClassSchedule = ({ navigation }) => {
                         keyboardShouldPersistTaps="handled"
                         showsVerticalScrollIndicator={false}
                     > */}
-                    <Image source={require('../../assets/images/calender_template.png')} style={styles.imageStyle} />
+                    {/* <Image source={require('../../assets/images/calender_template.png')} style={styles.imageStyle} /> */}
+                        <Text>Online classes coming soon</Text>
 
                     {/* </ScrollView> */}
                 </View>

@@ -360,9 +360,6 @@ const PdfViewer = (props) => {
                     leftIcon='chevron-back'
                     leftIconHandeler={leftIconHandeler}
                 />
-                {/* <View style={styles.detailsContainer}>
-                    <Text style={styles.detailsText}>Career Guidance</Text>
-                </View> */}
 
                 {ElibraryCategory[1] == "Demo" ?
                     ElibraryCategory.length > 0 ?
@@ -376,13 +373,12 @@ const PdfViewer = (props) => {
 
                             <Text style={styles.detailsText}>{ElibraryScholasticCategory[1]} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></> {ElibraryScholasticCategory[2]} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></> {ElibraryScholasticCategory[0].branch_name == ElibraryScholasticCategory[2] ? null : <>{ElibraryScholasticCategory[0].branch_name} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></></>} {ElibraryScholasticCategory[0].sub_heading}</Text>
                         </View>
-                        // : ElibraryCategory.length <= 0 && elibraryTitle == "Demo" ?
                         : ElibraryCategory.length <= 0 && ElibraryCategory[1] == "Demo" ?
                             <View style={styles.detailsContainer}>
 
                                 <Text style={styles.detailsText}>{eCategory} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></> {elibraryTitle} </Text>
                             </View>
-                            // : ElibraryScholasticCategory.length <= 0 && elibraryTitle == "" ?
+                            
                             : ElibraryScholasticCategory.length <= 0 && ElibraryCategory[1] == "" ?
                                 <View style={styles.detailsContainer}>
 
@@ -407,25 +403,17 @@ const PdfViewer = (props) => {
                             cache: true,
                         }}
                         renderActivityIndicator={() => <View />}
-                        // renderActivityIndicator={() => {Emitter.emit(Events.HIDE_PRELOADER); setIsPdfLoading(false)}}
                         onLoadComplete={(numberOfPages, filePath) => {
                             console.log(`Number of pages: ${numberOfPages}`);
                             setIsPdfLoading(false);
                             Emitter.emit(Events.HIDE_PRELOADER)
                         }}
-
-                        /* onLoadComplete={(numberOfPages, filePath) => {
-                            console.log(`Number of pages: ${numberOfPages}`);
-                        }} */
                         onPageChanged={(page, numberOfPages) => {
                             console.log(`Current page: ${page}`);
                         }}
                         onError={(error) => {
                             console.log(error);
                         }}
-                        /* onPressLink={(uri) => {
-                            console.log(`Link pressed: ${uri}`);
-                        }} */
                         onPressLink={uri => {
                             console.log(`Link pressed: ${uri}`);
                             userid == 0 ? showModal() : openDetailsPdf(uri)

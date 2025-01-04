@@ -10,9 +10,7 @@ import moment from 'moment';
 
 import AlertComponent from "../../components/AlertComponent"
 
-import { elibraryGetsubjectListDetails, getElibraryContentRequest, elibraryGetLastsubjectListAction, getStoreElibraryVisitData } from '../../store/actions/LibraryAction';
-import { getChapterData, loadingChapterAction, getChapterAction } from '../../store/actions/ChapterAction';
-import { getOnlineConceptMapDetails, elibraryLoading, eliraryScholasticCategoryAction, elibraryListActivePageAction } from '../../store/actions/LibraryAction';
+import { elibraryGetsubjectListDetails, elibraryGetsubjectListAction } from '../../store/actions/LibraryAction';
 
 import { getAcademicSessionExistForExamDetails } from '../../store/actions/AcademicActions';
 
@@ -36,7 +34,6 @@ const ELibraryList = (props) => {
         } else if (props.route.params.isScholasticOrCompetitive == 3) {
             dispatch(elibraryGetsubjectListDetails(2, props.route.params.item.id, props));
         }
-
     }, []);
 
     useEffect(() => {
@@ -52,6 +49,11 @@ const ELibraryList = (props) => {
         }
     }, [academicSessionDetals]);
 
+    useEffect(() => {
+        return () => {
+            dispatch(elibraryGetsubjectListAction([]));
+        }
+    }, []);
 
     const leftIconHandeler = () => {
         props.navigation.goBack()

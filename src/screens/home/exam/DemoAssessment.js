@@ -11,6 +11,7 @@ import HeaderComponent from '../../../components/HeaderComponent';
 
 import Gstyles from '../../../styles/GlobalStyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import IonMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import AssessmentCard from './examComponent/AssessmentCard'
 import AssessmentNumberDetails from './examComponent/AssessmentNumberDetails'
@@ -55,7 +56,7 @@ const DemoAssessment = (props) => {
     const [previousPageValue, setPreviousPageValue] = useState(props.route.params)
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currentAssessmentNumber, setCurrentAssessmentNumber] = useState(0)
-    const [headingArrowSize, setHeadingArrowSize] = useState(15)
+    const [headingArrowSize, setHeadingArrowSize] = useState(11)
     const [headingArrowColor, setHeadingArrowColor] = useState("#000")
 
     const [isLocked, setLocked] = useState();
@@ -277,21 +278,19 @@ const DemoAssessment = (props) => {
         <>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? "padding" : "none"}
-                // style={container}
                 style={Gstyles.examParentContainer}
             >
-                {/* {console.log("****assessmentDetails*****", assessmentDetails)} */}
-                {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
+                
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-                {/* ${props.route.params.exam_category_id == 1 ? 'Scholastic' : props.route.params.exam_category_id == 2 ? 'Competitive' : null } */}
+                
                 <HeaderComponent
                     headerName={props.route.params.page == 44 ? `Demo Assessment` : props.route.params.page == 4 ? `Demo Assessment` : props.route.params.page == 5 ? `Online ${props.route.params.category_id == 1 ? 'Scholastic' : props.route.params.category_id == 2 ? 'Competitive' : null} Assessment` : props.route.params.page == 2 ? `Online ${props.route.params.category_id == 1 ? 'Scholastic' : props.route.params.category_id == 2 ? 'Competitive' : null} Assessment` : null}
 
-                    // leftIcon='chevron-back'
+                    
                     leftIcon={props.route.params.page == 4 || props.route.params.page == 5 ? 'chevron-back' : 'grid-outline'}
                     leftIconHandeler={leftIconHandeler}
                 />
-                {/* <Ionicons name="chevron-forward" size={20} color="#245C75" /> */}
+                
                 <View style={Gstyles.examParentContainer} >
                     {assessmentDetails != null && assessmentDetails != '' ?
                         <View style={[Gstyles.pageDetailsTopContainer, Gstyles.jcc, Gstyles.aic]}>
@@ -302,18 +301,12 @@ const DemoAssessment = (props) => {
                                 </View>
                                 : props.route.params.page == 5 || props.route.params.page == 2 ?
                                     <>
-                                        {/* {console.log("#####---", assessmentDetails[0].exam_type_name)} */}
                                         {props.route.params.category_id == 1 ?
                                             <>
 
-                                                {/* <View style={[Gstyles.jcc, Gstyles.aic, Gstyles.pv5]}>
-                                                    <Text style={[styles.testDetails, { lineHeight: 20, textAlign: 'center' }]}>{assessmentDetails[0].subject_group_name} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></> {assessmentDetails[0].subject_name} {assessmentDetails[0].subject_name == assessmentDetails[0].branch_name ? null : assessmentDetails[0].branch_name ? <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} />{"" + assessmentDetails[0].branch_name}</> : null}  {assessmentDetails[0].exam_type_name ? <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} />{'\n'}{"" + assessmentDetails[0].exam_type_name /* + "-" + assessmentDetails[0].exam_set_counter } </>
-                                                        : null} {assessmentDetails[0].chapter_name ? <>{assessmentDetails[0].exam_type_name == "Module" || assessmentDetails[0].exam_type_name == "Mock" ? null : <Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} />} {assessmentDetails[0].exam_type_name == "Module" || assessmentDetails[0].exam_type_name == "Mock" ? null : " " + assessmentDetails[0].chapter_name}</> : null} </Text>
-                                                </View> */}
-
-                                                <View style={[Gstyles.jcc, Gstyles.aic, Gstyles.pv5]}>
-                                                    <Text style={[styles.testDetails, { lineHeight: 20, textAlign: 'center' }]}>{assessmentDetails[0].subject_group_name} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></> {assessmentDetails[0].subject_name} {assessmentDetails[0].subject_name == assessmentDetails[0].branch_name ? null : assessmentDetails[0].branch_name ? <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} />{"" + assessmentDetails[0].branch_name}</> : null}  {assessmentDetails[0].exam_type_name ? <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} />{isPortraitLandscape == 0 ? '\n' : ' '}{"" + assessmentDetails[0].exam_type_name /* + "-" + assessmentDetails[0].exam_set_counter */} </>
-                                                        : null} {assessmentDetails[0].chapter_name ? <>{assessmentDetails[0].exam_type > 1 ? null : <Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} />} {assessmentDetails[0].exam_type > 1 ? null : " " + assessmentDetails[0].chapter_name}</> : null} </Text>
+                                                <View style={[Gstyles.jcc, Gstyles.aic, Gstyles.pv5, ]}>
+                                                    <Text style={[styles.testDetails, { lineHeight: 20, textAlign: 'center' }]}>{assessmentDetails[0].subject_group_name} <><IonMaterialIcons name="arrow-forward-ios" size={headingArrowSize} color={headingArrowColor}  /></> {assessmentDetails[0].subject_name} {assessmentDetails[0].subject_name == assessmentDetails[0].branch_name ? null : assessmentDetails[0].branch_name ? <><IonMaterialIcons name="arrow-forward-ios" size={headingArrowSize} color={headingArrowColor} />{"" + assessmentDetails[0].branch_name}</> : null}  {assessmentDetails[0].exam_type_name ? <><IonMaterialIcons name="arrow-forward-ios" size={headingArrowSize} color={headingArrowColor} />{isPortraitLandscape == 0 ? '\n' : ' '}{"" + assessmentDetails[0].exam_type_name /* + "-" + assessmentDetails[0].exam_set_counter */} </>
+                                                        : null} {assessmentDetails[0].chapter_name ? <>{assessmentDetails[0].exam_type > 1 ? null : <IonMaterialIcons name="arrow-forward-ios" size={headingArrowSize} color={headingArrowColor} />} {assessmentDetails[0].exam_type > 1 ? null : " " + assessmentDetails[0].chapter_name}</> : null} </Text>
                                                 </View>
 
                                             </>
@@ -321,7 +314,7 @@ const DemoAssessment = (props) => {
                                         <>
                                             {props.route.params.category_id == 2 ?
                                                 <View style={[Gstyles.jcc, Gstyles.aic, Gstyles.w100, Gstyles.pv5, Gstyles.ph10,]}>
-                                                    <Text style={{ lineHeight: 15, textAlign: 'center' }}>{assessmentDetails[0].exam_type ? assessmentDetails[0].exam_type : null} {assessmentDetails[0].exam_type ? <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /> {" "}</> : null}{assessmentDetails[0].exam_subtype ? assessmentDetails[0].exam_subtype : null} {assessmentDetails[0].exam_subtype ? <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /> {" "}</> : null}{"Set: " + assessmentDetails[0].exam_set_counter
+                                                    <Text style={{ lineHeight: 15, textAlign: 'center' }}>{assessmentDetails[0].exam_type ? assessmentDetails[0].exam_type : null} {assessmentDetails[0].exam_type ? <><IonMaterialIcons name="arrow-forward-ios" size={headingArrowSize} color={headingArrowColor} /> {" "}</> : null}{assessmentDetails[0].exam_subtype ? assessmentDetails[0].exam_subtype : null} {assessmentDetails[0].exam_subtype ? <><IonMaterialIcons name="arrow-forward-ios" size={headingArrowSize} color={headingArrowColor} /> {" "}</> : null}{"Set: " + assessmentDetails[0].exam_set_counter
                                                     } </Text>
 
                                                 </View>
@@ -558,7 +551,7 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             // borderWidth:1,
             width: '90%'
-        }
+        },
 
     });
 

@@ -283,8 +283,6 @@ export function getScholasticExamQuestionsDataForSubscriber(branch, chapter, sub
 }
 
 export function getScholasticExamAnswerSubmitForSubscriber(exam_type, branch, chapter, set_no, examdata, subject_id, chapter_no, group_subject_id, page, exam_category_id, props) {
-    // console.log("****-----", 'exam_type,', exam_type, 'branch,', branch, 'chapter,', chapter, 'set_no,', set_no, 'examdata,', examdata, 'subject_id,', subject_id, 'chapter_no', chapter_no, 'group_subject_id,', group_subject_id, 'page,', page, "exam_category_id->", exam_category_id)
-    // return
     Emitter.emit(Events.SHOW_PRELOADER);
     return async (dispatch) => {
         scholasticExamSubmitforSubscriber(exam_type, branch, chapter, set_no, examdata, subject_id, chapter_no, group_subject_id)
@@ -387,7 +385,7 @@ export function getscholasticIntermExamSubmitforSubscriber(exam_type, branch, ch
             .catch((error) => {
                 // console.log("****", error);
                 // utility.showError(error.response.data);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: error.data.msg });
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
     };

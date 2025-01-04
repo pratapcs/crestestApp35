@@ -82,11 +82,11 @@ export function likeEventHistoryData(event_id, history) {
 }
 
 export function submitFeedbackData(content, history) {
-    
     Emitter.emit(Events.SHOW_PRELOADER);
     return (dispatch) => {
         submitFeedback(content)
             .then((response) => {
+                console.log("@123-----", response)
                 if (response.data.status == 200) {
                     // dispatch(getEventHistoryLikeAction(response.data.is_liked));
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });

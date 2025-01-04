@@ -6,9 +6,9 @@ import {
     StyleSheet,
     Dimensions,
     KeyboardAvoidingView,
-    
+
 } from 'react-native';
-import { useDispatch,} from 'react-redux';
+import { useDispatch, } from 'react-redux';
 
 import Pdf from 'react-native-pdf';
 import Config from "react-native-config"
@@ -18,15 +18,18 @@ import { container, } from '../../styles/Crestest.config';
 import { getData } from "../../utils/Util";
 
 import HeaderComponent from '../../components/HeaderComponent';
+import Emitter from '../../utils/Emitter';
+import * as Events from '../../configs/Events';
 
 const Instruction = (props) => {
     // const source = { uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf', cache: true };
     const source = { uri: Config.PDFURL + 'assets/lmsguideline.pdf', cache: true };
-    
+
     const dispatch = useDispatch();
 
     const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
+    const [isPdfLoading, setIsPdfLoading] = useState(true);
 
     useEffect(() => {
 
@@ -39,17 +42,13 @@ const Instruction = (props) => {
             setLname(lname);
         };
         getUserDetails();
-        
-    }, []);
 
-    
+    }, []);
 
     const leftIconHandeler = () => {
         props.navigation.goBack()
     }
 
-
-    
     return (
         <>
             <KeyboardAvoidingView
@@ -67,9 +66,10 @@ const Instruction = (props) => {
                     <Pdf
                         trustAllCerts={false}
                         source={source}
-
                         onLoadComplete={(numberOfPages, filePath) => {
                             console.log(`Number of pages: ${numberOfPages}`);
+                            setIsPdfLoading(false);
+                            Emitter.emit(Events.HIDE_PRELOADER)
                         }}
                         onPageChanged={(page, numberOfPages) => {
                             console.log(`Current page: ${page}`);
@@ -82,10 +82,11 @@ const Instruction = (props) => {
                         }}
                         page={1}
                         style={styles.pdf} />
+                    {isPdfLoading && (
+                        Emitter.emit(Events.SHOW_PRELOADER)
+                    )}
                 </View>
-                
 
-                
             </KeyboardAvoidingView>
 
         </>
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
-    
+
 
 });
 

@@ -359,26 +359,19 @@ const PdfViewerForDetails = (props) => {
                             uri: 'data:application/pdf;base64,' + base64Pdf,
                             cache: true,
                         }}
-                        // renderActivityIndicator={() => <View />}
-                        renderActivityIndicator={() => {Emitter.emit(Events.HIDE_PRELOADER); setIsPdfLoading(false)}}
+                        renderActivityIndicator={() => <View />}
+                        // renderActivityIndicator={() => {Emitter.emit(Events.HIDE_PRELOADER); setIsPdfLoading(false)}}
                         onLoadComplete={(numberOfPages, filePath) => {
                             console.log(`Number of pages: ${numberOfPages}`);
                             setIsPdfLoading(false);
                             { Emitter.emit(Events.HIDE_PRELOADER) }
                         }}
-
-                        /* onLoadComplete={(numberOfPages, filePath) => {
-                            console.log(`Number of pages: ${numberOfPages}`);
-                        }} */
                         onPageChanged={(page, numberOfPages) => {
                             console.log(`Current page: ${page}`);
                         }}
                         onError={(error) => {
                             console.log(error);
                         }}
-                        /* onPressLink={(uri) => {
-                            console.log(`Link pressed: ${uri}`);
-                        }} */
                         /* onPressLink={uri => {
                             console.log(`Link pressed: ${uri}`);
                             openDetailsPdf(uri)

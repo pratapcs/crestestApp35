@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Linking,
+  Text,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,17 +18,19 @@ import { ActivityIndicator } from 'react-native-paper';
 
 import { getAwsCredentialsData } from '../../store/actions/LibraryAction';
 import { decryptAES } from "../../utils/Util";
+import Emitter from '../../utils/Emitter';
+import * as Events from '../../configs/Events';
 
 const CareerGuidance = (props) => {
   // const source = { uri: 'http://samples.leanpub.com/thereactnativebook-sample.pdf', cache: true };
   const source = { uri: Config.PDFURL + 'assets/guide.pdf', cache: true };
-  
+
 
   const awsCredentialsAccessKeyId = useSelector((state) => state.elibrary.awsCredentialsAccessKeyId);
   const awsCredentialsSecretaccessKey = useSelector((state) => state.elibrary.awsCredentialsSecretaccessKey);
   const dispatch = useDispatch();
 
-  
+
   const [base64Pdf, setBase64Pdf] = useState('');
   const [isPdfLoading, setIsPdfLoading] = useState(true);
 
@@ -93,7 +96,7 @@ const CareerGuidance = (props) => {
         leftIconHandeler={leftIconHandeler}
       />
 
-      
+
       <View style={styles.container}>
         <Pdf
           trustAllCerts={false}
@@ -103,6 +106,7 @@ const CareerGuidance = (props) => {
           onLoadComplete={(numberOfPages, filePath) => {
             console.log(`Number of pages: ${numberOfPages}`);
             setIsPdfLoading(false);
+            Emitter.emit(Events.HIDE_PRELOADER)
           }}
           onPageChanged={(page, numberOfPages) => {
             console.log(`Current page: ${page}`);
@@ -117,12 +121,9 @@ const CareerGuidance = (props) => {
           page={1}
           style={styles.pdf}
         />
-        {/* {isPdfLoading && (
-          <View style={styles.activityContainer}>
-            <ActivityIndicator color="red" size={'large'} />
-            <Text>Loading...</Text>
-          </View>
-        )} */}
+        {isPdfLoading && (
+          Emitter.emit(Events.SHOW_PRELOADER)
+        )}
       </View>
     </>
   );
