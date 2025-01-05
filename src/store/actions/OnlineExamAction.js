@@ -106,7 +106,7 @@ export function getOnlineScholasticMockQuestionListData(chapter_id, subject_id, 
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -149,7 +149,7 @@ export function getOnlineCompetitiveQuestionListData(exam_type, subscription_id,
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -187,7 +187,7 @@ export function getOnlineCompetitiveSubscriptionDetailsData(subtype, exam_type, 
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -224,7 +224,7 @@ export function getOnlineCompetitiveSubscriptionDetailsMatData(subtype, exam_typ
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -267,7 +267,7 @@ export function competitiveExamAnswerSubmitForSubscriber(exam_type, subscription
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -306,7 +306,7 @@ export function competitiveExamAnswerSubmitForSubscriberTimeup(exam_type, subscr
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -332,7 +332,7 @@ export function getFeedbackDetails(props) {
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -359,7 +359,7 @@ export function storeFeedbackDetails(feedback, exam_unique_id, props) {
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -394,7 +394,7 @@ export function getscholasticexamsdetailsCasestudytData(subject_id, branchSortCo
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
             });
     };

@@ -46,7 +46,7 @@ export function getChapterData(subject_id, set_no, group_subject_id, props) {
             .catch((error) => {
                 //console.log(error);
                 dispatch(loadingChapterAction(false));
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                 Emitter.emit(Events.HIDE_PRELOADER);
                 // utility.showError(error.response.data);
             });
@@ -84,7 +84,7 @@ export function getExamCompletedListData(set_no, subject_id, categoryId, exam_ty
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -111,7 +111,7 @@ export function getBranchIdByChapterData(branch_id, props) {
             .catch((error) => {
                 //console.log(error);
                 // dispatch(loadingChapterAction(false));
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });

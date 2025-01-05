@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, StatusBar, KeyboardAvoidingView, Text, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator, FlatList, Modal, BackHandler } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Orientation, {
@@ -19,10 +19,9 @@ import FeedbackCard from './examComponent/FeedbackCard'
 
 import moment from 'moment';
 
-import { PanGestureHandler } from 'react-native-gesture-handler';
 
-import { onlineAssessmentListRequestAction, getDemoAssessmentList, getOnlineScholasticAssessmentDetailsExamIDWise, getOnlineCompetitiveAssessmentDetailsExamIDWise, onlineScholasticAssessmentListFailureAction } from '../../../store/actions/ScholasticAction'
-import { previousExamTypeAction, getFeedbackDetails, storeFeedbackDetails } from '../../../store/actions/OnlineExamAction'
+import { getDemoAssessmentList, getOnlineScholasticAssessmentDetailsExamIDWise, getOnlineCompetitiveAssessmentDetailsExamIDWise, onlineScholasticAssessmentListFailureAction } from '../../../store/actions/ScholasticAction'
+import { getFeedbackDetails, storeFeedbackDetails } from '../../../store/actions/OnlineExamAction'
 
 import {drawerMenuActiveIdUpdateAction,} from '../../../store/actions/DashboardAction'
 
@@ -40,7 +39,7 @@ const DemoAssessment = (props) => {
 
     const dispatch = useDispatch();
     const [feedbackModal, setFeedbackModal] = useState(false)
-    // const [feedbackModal, setFeedbackModal] = useState(false)
+    
     const [feedback, setFeedback] = useState([]);
 
     // const [sampleQuestion, setSampleQuestion] = useState('In the given figure, O is the centre of the circle whose diameter is AB. If ∠AOE = 150° and ∠DAO = 55° then find ∠CBE. <img src="https://admin.clvdev.in//question_images/q_image/1680259500535NTMCH24Q43F43.png" alt="crestest_img" style="width:90%;margin-top:10px;" ')
@@ -68,6 +67,7 @@ const DemoAssessment = (props) => {
     const [gestureName, setGestureName] = useState();
     const [isPressAllIcon, setIsPressAllIcon] = useState(false);
 
+    const callFirstTimeRef = useRef(true);
 
     useEffect(() => {
         // console.log("props.route.params----1233--", props.route.params)
@@ -122,8 +122,9 @@ const DemoAssessment = (props) => {
     }, [demoExamAessmentDetailsList, onlineScholasticExamAessmentDetailsList]);
 
     useEffect(() => {
-        if (!!onlineScholasticExamAessmentDetailsList.length && onlineScholasticExamAessmentDetailsList[0].exam_feedback == 0) {
-            modalShowOffHandeler(true)
+        if (!!onlineScholasticExamAessmentDetailsList.length && onlineScholasticExamAessmentDetailsList[0].exam_feedback == 0 && callFirstTimeRef.current) {
+            modalShowOffHandeler(true);
+            callFirstTimeRef.current = false;
         }
     }, [onlineScholasticExamAessmentDetailsList]);
 
@@ -191,7 +192,6 @@ const DemoAssessment = (props) => {
 
 
     const updatedRating = (newValue, id) => {
-        // console.log('.....newRating..11....', newValue, id);
         let tempFeedback = [...feedback];
         if (!!tempFeedback.length) {
             let objIndex = tempFeedback.findIndex((obj => obj.id == id));
@@ -217,10 +217,8 @@ const DemoAssessment = (props) => {
     };
 
     const feedbackSubmitHandeler = () => {
-        // console.log("submitFeedBack----", feedback) 
         modalShowOffHandeler(false)
         dispatch(storeFeedbackDetails(feedback, examid, props));
-        // dispatch(feedbackGivenAction(1));
     }
 
     const checkLocked = () => {

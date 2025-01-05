@@ -107,8 +107,8 @@ const ModuleMockChapterOption = (props) => {
                 <View style={Gstyles.bottomParentContainer}>
 
                     <View style={Gstyles.bottomRbSheetTopHeadingContainer}>
-                        <Text style={[Gstyles.textCenter, Gstyles.font14, Gstyles.textBlue,]}>Select Chapters for {props.params.isModuleOrMock == 1 ? "Module" : "Mock"} Test.  </Text>
-                        
+                        <Text style={[Gstyles.textCenter, Gstyles.font14, Gstyles.textBlue]}>Select Chapters for {props.params.isModuleOrMock == 1 ? "Module" : "Mock"} Test.  </Text>
+
                         {checked.length > 0 ?
                             <View>
                                 <Text style={[Gstyles.textCenter, Gstyles.font14, Gstyles.textBlue,]}>{!!checked.length ? <> You have selected({checked.length}/{isModuleOrMock == 1 ? maxChapterSelect : maxChapterSelectMock})</> : null}</Text>
@@ -126,7 +126,7 @@ const ModuleMockChapterOption = (props) => {
                     {/* <View style={[Gstyles.bottomRbSheetinstructionContainer]}> */}
                     <ScrollView
                         keyboardShouldPersistTaps="handled"
-                        contentContainerStyle={Gstyles.bottomRbSheetinstructionContainer}
+                        contentContainerStyle={[Gstyles.bottomRbSheetinstructionContainer, { paddingVertical:10}]}
                         showsVerticalScrollIndicator={false}
                     >
 
@@ -142,7 +142,7 @@ const ModuleMockChapterOption = (props) => {
                                             text={item.sub_heading}
                                             iconStyle={{ width: 20, height: 20, borderRadius: 0, borderColor: "#C4C2C2" }}
                                             innerIconStyle={{ width: 20, height: 20, borderRadius: 0, borderWidth: 2, borderColor: "#C4C2C2" }}
-                                            textStyle={{ fontFamily: fonts.rLight }}
+                                            textStyle={{ fontFamily: fonts.rLight, color: "#000000" }}
                                             // onPress={() => [setSelection(!isSelected)]}
                                             onPress={() => checkChange(index)}
                                         />

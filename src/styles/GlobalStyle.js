@@ -1299,6 +1299,7 @@ const Gstyles = StyleSheet.create(
         bottomRbSheetIndividualCheckBoxContainer: {
             alignSelf: 'flex-start',
             marginVertical: 5,
+            width:'100%',
         },
         infoText: {
             fontSize: 12,

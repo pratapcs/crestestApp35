@@ -654,7 +654,7 @@ const ScholasticSubscriptionExamCard = (props) => {
                 </View>
             </View >
 
-            <View style={props.isPurchased == 1 ? [styles.disableContainer, { height: board == 2 ? 320 : 300 }] : (cartList.find(element => element.subscription_id == props.id && element.exam_category_id == 1 && element.only_elibrary == 0)) ? [styles.disableContainer, { height: board == 2 ? 320 : 330 }] : null}>
+            <View style={props.isPurchased == 1 ? [styles.disableContainer, { height: board == 2 ? 320 : 330 }] : (cartList.find(element => element.subscription_id == props.id && element.exam_category_id == 1 && element.only_elibrary == 0)) ? [styles.disableContainer, { height: board == 2 ? 320 : 330 }] : null}>
             </View>
 
             <AlertCartSubscription

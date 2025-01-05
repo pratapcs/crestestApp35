@@ -51,7 +51,7 @@ export function getEventHistoryData(props) {
             .catch((error) => {
                 //console.log(error);
                 // utility.showError(error.response.data);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: 'Error!', message: response.data.msg  });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: 'Error!', message: response.data.msg  });
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
     };
@@ -86,7 +86,7 @@ export function submitFeedbackData(content, history) {
     return (dispatch) => {
         submitFeedback(content)
             .then((response) => {
-                console.log("@123-----", response)
+                // console.log("@123-----", response)
                 if (response.data.status == 200) {
                     // dispatch(getEventHistoryLikeAction(response.data.is_liked));
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
@@ -100,7 +100,7 @@ export function submitFeedbackData(content, history) {
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: 'Error!', message: response.data.msg  });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: 'Error!', message: response.data.msg  });
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
     };

@@ -144,7 +144,7 @@ const ScholasticExamsSubject = (props) => {
     }, [getpurchasedSubjectListAsPerGroupId]);
 
     useEffect(() => {
-        // console.log("$$$$--", examCompletedChapterList)
+        // console.log("$$$$--", exam_type, moduleInterm, exam_type, mockInterm )
         // if (examCompletedChapterList != '') {
         setModuleMockChaterList(examCompletedChapterList)
         // console.log("moduleInterm----123--useEffect", moduleInterm)
@@ -335,7 +335,7 @@ const ScholasticExamsSubject = (props) => {
                 }
             })
             setDisablMmoduleList(notCurrentNumberModule)
-
+            {console.log("getpurchasedSubjectListAsPerGroupId[index]=====", getpurchasedSubjectListAsPerGroupId[index])}
             const moduleData_name = [];
             for (let i = 0; i < getpurchasedSubjectListAsPerGroupId[index].module_count; i++) {
                 let setModuleText = '';
