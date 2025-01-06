@@ -72,7 +72,6 @@ const OnlineExamsDetails = (props) => {
 
     const callFirstTimeRef = useRef(true);
 
-
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState(parseInt(currentQestionNo))
     const [currentQuestion, setCurrentQuestion] = useState([])
     const [selected, setSelected] = useState([]);
@@ -109,6 +108,7 @@ const OnlineExamsDetails = (props) => {
     const [visableQuestion, setVisableQuestion] = useState(false)
 
     const currentQuestionLengthRef = useRef();
+
     useEffect(() => {
         currentQuestionLengthRef.current = currentQuestion;
     }, [currentQuestion]);
@@ -166,6 +166,12 @@ const OnlineExamsDetails = (props) => {
     }, [time_used, calllCurrentQuestionNo,]);
 
     useEffect(() => {
+        // console.log("scholasticQuestionListForSubscriber-----", scholasticQuestionListForSubscriber[0]);
+        // console.log("onlineModuleMockQuestionList------------", onlineModuleMockQuestionList[0]);
+        // console.log("onlineCompetitiveQuestionList-----------", onlineCompetitiveQuestionList[0]);
+        // console.log("currentQuestion-------------------------", currentQuestion[0]);
+        // console.log("============================================================");
+
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
             let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
 
@@ -219,6 +225,7 @@ const OnlineExamsDetails = (props) => {
     useEffect(() => {
         if (examinterm == 1) {
             _interval = setInterval(() => {
+                console.log("setInterval---------------------------------")
                 _visitTime++;
                 ScholasticExamintermSubmitInterval(currentQestionNo)
             }, 20000);
@@ -234,6 +241,12 @@ const OnlineExamsDetails = (props) => {
         }
     }, [timeUpWarning, currentQestionNo, examinterm])
 
+    useEffect(() => {
+
+        return () => {
+            clearInterval(_interval);
+        }
+    }, []);
 
     /* intermData */
     useEffect(() => {
@@ -269,18 +282,30 @@ const OnlineExamsDetails = (props) => {
 
     useEffect(() => {
         return () => {
+            // console.log("remove Return==========================================")
             dispatch(scholoasticQuestionListForSubscriberSuccessAction([]));
             dispatch(getOnlineScholasticModuleListSuccessAction([]));
             dispatch(getOnlineScholasticMockListSuccessAction([]));
-            dispatch(getOnlineScholasticModuleListSuccessAction([]));
             dispatch(getOnlineCompetitiveSuccessAction([]));
             setCurrentQuestion([]);
-            setVisableQuestion(false)
+            setVisableQuestion(false);
             dispatch(getQuestionUploadCompletetAction(0));
             dispatch(ModuleMockQuestionUploadAction(0));
             dispatch(competitiveQuestionUploadAction(0));
         }
     }, [])
+
+    const previousDataBlank = () => {
+        dispatch(scholoasticQuestionListForSubscriberSuccessAction([]));
+        dispatch(getOnlineScholasticModuleListSuccessAction([]));
+        dispatch(getOnlineScholasticMockListSuccessAction([]));
+        dispatch(getOnlineCompetitiveSuccessAction([]));
+        setCurrentQuestion([]);
+        setVisableQuestion(false);
+        dispatch(getQuestionUploadCompletetAction(0));
+        dispatch(ModuleMockQuestionUploadAction(0));
+        dispatch(competitiveQuestionUploadAction(0));
+    }
 
     const mmlOptions = {
         /* --------------- */
@@ -506,7 +531,7 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
 
-
+        
         dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestion[0].exam_category, time_used, current_question_number, previousValue.group_subject_id, props));
     }
 
@@ -529,7 +554,6 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
 
-
         dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestionLengthRef.current[0]?.exam_category, currentTimeRef.current, current_question_number, previousValue.group_subject_id, props));
 
     }
@@ -550,10 +574,14 @@ const OnlineExamsDetails = (props) => {
         }
 
         let page = 2; /* online Exam box icon id */
+        setExaminterm(0);
+        previousDataBlank();
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
+            setExaminterm(0);
             dispatch(getScholasticExamAnswerSubmitForSubscriber(previousValue.exam_type, previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 ? previousValue.set_no : previousValue.caseStudy_no, examdata, previousValue.subject_id.toString(), previousValue.chapter_no, previousValue.group_subject_id, page, previousValue.exam_category_id, props));
         } else {
+            setExaminterm(0);
             dispatch(competitiveExamAnswerSubmitForSubscriber(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, examdata, previousValue.subtype, previousValue.group_subject_id, page, previousValue.exam_category_id, props))
         }
     }
@@ -573,11 +601,14 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
         let page = 2;
-
+        setExaminterm(0);
+        previousDataBlank();
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
+            setExaminterm(0);
             dispatch(getScholasticExamAnswerSubmitForSubscriberTimeupSubmit(previousValue.exam_type, previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 ? previousValue.set_no : previousValue.caseStudy_no, examdata, previousValue.subject_id.toString(), previousValue.chapter_no, previousValue.group_subject_id, page, previousValue.exam_category_id, props));
         } else {
+            setExaminterm(0);
             dispatch(competitiveExamAnswerSubmitForSubscriberTimeup(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, examdata, previousValue.subtype, previousValue.group_subject_id, page, previousValue.exam_category_id, props))
         }
     }
@@ -624,7 +655,8 @@ const OnlineExamsDetails = (props) => {
     const goToDashboard = () => {
         dispatch(alertSoundAction(0))
         dispatch(drawerMenuActiveIdUpdateAction(1))
-        setDashboardModalVisible(false)
+        setDashboardModalVisible(false);
+        setExaminterm(0);
         props.navigation.navigate('drawerScenes', {
             screen: "Dashboard",
         })
@@ -680,7 +712,7 @@ const OnlineExamsDetails = (props) => {
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
 
-                {console.log("@123-------------------", currentQuestion.length, total_attempts, currentQuestionNumber, ">>>", currentQestionNo)}
+                {/* {console.log("@123-------------------", currentQuestion.length, total_attempts, currentQuestionNumber, ">>>", currentQestionNo)} */}
                 {!!currentQuestion?.length && visableQuestion && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
@@ -961,6 +993,7 @@ const OnlineExamsDetails = (props) => {
                         <CounterClockSoundComponent isPlaying={warningSound == 1 ? true : false} />
                     </>
                     : null}
+                    <CounterClockSoundComponent isPlaying={warningSound == 1 ? true : false} />
             </View>
         </>
 

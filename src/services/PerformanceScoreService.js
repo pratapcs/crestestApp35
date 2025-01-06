@@ -409,7 +409,7 @@ export async function getCompareScholasticCompetitiveData(exam_type, group_subje
         group_subject_id
     };
 
-    console.log("postData--122---", postData)
+    // console.log("postData--122---", postData)
 
     return axios({
         url: GlobalConfigs.API_URL + Apis.POST_COMPARE_SCHOLASTIC_COMPETITIVE_API,

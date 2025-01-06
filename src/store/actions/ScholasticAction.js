@@ -242,20 +242,18 @@ export function branchListAgainstSubjectid(id, props) {
 }
 
 export function getScholasticExamQuestionsDataForSubscriber(branch, chapter, subject_id, set_no, chapter_no, group_subject_id, props) {
-    console.log("Action - getScholasticExamQuestionsDataForSubscriber")
+    
     Emitter.emit(Events.SHOW_PRELOADER);
     return async (dispatch) => {
         scholasticExamQuestionsListForSubscriber(branch, chapter, subject_id, set_no, chapter_no, group_subject_id)
             .then((response) => {
-                console.log(">>>>>>>>>>---response---", )
+                // console.log(">>>>>>>>>>---response---", )
                 if (response.data.status == 200) {
                     if (response.data.data != "") {
-                        console.log(">>>>>>>>>>---response---@1", )
                         dispatch(scholoasticQuestionListForSubscriberSuccessAction(response.data.data));
                         dispatch(totalAttemptsAction(response.data.data[0].total_attempts));
                         Emitter.emit(Events.HIDE_PRELOADER);
                     } else {
-                        console.log(">>>>>>>>>>---response---@22222", )
                         dispatch(scholoasticQuestionListForSubscriberFailureAction(response.data.data));
                         props.navigation.replace('drawerScenes', {
                             screen: 'Dashboard',

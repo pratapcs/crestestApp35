@@ -96,7 +96,7 @@ const OnlineCompetitiveSubCategory = (props) => {
                     leftIcon='chevron-back'
                     leftIconHandeler={leftIconHandeler}
                 />
-
+    
                 <ImageBackground source={require('../../assets/images/background_base.png')} style={Gstyles.imageBackgroundContainer} >
 
                     {(previousPageData.id == 1 ? competitiveSubscriptionDetails != '' && competitiveSubscriptionDetails != undefined && competitiveSubscriptionDetailsMat != '' && competitiveSubscriptionDetailsMat != undefined && ntseType != '' && ntseType != undefined : competitiveSubscriptionDetails != '' && competitiveSubscriptionDetails != undefined) ?

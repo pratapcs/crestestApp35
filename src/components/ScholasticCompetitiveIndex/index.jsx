@@ -23,7 +23,7 @@ export default function ScholasticCompetitiveIndex(props) {
   });
   useEffect(() => {
     if (props?.dataSets.length != 0) {
-      console.log("dataSets-----", props.dataSets)
+      // console.log("dataSets-----", props.dataSets)
       setProcessedDataSets(
         props?.dataSets.map(item => {
           return {...item, disabled: false};

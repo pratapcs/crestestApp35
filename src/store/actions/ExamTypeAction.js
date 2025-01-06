@@ -28,7 +28,7 @@ export function getExamTypeData(category, props) {
     return (dispatch) => {
         getExamType(category)
             .then((response) => {
-                console.log("getExamTypeData-->>>>", response.data)
+                // console.log("getExamTypeData-->>>>", response.data)
                 if (response.data.status == 200) {
                     dispatch(getExamTypeAction(response.data.data));
                     Emitter.emit(Events.HIDE_PRELOADER);

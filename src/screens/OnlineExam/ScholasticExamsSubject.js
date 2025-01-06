@@ -155,14 +155,14 @@ const ScholasticExamsSubject = (props) => {
             console.log(console.log("exam_type---@123---", exam_type, moduleInterm, exam_type, mockInterm))
             ModuleMockChapterOptionHandeler(selectModuleMockData, moduleOrMock, examCompletedChapterList, maxChapterSelect, maxChapterSelectMock, moduleMockChaterList)
         }
-        /*}  */
 
     }, [examCompletedChapterList, maxChapterSelect, maxChapterSelectMock, moduleInterm]);
-    // }, [examCompletedChapterList, maxChapterSelect, maxChapterSelectMock, moduleInterm]);  
+  
 
     useEffect(() => {
 
         return () => {
+            console.log("-----2222-----", exam_type)
             dispatch(examCompletedListSuccessAction([]))
             dispatch(getChapterAction([]));
             setExam_type(0)
@@ -193,8 +193,9 @@ const ScholasticExamsSubject = (props) => {
     }
 
     const quitRbHandeler = () => {
-        setExam_type(0)
-        setSubjectSave('')
+        console.log("quitRbHandeler------------------", );
+        setExam_type(0);
+        setSubjectSave('');
         dispatch(examCompletedListSuccessAction([]));
         dispatch(getChapterAction([]));
         setChapterTestSave('');
@@ -338,7 +339,7 @@ const ScholasticExamsSubject = (props) => {
                 }
             })
             setDisablMmoduleList(notCurrentNumberModule)
-            {console.log("getpurchasedSubjectListAsPerGroupId[index]=====", getpurchasedSubjectListAsPerGroupId[index])}
+            // {console.log("getpurchasedSubjectListAsPerGroupId[index]=====", getpurchasedSubjectListAsPerGroupId[index])}
             const moduleData_name = [];
             for (let i = 0; i < getpurchasedSubjectListAsPerGroupId[index].module_count; i++) {
                 let setModuleText = '';
@@ -548,7 +549,6 @@ const ScholasticExamsSubject = (props) => {
                     leftIcon='chevron-back'
                     leftIconHandeler={leftIconHandeler}
                 />
-
 
                 <ImageBackground source={require('../../assets/images/background_base.png')} style={Gstyles.imageBackgroundContainer} >
 

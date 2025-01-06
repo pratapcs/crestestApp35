@@ -86,6 +86,8 @@ const ModuleMockChapterOption = (props) => {
             selectChapterId.push(objChapterId)
         })
 
+        props.quitRbHandeler();
+        
         props.navigation.navigation.navigate('nonAuthScenes', {
             screen: "OnlineExamsDetails",
             params: { isModuleOrMock: isModuleOrMock, exam_type: exam_type, branchSortCode: branchSortCode, chapter: 'CH0', set_no: props.params.selectModuleMockData, subject_id: props.params.subjectId, selectChapterId: selectChapterId, group_subject_id: props.params.groupSubjectId, examFrom: 2, exam_category_id: props.params.exam_category_id }

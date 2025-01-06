@@ -113,7 +113,7 @@ const SubscriptionOnlineCompetitiveList = (props) => {
     }
 
     const isVisableData = () => {
-        console.log("isVisableData--------")
+        // console.log("isVisableData--------")
         setIsVisable(true)
     }
 

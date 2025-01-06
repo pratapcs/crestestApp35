@@ -129,7 +129,7 @@ export async function competitiveExamSubmit(exam_type, subscription_id, set_no, 
         group_subject_id:group_subject_id
     };
 
-    console.log("competitiveExamSubmit----", competitiveExamSubmit)
+    // console.log("competitiveExamSubmit----", competitiveExamSubmit)
 
     return axios({
         url: GlobalConfigs.API_URL + Apis.POST_STORE_ONLINE_EXAM_QUESTIONS_ANSWERS_COMPETITIVE_API,

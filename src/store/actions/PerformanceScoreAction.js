@@ -599,7 +599,7 @@ export function getCompetitiveSetwiseScoreDataDetails(exam_type, history) {
     };
 }
 
-export function getScholasticGetsubjectwiseChaptersDataDetails(exam_type, group_subject_id, history) {
+export function getScholasticGetsubjectwiseChaptersDataDetails(exam_type, group_subject_id, props) {
     return async (dispatch) => {
         Emitter.emit(Events.SHOW_PRELOADER);
         getScholasticGetsubjectwiseChaptersData(exam_type, group_subject_id,)
@@ -610,26 +610,25 @@ export function getScholasticGetsubjectwiseChaptersDataDetails(exam_type, group_
                         dispatch(getscholasticGetsubjectwiseChaptersAction(response.data.data));
 
                         if (Object.keys(response.data.data.piechart).length === 0) {
-                            history.navigation.goBack();
+                            props.navigation.goBack();
                         }
                     } else {
                         dispatch(getscholasticGetsubjectwiseChaptersAction([]));
-                        history.navigation.goBack();
+                        props.navigation.goBack();
                     }
                     
                 } else if (response.data.status == 400) {
-                    dispatch(logout(history));
+                    dispatch(logout(props));
                     return;
                 } else {
                     dispatch(getscholasticGetsubjectwiseChaptersAction([]));
-                    history.navigation.goBack();
+                    props.navigation.goBack();
                 }
                 Emitter.emit(Events.HIDE_PRELOADER);
             })
             .catch((error) => {
-                //console.log(error);
                 dispatch(getscholasticGetsubjectwiseChaptersAction([]));
-                        history.navigation.goBack();
+                props.navigation.goBack();
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
     };

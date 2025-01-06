@@ -169,7 +169,7 @@ export async function scholasticExamQuestionsListForSubscriber(branch, chapter, 
         group_subject_id: group_subject_id
     };
 
-    console.log("postData-- scholasticExamQuestionsListForSubscriber ---", postData)
+    // console.log("postData-- scholasticExamQuestionsListForSubscriber ---", postData)
 
     return axios({
         url: GlobalConfigs.API_URL + Apis.POST_SET_EXAM_QUESTIONS_LIST_FOR_SCHOLASTIC_API,
