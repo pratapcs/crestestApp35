@@ -215,11 +215,11 @@ const OnlineExamsDetails = (props) => {
                 storeAnswerValue()
             }
 
-            if (total_attempts > 3) {
+            /* if (total_attempts > 3) {
                 console.log("total_attempts > 3----1-",);
                 setIsPlaying(false);
                 examSubmit();
-            }
+            } */
         }
 
     }, [total_attempts, currentQuestion]); //
