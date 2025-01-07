@@ -9,7 +9,7 @@ import {
     getscholasticexamsdetailsCasestudy
 } from '../../services/OnlineExamService';
 
-import { onlineExamIdAction, RemovePrevouseExamIdAction } from './ScholasticAction';
+import { onlineExamIdAction, RemovePrevouseExamIdAction, totalAttemptsAction } from './ScholasticAction';
 
 import {
     ONLINE_QUESTIONS_LIST_REQUEST,
@@ -252,7 +252,8 @@ export function competitiveExamAnswerSubmitForSubscriber(exam_type, subscription
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
                         params: { page: page, category_id: exam_category_id, exam_unique_id: response.data.exam_id }
-                    })
+                    });
+                    dispatch(totalAttemptsAction(0));
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                     // utility.showSuccess(response.data.msg);
                     Emitter.emit(Events.HIDE_PRELOADER);

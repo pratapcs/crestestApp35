@@ -320,7 +320,7 @@ const OnlineExamsDetails = (props) => {
         dispatch(getOnlineScholasticModuleListSuccessAction([]));
         dispatch(getOnlineScholasticMockListSuccessAction([]));
         dispatch(getOnlineCompetitiveSuccessAction([]));
-        setCurrentQuestion([]);
+        // setCurrentQuestion([]);
         // setVisableQuestion(false);
         dispatch(getQuestionUploadCompletetAction(0));
         dispatch(ModuleMockQuestionUploadAction(0));
@@ -372,7 +372,13 @@ const OnlineExamsDetails = (props) => {
         } else if (props?.route.params.examFrom == 3) {
             dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
         }
-        dispatch(selectDemoQuestionNumber(0))
+        dispatch(selectDemoQuestionNumber(0));
+
+        if (total_attempts == 3) {
+            console.log("uploadQuestion----total_attempts", total_attempts)
+            setIsPlaying(false);
+            setHasSubmitted(true);
+        }
     }
 
     const onDashboardHandeler = () => {
@@ -596,6 +602,7 @@ const OnlineExamsDetails = (props) => {
         let page = 2; /* online Exam box icon id */
         setExaminterm(0);
         previousDataBlank();
+        dispatch(totalAttemptsAction(0));
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
             setExaminterm(0);
@@ -635,7 +642,6 @@ const OnlineExamsDetails = (props) => {
 
 
     const submitFinalAnswer = () => {
-        console.log("submitFinalAnswer----2-")
         setModalVisible(false);
         setIsPlaying(false);
         dispatch(timeUpAction(0));
@@ -643,7 +649,6 @@ const OnlineExamsDetails = (props) => {
     }
 
     const timeUpSubmit = () => {
-        console.log("timeUpSubmit----3-")
         clearInterval(_interval);
         dispatch(timeUpAction(0)) //-----
         setIsPlaying(false);
@@ -658,19 +663,13 @@ const OnlineExamsDetails = (props) => {
     }
 
     const startExam = () => {
-
         Emitter.emit(Events.HIDE_MENU_FROM_BOTTOM);
-        { console.log("total_attempts-----", total_attempts) }
         if (total_attempts < 4) {
             Orientation.lockToLandscape();
             checkLocked();
             setExaminterm(1);
             uploadQuestion();
             setVisableQuestion(true);
-            if (total_attempts == 3) {
-                setIsPlaying(false);
-                setHasSubmitted(true);
-            }
         }
     }
 

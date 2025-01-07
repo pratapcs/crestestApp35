@@ -303,7 +303,8 @@ export function getScholasticExamAnswerSubmitForSubscriber(exam_type, branch, ch
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
                         params: { page: page, category_id: exam_category_id, exam_unique_id: response.data.exam_id }
-                    })
+                    });
+                    dispatch(totalAttemptsAction(0));
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                     // utility.showSuccess(response.data.msg);
                     // dispatch(onlineExamIdAction(response.data.exam_id))
