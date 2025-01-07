@@ -82,7 +82,7 @@ export default function ExamCounterClockComponent(props) {
                     >
 
                         {({ remainingTime }) => {
-                            // console.log("^^^^^^remainingTime^^^^^^^^^", remainingTime)
+                            // console.log("^^^^^^remainingTime^^^^^^^^^", remainingTime, isPlaying)
                             dispatch(timeForOtpValidationAction(remainingTime));
                             dispatch(timeUsedForExamAction(remainingTime));
                             const hours = isPlaying ? Math.floor(remainingTime / 3600) : !isPlaying && remainingTime > 0 && examSubmit == 0 ? Math.floor(remainingTime / 3600) : 0;

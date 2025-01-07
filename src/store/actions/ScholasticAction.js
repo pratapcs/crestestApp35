@@ -74,7 +74,7 @@ export function getBranchScholasticData(id, props) {
             .catch((error) => {
                 //console.log(error);
                 // utility.showError(error.response.data);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
     };
@@ -319,7 +319,7 @@ export function getScholasticExamAnswerSubmitForSubscriber(exam_type, branch, ch
             })
             .catch((error) => {
                 //console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -422,7 +422,7 @@ export function getCompetitiveExamQuestionsData(navigation) {
             })
             .catch((error) => {
                 // console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -492,7 +492,7 @@ export function getOnlineScholasticAssessmentDetailsExamIDWise(examid, props) {
             })
             .catch((error) => {
                 // console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });
@@ -526,7 +526,7 @@ export function getOnlineCompetitiveAssessmentDetailsExamIDWise(examid, props) {
             })
             .catch((error) => {
                 console.log(error);
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
                 // utility.showError(error.response.data);
                 Emitter.emit(Events.HIDE_PRELOADER);
             });

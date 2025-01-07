@@ -71,6 +71,7 @@ const OnlineExamsDetails = (props) => {
 
     const callFirstTimeRef = useRef(true);
     const callOneTimeTimeupModalRef = useRef(true);
+    const moreThanThreeTimesRef = useRef(true);
 
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState(parseInt(currentQestionNo))
     const [currentQuestion, setCurrentQuestion] = useState([])
@@ -106,6 +107,8 @@ const OnlineExamsDetails = (props) => {
 
     const [gestureName, setGestureName] = useState();
     const [visableQuestion, setVisableQuestion] = useState(false)
+
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const currentQuestionLengthRef = useRef();
 
@@ -163,7 +166,6 @@ const OnlineExamsDetails = (props) => {
     }, [warningSound, timeUpWarning,]);
 
     useEffect(() => {
-        console.log("time_used------------useEffect------", time_used)
         setPendingTime(time_used)
     }, [time_used, calllCurrentQuestionNo,]);
 
@@ -213,13 +215,27 @@ const OnlineExamsDetails = (props) => {
                 storeAnswerValue()
             }
 
-            if (total_attempts > 3) { // reload exam intermData
-                console.log("total_attempts > 3--------examSubmit-----------")
-                examSubmit()
+            if (total_attempts > 3) {
+                console.log("total_attempts > 3----1-",);
+                setIsPlaying(false);
+                examSubmit();
             }
         }
 
     }, [total_attempts, currentQuestion]); //
+
+
+    useEffect(() => {
+
+        if (!!currentQuestion.length && hasSubmitted) {
+            setIsPlaying(false);
+            examSubmit();
+            setHasSubmitted(false)
+        }
+
+    }, [hasSubmitted, currentQuestion]); //
+
+
 
     useEffect(() => {
         setCurrentQuestionNumber(currentQestionNo);
@@ -619,6 +635,7 @@ const OnlineExamsDetails = (props) => {
 
 
     const submitFinalAnswer = () => {
+        console.log("submitFinalAnswer----2-")
         setModalVisible(false);
         setIsPlaying(false);
         dispatch(timeUpAction(0));
@@ -626,6 +643,7 @@ const OnlineExamsDetails = (props) => {
     }
 
     const timeUpSubmit = () => {
+        console.log("timeUpSubmit----3-")
         clearInterval(_interval);
         dispatch(timeUpAction(0)) //-----
         setIsPlaying(false);
@@ -642,14 +660,17 @@ const OnlineExamsDetails = (props) => {
     const startExam = () => {
 
         Emitter.emit(Events.HIDE_MENU_FROM_BOTTOM);
-
+        { console.log("total_attempts-----", total_attempts) }
         if (total_attempts < 4) {
-            console.log("")
             Orientation.lockToLandscape();
             checkLocked();
             setExaminterm(1);
             uploadQuestion();
-            setVisableQuestion(true)
+            setVisableQuestion(true);
+            if (total_attempts == 3) {
+                setIsPlaying(false);
+                setHasSubmitted(true);
+            }
         }
     }
 
@@ -662,6 +683,7 @@ const OnlineExamsDetails = (props) => {
         dispatch(drawerMenuActiveIdUpdateAction(1));
         setDashboardModalVisible(false);
         setExaminterm(0);
+        setIsPlaying(false);
         props.navigation.navigate('drawerScenes', {
             screen: "Dashboard",
         })
@@ -716,7 +738,7 @@ const OnlineExamsDetails = (props) => {
 
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-                {/* {console.log("time_used----------------", time_used)} */}
+
                 {!!currentQuestion?.length && visableQuestion && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
