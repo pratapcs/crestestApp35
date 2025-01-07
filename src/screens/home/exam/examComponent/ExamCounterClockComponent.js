@@ -57,7 +57,7 @@ export default function ExamCounterClockComponent(props) {
             <View style={Gstyles.examCounterClockContainer}>
                 <View style={Gstyles.examTimer_container}>
                     <CountdownCircleTimer
-                         key={countdownCircleTimerKey}
+                        key={countdownCircleTimerKey}
                         isPlaying={isPlaying}
                         duration={examTime}
                         colors={['#F7B801', '#F7B801', '#ff0000', '#ff0000',]}
@@ -99,7 +99,7 @@ export default function ExamCounterClockComponent(props) {
                     </CountdownCircleTimer>
                 </View>
                 {/* remainingMinutes < 5 */}
-                <View>{<Text style={remainingHours == 0 && remainingMinutes == 4 && remainingSeconds == 59 ? Gstyles.examRemainingTextRed : Gstyles.examRemainingTextWhite}>{`${remainingHours != 0 ? remainingHours + ':' : ''}${remainingMinutes != 0 && remainingMinutes > 10 ? remainingMinutes : remainingMinutes < 10 ? '0' + remainingMinutes : '10'}:${remainingSeconds != 0 && remainingSeconds > 10 ? remainingSeconds : remainingSeconds < 10 ? '0' + remainingSeconds : '10'}`}</Text>}
+                <View>{<Text style={remainingHours == 0 && remainingMinutes <= 4 && remainingSeconds <= 59 ? Gstyles.examRemainingTextRed : Gstyles.examRemainingTextWhite}>{`${remainingHours != 0 ? remainingHours + ':' : ''}${remainingMinutes != 0 && remainingMinutes > 10 ? remainingMinutes : remainingMinutes < 10 ? '0' + remainingMinutes : '10'}:${remainingSeconds != 0 && remainingSeconds > 10 ? remainingSeconds : remainingSeconds < 10 ? '0' + remainingSeconds : '10'}`}</Text>}
                 </View>
             </View>
 

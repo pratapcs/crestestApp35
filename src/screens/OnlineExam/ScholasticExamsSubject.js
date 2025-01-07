@@ -152,7 +152,7 @@ const ScholasticExamsSubject = (props) => {
         
         if (exam_type == 2 && moduleInterm == 0 && moduleInterm !== undefined && moduleInterm !== null || exam_type == 3 && mockInterm == 0 && mockInterm !== undefined && mockInterm !== null) {
             Emitter.emit(Events.SHOW_PRELOADER);
-            console.log(console.log("exam_type---@123---", exam_type, moduleInterm, exam_type, mockInterm))
+            // console.log(console.log("exam_type---@123---", exam_type, moduleInterm, exam_type, mockInterm))
             ModuleMockChapterOptionHandeler(selectModuleMockData, moduleOrMock, examCompletedChapterList, maxChapterSelect, maxChapterSelectMock, moduleMockChaterList)
         }
 
@@ -162,7 +162,6 @@ const ScholasticExamsSubject = (props) => {
     useEffect(() => {
 
         return () => {
-            console.log("-----2222-----", exam_type)
             dispatch(examCompletedListSuccessAction([]))
             dispatch(getChapterAction([]));
             setExam_type(0)

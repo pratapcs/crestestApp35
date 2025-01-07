@@ -23,7 +23,7 @@ import ExamStartInstructions from '../home/exam/examComponent/ExamStartInstructi
 
 import { getScholasticExamQuestionsDataForSubscriber, getQuestionUploadCompletetAction, getScholasticExamAnswerSubmitForSubscriber, totalAttemptsAction, getscholasticIntermExamSubmitforSubscriber, getScholasticExamAnswerSubmitForSubscriberTimeupSubmit, scholoasticQuestionListForSubscriberSuccessAction } from '../../store/actions/ScholasticAction';
 
-import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction, submitAnswer } from '../../store/actions/demoExamAction';
+import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction, } from '../../store/actions/demoExamAction';
 
 import { getOnlineScholasticModuleQuestionListData, getOnlineScholasticMockQuestionListData, getscholasticexamsdetailsCasestudytData, getOnlineCompetitiveQuestionListData, ModuleMockQuestionUploadAction, competitiveQuestionUploadAction, competitiveExamAnswerSubmitForSubscriber, competitiveExamAnswerSubmitForSubscriberTimeup, getOnlineScholasticModuleListSuccessAction, getOnlineScholasticMockListSuccessAction, getOnlineCompetitiveSuccessAction } from '../../store/actions/OnlineExamAction';
 
@@ -41,7 +41,6 @@ import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import { drawerMenuActiveIdUpdateAction } from '../../store/actions/DashboardAction';
 
 import { useNavigation } from '@react-navigation/native';
-import { ConnectContactLens } from 'aws-sdk';
 
 let _visitTime = 0;
 let _interval;
@@ -51,15 +50,15 @@ const OnlineExamsDetails = (props) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-    const examcategoryList = useSelector(state => state.category.examcategoryList);
+    // const examcategoryList = useSelector(state => state.category.examcategoryList);
 
     const scholasticQuestionUploaded = useSelector(state => state.branch.scholasticQuestionUploaded);
     const moduleMockQuestionUploaded = useSelector(state => state.onlineexam.moduleMockQuestionUploaded);
     const competitiveQuestionUploaded = useSelector(state => state.onlineexam.competitiveQuestionUploaded);
     const currentQestionNo = useSelector(state => state.questionNo.currentQestionNo ?? 0);
-    const demoExamSubmit = useSelector((state) => state.questionNo.demoExamDoneOrNot);
-    const user_id = useSelector((state) => state.auth.user_id);
-    const newStudentid = useSelector(state => state.student.newStudentid);
+    // const demoExamSubmit = useSelector((state) => state.questionNo.demoExamDoneOrNot);
+    // const user_id = useSelector((state) => state.auth.user_id);
+    // const newStudentid = useSelector(state => state.student.newStudentid);
     const warningSound = useSelector((state) => state.questionNo.warningSound); //-----
     const timeUpWarning = useSelector((state) => state.questionNo.timeUpWarning); //-----
     const total_attempts = useSelector((state) => state.questionNo.total_attempts);
@@ -71,6 +70,7 @@ const OnlineExamsDetails = (props) => {
     const time_used = useSelector((state) => state.questionNo.time_used);
 
     const callFirstTimeRef = useRef(true);
+    const callOneTimeTimeupModalRef = useRef(true);
 
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState(parseInt(currentQestionNo))
     const [currentQuestion, setCurrentQuestion] = useState([])
@@ -121,6 +121,7 @@ const OnlineExamsDetails = (props) => {
     totalAttemptsRef.current = total_attempts;
 
     useEffect(() => {
+        dispatch(alertSoundAction(0));
         if (callFirstTimeRef.current) {
             examStartInstructionHandeler();
         }
@@ -162,14 +163,15 @@ const OnlineExamsDetails = (props) => {
     }, [warningSound, timeUpWarning,]);
 
     useEffect(() => {
+        console.log("time_used------------useEffect------", time_used)
         setPendingTime(time_used)
     }, [time_used, calllCurrentQuestionNo,]);
 
     useEffect(() => {
-        // console.log("scholasticQuestionListForSubscriber-----", scholasticQuestionListForSubscriber[0]);
-        // console.log("onlineModuleMockQuestionList------------", onlineModuleMockQuestionList[0]);
-        // console.log("onlineCompetitiveQuestionList-----------", onlineCompetitiveQuestionList[0]);
-        // console.log("currentQuestion-------------------------", currentQuestion[0]);
+        // console.log("scholasticQuestionListForSubscriber-----", scholasticQuestionListForSubscriber.length);
+        // console.log("onlineModuleMockQuestionList------------", onlineModuleMockQuestionList.length);
+        // console.log("onlineCompetitiveQuestionList-----------", onlineCompetitiveQuestionList.length);
+        // console.log("currentQuestion-------------------------", currentQuestion.length);
         // console.log("============================================================");
 
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
@@ -212,6 +214,7 @@ const OnlineExamsDetails = (props) => {
             }
 
             if (total_attempts > 3) { // reload exam intermData
+                console.log("total_attempts > 3--------examSubmit-----------")
                 examSubmit()
             }
         }
@@ -274,9 +277,10 @@ const OnlineExamsDetails = (props) => {
 
     useEffect(() => {
 
-        if (timeUpWarning == 1) {
+        if (timeUpWarning == 1 && callOneTimeTimeupModalRef.current) {
             setTimeUpVisible(true)
             clearInterval(_interval);
+            callOneTimeTimeupModalRef.current = false
         }
     }, [warningSound, timeUpWarning]);
 
@@ -288,7 +292,7 @@ const OnlineExamsDetails = (props) => {
             dispatch(getOnlineScholasticMockListSuccessAction([]));
             dispatch(getOnlineCompetitiveSuccessAction([]));
             setCurrentQuestion([]);
-            setVisableQuestion(false);
+            // setVisableQuestion(false);
             dispatch(getQuestionUploadCompletetAction(0));
             dispatch(ModuleMockQuestionUploadAction(0));
             dispatch(competitiveQuestionUploadAction(0));
@@ -301,7 +305,7 @@ const OnlineExamsDetails = (props) => {
         dispatch(getOnlineScholasticMockListSuccessAction([]));
         dispatch(getOnlineCompetitiveSuccessAction([]));
         setCurrentQuestion([]);
-        setVisableQuestion(false);
+        // setVisableQuestion(false);
         dispatch(getQuestionUploadCompletetAction(0));
         dispatch(ModuleMockQuestionUploadAction(0));
         dispatch(competitiveQuestionUploadAction(0));
@@ -531,7 +535,7 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
 
-        
+
         dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestion[0].exam_category, time_used, current_question_number, previousValue.group_subject_id, props));
     }
 
@@ -602,7 +606,7 @@ const OnlineExamsDetails = (props) => {
         }
         let page = 2;
         setExaminterm(0);
-        previousDataBlank();
+        // previousDataBlank();
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
             setExaminterm(0);
@@ -615,16 +619,16 @@ const OnlineExamsDetails = (props) => {
 
 
     const submitFinalAnswer = () => {
-        setModalVisible(false)
-        setIsPlaying(false)
-        dispatch(timeUpAction(0))
-        examSubmit()
+        setModalVisible(false);
+        setIsPlaying(false);
+        dispatch(timeUpAction(0));
+        examSubmit();
     }
 
     const timeUpSubmit = () => {
         clearInterval(_interval);
         dispatch(timeUpAction(0)) //-----
-        setIsPlaying(false)
+        setIsPlaying(false);
         submitFinalAnswer();
     }
 
@@ -640,21 +644,22 @@ const OnlineExamsDetails = (props) => {
         Emitter.emit(Events.HIDE_MENU_FROM_BOTTOM);
 
         if (total_attempts < 4) {
+            console.log("")
             Orientation.lockToLandscape();
             checkLocked();
-            setExaminterm(1)
+            setExaminterm(1);
             uploadQuestion();
             setVisableQuestion(true)
         }
     }
 
     const openOtherOption = () => {
-        setOtherOptionModalVisible(true)
+        setOtherOptionModalVisible(true);
     }
 
     const goToDashboard = () => {
-        dispatch(alertSoundAction(0))
-        dispatch(drawerMenuActiveIdUpdateAction(1))
+        dispatch(alertSoundAction(0));
+        dispatch(drawerMenuActiveIdUpdateAction(1));
         setDashboardModalVisible(false);
         setExaminterm(0);
         props.navigation.navigate('drawerScenes', {
@@ -664,9 +669,9 @@ const OnlineExamsDetails = (props) => {
 
     const timeupHandeler = () => {
         clearInterval(_interval);
-        setExaminterm(0)
+        setExaminterm(0);
         setTimeUpVisible(false);
-        timeUpSubmit()
+        timeUpSubmit();
     }
 
     const answerExpan = (value) => {
@@ -711,8 +716,7 @@ const OnlineExamsDetails = (props) => {
 
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-
-                {/* {console.log("@123-------------------", currentQuestion.length, total_attempts, currentQuestionNumber, ">>>", currentQestionNo)} */}
+                {/* {console.log("time_used----------------", time_used)} */}
                 {!!currentQuestion?.length && visableQuestion && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
@@ -725,7 +729,7 @@ const OnlineExamsDetails = (props) => {
                                                 <MaterialCommunityIcons name="clock-minus-outline" size={18} color="#fff" />
                                                 <View style={{ overflow: 'hidden', alignItems: 'flex-start', top: -1 }}>
                                                     <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} />
-                                                    {/* <ExamCounterClockComponent examTime={14400} isPlaying={isPlaying} /> */}
+                                                    {/* <ExamCounterClockComponent examTime={305} isPlaying={isPlaying} /> */}
                                                 </View>
                                             </>
                                             :
@@ -993,7 +997,6 @@ const OnlineExamsDetails = (props) => {
                         <CounterClockSoundComponent isPlaying={warningSound == 1 ? true : false} />
                     </>
                     : null}
-                    <CounterClockSoundComponent isPlaying={warningSound == 1 ? true : false} />
             </View>
         </>
 
