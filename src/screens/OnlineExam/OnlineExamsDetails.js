@@ -358,10 +358,13 @@ const OnlineExamsDetails = (props) => {
     }
 
     const uploadQuestion = () => {
+        console.log("total_attempts------uploadQuestion-------", total_attempts)
         if (total_attempts == 3) {
+            console.log("@1===========", )
             setIsPlaying(false);
             setHasSubmitted(true);
         } else {
+            console.log("@2===========", )
             if (props?.route.params.examFrom == 1) {
                 dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
             } else if (props?.route.params.examFrom == 2) {
@@ -373,6 +376,7 @@ const OnlineExamsDetails = (props) => {
                     dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
                 }
             } else if (props?.route.params.examFrom == 3) {
+                console.log("@3===========", )
                 dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
             }
             dispatch(selectDemoQuestionNumber(0));
