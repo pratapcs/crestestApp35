@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -10,14 +10,14 @@ import {
   TouchableWithoutFeedback,
   Pressable,
 } from 'react-native';
-import {colors, fonts} from '../../styles/Crestest.config';
+import { colors, fonts } from '../../styles/Crestest.config';
 import TagButton from '../TagButton';
-import {BarChart} from 'react-native-gifted-charts';
+import { BarChart } from 'react-native-gifted-charts';
 import LableUi from '../LabelUi';
 
 function CompetitiveSubjectAnalysisCard({
   title,
-  onPressDetails = () => {},
+  onPressDetails = () => { },
   data,
   subject,
 }) {
@@ -25,10 +25,10 @@ function CompetitiveSubjectAnalysisCard({
   const [selectedEvent, setSelectedEvent] = useState({});
   return (
     <View style={styles.card}>
-      <View style={[styles.cardContainer, {marginBottom: 20}]}>
+      <View style={[styles.cardContainer, { marginBottom: 20 }]}>
         <Text style={styles.griponChapterTitle}>{title}</Text>
       </View>
-      <View style={{width: '100%', flexDirection: 'row'}}>
+      <View style={{ width: '100%', flexDirection: 'row' }}>
         <View
           style={{
             alignItems: 'flex-start',
@@ -41,39 +41,46 @@ function CompetitiveSubjectAnalysisCard({
             );
           })}
         </View>
-        {data.length !== 0 && data[0]?.stacks && (
-          <View
-            style={{
-              width: '100%',
-              flex: 1,
-            }}>
-            <BarChart
-              width={Dimensions.get('window').width * 0.5}
-              noOfSections={10}
-              barWidth={120}
-              stackData={data}
-              initialSpacing={30}
-              onPress={event => {
-                setSelectedEvent(event);
-                setModalVisible(true);
-              }}
-            />
+        {data[0]?.stacks.length > 0 ?
+          data.length !== 0 && data[0]?.stacks && (
+            <View
+              style={{
+                width: '100%',
+                flex: 1,
+              }}>
+              <BarChart
+                width={Dimensions.get('window').width * 0.5}
+                noOfSections={10}
+                barWidth={120}
+                stackData={data}
+                initialSpacing={30}
+                onPress={event => {
+                  setSelectedEvent(event);
+                  setModalVisible(true);
+                }}
+              />
+            </View>
+          )
+          : <View style={styles.noDataContainer}>
+            <Text style={styles.noDataText}>No Data Available</Text>
           </View>
-        )}
+        }
       </View>
-      <View style={styles.detailsContainer}>
-        <TagButton
-          title={'Details'}
-          bgColor="green"
-          onPress={() => onPressDetails(subject)}
-        />
-      </View>
+      {data[0]?.stacks.length > 0 ?
+        <View style={styles.detailsContainer}>
+          <TagButton
+            title={'Details'}
+            bgColor="green"
+            onPress={() => onPressDetails(subject)}
+          />
+        </View>
+        : null}
       <Modal
         animationType="fade"
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
         transparent={true}
-        style={{flex: 1}}>
+        style={{ flex: 1 }}>
         <View style={styles.modalContainerStyle}>
           <Pressable
             onPress={() => setModalVisible(false)}
@@ -88,7 +95,7 @@ function CompetitiveSubjectAnalysisCard({
                     <View
                       style={[
                         styles.modalTagColorContainer,
-                        {backgroundColor: item?.color},
+                        { backgroundColor: item?.color },
                       ]}
                     />
                     <Text style={styles.modalListItemTitleText}>
@@ -191,7 +198,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
-  modalTitleText: {fontFamily: fonts.rBold, fontSize: 20},
+  modalTitleText: { fontFamily: fonts.rBold, fontSize: 20 },
   modalCenterDataContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -219,13 +226,23 @@ const styles = StyleSheet.create({
     fontFamily: fonts.rRegular,
     fontSize: 15,
   },
-  modalListItemDescContainer: {flex: 1, paddingLeft: 5},
-  modalListItemDescText: {fontFamily: fonts.rRegular, fontSize: 15},
-  modalCloseButtonContainer: {flexDirection: 'row', justifyContent: 'flex-end'},
+  modalListItemDescContainer: { flex: 1, paddingLeft: 5 },
+  modalListItemDescText: { fontFamily: fonts.rRegular, fontSize: 15 },
+  modalCloseButtonContainer: { flexDirection: 'row', justifyContent: 'flex-end' },
   closeButtonText: {
     fontFamily: fonts.rBold,
     fontSize: 15,
     color: 'grey',
   },
-  modalCloseButton: {padding: 10},
+  modalCloseButton: { padding: 10 },
+  noDataContainer: {
+    flex: 1,
+    height: 230,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noDataText: {
+    color: '#C7C7C7',
+    fontSize: 16,
+  }
 });

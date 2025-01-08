@@ -185,11 +185,11 @@ const OnlineExamsDetails = (props) => {
             // dispatch(ModuleMockQuestionUploadAction(0));
             // dispatch(competitiveQuestionUploadAction(0));
             if (props.route.params.examFrom == 1) {
-                setExamTime(scholasticQuestionListForSubscriber[0]?.exam_duration)
+                setExamTime(scholasticQuestionListForSubscriber[0]?.exam_duration);
             } else if (props.route.params.examFrom == 2) {
-                setExamTime(onlineModuleMockQuestionList[0]?.exam_duration)
+                setExamTime(onlineModuleMockQuestionList[0]?.exam_duration);
             } else if (props.route.params.examFrom == 3) {
-                setExamTime(onlineCompetitiveQuestionList[0]?.exam_duration)
+                setExamTime(onlineCompetitiveQuestionList[0]?.exam_duration);
             }
         }
 
@@ -228,7 +228,7 @@ const OnlineExamsDetails = (props) => {
     useEffect(() => {
 
         if (!!currentQuestion.length && hasSubmitted) {
-            setIsPlaying(false);
+            // setIsPlaying(false);
             examSubmit();
             setHasSubmitted(false)
         }

@@ -82,7 +82,7 @@ const PerformanceScore = (props) => {
             >
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
                 <HeaderComponent
-                    headerName='Performance Score'
+                    headerName=''
                     leftIcon='chevron-back' /* 'menu-outline' */
                     leftIconHandeler={leftIconHandeler}
                 />

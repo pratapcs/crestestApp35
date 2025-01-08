@@ -54,7 +54,7 @@ const Signin = ({ navigation }) => {
     useEffect(() => {
         dispatch(verificationCodeInputOffAction(0));
         emailRef.current.focus();
-        console.log("@1")
+        // console.log("@1")
         getDeviceToken()
 
     }, []);

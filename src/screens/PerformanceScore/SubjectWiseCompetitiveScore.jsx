@@ -28,6 +28,7 @@ import {
   TableWrapper,
 } from 'react-native-reanimated-table';
 import CompetitiveGradeGridCard from '../../components/CompetitiveGradeGridCard';
+import CompetitiveGradeGridCardMat from '../../components/CompetitiveGradeGridCardMat';
 import CompetitiveSubjectAnalysisCard from '../../components/CompetitiveSubjectAnalysisCard';
 
 const SubjectWiseCompetitiveScore = props => {
@@ -256,6 +257,7 @@ const SubjectWiseCompetitiveScore = props => {
                     },
                   });
                 }}
+                // data={matScore}
                 data={matScore}
               />
             )}

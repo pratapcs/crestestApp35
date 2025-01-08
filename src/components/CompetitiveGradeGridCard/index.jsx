@@ -1,21 +1,21 @@
-import React, {useEffect} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {colors, fonts} from '../../styles/Crestest.config';
+import React, { useEffect } from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { colors, fonts } from '../../styles/Crestest.config';
 import TagButton from '../TagButton';
-import {PieChart} from 'react-native-gifted-charts';
+import { PieChart } from 'react-native-gifted-charts';
 import LableUi from '../LabelUi';
 
 function CompetitiveGradeGridCard({
   title,
   desc,
-  onPressDetails = () => {},
-  onPressMoreDetails = () => {},
+  onPressDetails = () => { },
+  onPressMoreDetails = () => { },
   data,
   subject,
 }) {
   return (
     <View style={styles.card}>
-      <View style={[styles.cardContainer, {marginBottom: 20}]}>
+      <View style={[styles.cardContainer, { marginBottom: 20 }]}>
         <Text style={styles.griponChapterTitle}>{title}</Text>
         <Text style={styles.griponChapterDesc}>{desc}</Text>
       </View>
@@ -26,9 +26,9 @@ function CompetitiveGradeGridCard({
           alignItems: 'center',
           flex: 1,
         }}>
-          {/* ss */}
+
         {data.length !== 0 ? (
-          data.length === 1 && data[0].value === 0 ? (
+          data.length === 1 && data[0].value === 'null' ? (
             <Text
               style={{
                 fontSize: 18,
@@ -45,48 +45,60 @@ function CompetitiveGradeGridCard({
                 justifyContent: 'space-between',
                 width: '100%',
               }}>
-              <View>
-                {data.map((item, index) => {
-                  return (
-                    <LableUi
-                      key={index}
-                      title={item.fieldName}
-                      color={item.color}
-                    />
-                  );
-                })}
-              </View>
-              <PieChart
-                data={data}
-                showText
-                textColor="black"
-                onPress={() => {onPressMoreDetails()}}
-                radius={70}
-                textSize={12}
-                labelsPosition="mid"
-                textBackgroundColor="#ffffff"
-                showTextBackground
-                strokeWidth={2}
-                strokeColor="white"
-              />
+
+              {!isNaN(data[0].value) && data[0].value !== null && data[0].value !== undefined && data[0].value !== 0 ?
+                <>
+                  <View>
+                    {data.map((item, index) => {
+                      return (
+                        <LableUi
+                          key={index}
+                          title={item.fieldName}
+                          color={item.color}
+                        />
+                      );
+                    })}
+                  </View>
+                  <PieChart
+                    data={data}
+                    showText
+                    textColor="black"
+                    onPress={() => { onPressMoreDetails() }}
+                    radius={70}
+                    textSize={12}
+                    labelsPosition="mid"
+                    textBackgroundColor="#ffffff"
+                    showTextBackground
+                    strokeWidth={2}
+                    strokeColor="white"
+                  />
+                </>
+                : <View style={styles.noDataContainer}>
+                  <Text style={styles.noDataText}>No Data Available</Text>
+                </View>
+              }
             </View>
           )
         ) : (
           <Text>No Data</Text>
         )}
       </View>
-      <View style={styles.detailsContainer}>
-      <TagButton
-          title={'More Details'}
-          bgColor="grey"
-          onPress={() => onPressMoreDetails(subject)}
-        />
-        <TagButton
-          title={'Details'}
-          bgColor="green"
-          onPress={() => onPressDetails(subject)}
-        />
-      </View>
+      {!isNaN(data[0].value) && data[0].value !== null && data[0].value !== undefined && data[0].value !== 0 ?
+        <>
+          <View style={styles.detailsContainer}>
+            <TagButton
+              title={'More Details'}
+              bgColor="grey"
+              onPress={() => onPressMoreDetails(subject)}
+            />
+            <TagButton
+              title={'Details'}
+              bgColor="green"
+              onPress={() => onPressDetails(subject)}
+            />
+          </View>
+        </>
+        : null}
     </View>
   );
 }
@@ -142,4 +154,14 @@ const styles = StyleSheet.create({
     color: colors.subheadingGreytext,
     fontSize: 12,
   },
+  noDataContainer: {
+    flex: 1,
+    height: 230,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noDataText: {
+    color: '#C7C7C7',
+    fontSize: 16,
+  }
 });
