@@ -247,7 +247,7 @@ export function getScholasticExamQuestionsDataForSubscriber(branch, chapter, sub
     return async (dispatch) => {
         scholasticExamQuestionsListForSubscriber(branch, chapter, subject_id, set_no, chapter_no, group_subject_id)
             .then((response) => {
-                // console.log(">>>>>>>>>>---response---", )
+                
                 if (response.data.status == 200) {
                     if (response.data.data != "") {
                         dispatch(scholoasticQuestionListForSubscriberSuccessAction(response.data.data));
@@ -300,11 +300,14 @@ export function getScholasticExamAnswerSubmitForSubscriber(exam_type, branch, ch
                     // localStorage.setItem('refreshExamId', JSON.stringify(response.data.exam_id));
                     localStorage.setItem('refreshExamId', JSON.stringify(examDetails)); */
                     // props.push({ pathname: '/online-assessment-details', state: { exam: 1, fromExam: 1 } });
+                    
+                    dispatch(totalAttemptsAction(0));
+                    // dispatch(ModuleMockTotalAttemptsAction(0));
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
                         params: { page: page, category_id: exam_category_id, exam_unique_id: response.data.exam_id }
                     });
-                    dispatch(totalAttemptsAction(0));
+                    
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                     // utility.showSuccess(response.data.msg);
                     // dispatch(onlineExamIdAction(response.data.exam_id))

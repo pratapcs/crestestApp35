@@ -122,7 +122,6 @@ const OnlineExamsDetails = (props) => {
 
     const totalAttemptsRef = useRef();
     totalAttemptsRef.current = total_attempts;
-
     useEffect(() => {
         dispatch(alertSoundAction(0));
         if (callFirstTimeRef.current) {
@@ -359,25 +358,24 @@ const OnlineExamsDetails = (props) => {
     }
 
     const uploadQuestion = () => {
-        if (props?.route.params.examFrom == 1) {
-            dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
-        } else if (props?.route.params.examFrom == 2) {
-            if (previousValue.isModuleOrMock == 1) {
-                dispatch(getOnlineScholasticModuleQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
-            } else if (previousValue.isModuleOrMock == 2) {
-                dispatch(getOnlineScholasticMockQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
-            } else if (previousValue.isModuleOrMock == 3) {
-                dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
-            }
-        } else if (props?.route.params.examFrom == 3) {
-            dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
-        }
-        dispatch(selectDemoQuestionNumber(0));
-
         if (total_attempts == 3) {
-            console.log("uploadQuestion----total_attempts", total_attempts)
             setIsPlaying(false);
             setHasSubmitted(true);
+        } else {
+            if (props?.route.params.examFrom == 1) {
+                dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
+            } else if (props?.route.params.examFrom == 2) {
+                if (previousValue.isModuleOrMock == 1) {
+                    dispatch(getOnlineScholasticModuleQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+                } else if (previousValue.isModuleOrMock == 2) {
+                    dispatch(getOnlineScholasticMockQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+                } else if (previousValue.isModuleOrMock == 3) {
+                    dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+                }
+            } else if (props?.route.params.examFrom == 3) {
+                dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
+            }
+            dispatch(selectDemoQuestionNumber(0));
         }
     }
 
@@ -749,7 +747,7 @@ const OnlineExamsDetails = (props) => {
                                             <>
                                                 <MaterialCommunityIcons name="clock-minus-outline" size={18} color="#fff" />
                                                 <View style={{ overflow: 'hidden', alignItems: 'flex-start', top: -1 }}>
-                                                    <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} />
+                                                    {/* <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} /> */}
                                                     {/* <ExamCounterClockComponent examTime={305} isPlaying={isPlaying} /> */}
                                                 </View>
                                             </>

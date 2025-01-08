@@ -47,6 +47,7 @@ export function getOnlineScholasticModuleQuestionListData(chapter_id, subject_id
                 if (response.data.status == 200) {
                     if (response.data.data != "") {
                         dispatch(getOnlineScholasticModuleListSuccessAction(response.data.data));
+                        console.log("ModuleMock-----@1");
                         dispatch(ModuleMockTotalAttemptsAction(response.data.data[0].total_attempts));
                         Emitter.emit(Events.HIDE_PRELOADER);
                     } else {
@@ -83,6 +84,7 @@ export function getOnlineScholasticMockQuestionListData(chapter_id, subject_id, 
                 if (response.data.status == 200) {
                     if (response.data.data != "") {
                         dispatch(getOnlineScholasticMockListSuccessAction(response.data.data));
+                        console.log("ModuleMock-----@2")
                         dispatch(ModuleMockTotalAttemptsAction(response.data.data[0].total_attempts));
                         /* history.push({ pathname: '/page-scholastic-exam-moudle-mock', state: { exam_type: 3, branchSortCode: branchSortCode, chapter: 'CH0', set_no: mock, subject_id: subject_id } }); */
                     } else {
@@ -123,6 +125,7 @@ export function getOnlineCompetitiveQuestionListData(exam_type, subscription_id,
                 if (response.data.status == 200) {
                     if (response.data.questions != "") {
                         dispatch(getOnlineCompetitiveSuccessAction(response.data.questions));
+                        
                         dispatch(ModuleMockTotalAttemptsAction(response.data.questions[0].total_attempts));
                         // history.push({ pathname: '/page-competitive-exam', state: { exam_type: exam_type, subscription_id: subscription_id, set_no: set_no, subtype: subtype } });
                         Emitter.emit(Events.HIDE_PRELOADER);
@@ -248,12 +251,17 @@ export function competitiveExamAnswerSubmitForSubscriber(exam_type, subscription
                     localStorage.setItem('refreshExamId', JSON.stringify(examDetails)); */
 
                     dispatch(onlineExamIdAction(response.data.exam_id))
+                    
+                    dispatch(totalAttemptsAction(0));
+                    
+                    dispatch(ModuleMockTotalAttemptsAction(0));
+                    
                     // history.push({ pathname: '/online-assessment-details', state: { exam: 2, fromExam: 1 } });
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
                         params: { page: page, category_id: exam_category_id, exam_unique_id: response.data.exam_id }
                     });
-                    dispatch(totalAttemptsAction(0));
+                    
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                     // utility.showSuccess(response.data.msg);
                     Emitter.emit(Events.HIDE_PRELOADER);
