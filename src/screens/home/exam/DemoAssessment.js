@@ -20,7 +20,7 @@ import FeedbackCard from './examComponent/FeedbackCard'
 import moment from 'moment';
 
 
-import { getDemoAssessmentList, getOnlineScholasticAssessmentDetailsExamIDWise, getOnlineCompetitiveAssessmentDetailsExamIDWise, onlineScholasticAssessmentListFailureAction } from '../../../store/actions/ScholasticAction'
+import { getDemoAssessmentList, getOnlineScholasticAssessmentDetailsExamIDWise, getOnlineCompetitiveAssessmentDetailsExamIDWise, onlineScholasticAssessmentListFailureAction, onlineScholasticAssessmentListSuccessAction } from '../../../store/actions/ScholasticAction'
 import { getFeedbackDetails, storeFeedbackDetails } from '../../../store/actions/OnlineExamAction'
 
 import {drawerMenuActiveIdUpdateAction,} from '../../../store/actions/DashboardAction'
@@ -42,9 +42,6 @@ const DemoAssessment = (props) => {
     
     const [feedback, setFeedback] = useState([]);
 
-    // const [sampleQuestion, setSampleQuestion] = useState('In the given figure, O is the centre of the circle whose diameter is AB. If ∠AOE = 150° and ∠DAO = 55° then find ∠CBE. <img src="https://admin.clvdev.in//question_images/q_image/1680259500535NTMCH24Q43F43.png" alt="crestest_img" style="width:90%;margin-top:10px;" ')
-
-    // const demoExamSubmit = useSelector((state) => state.questionNo.demoExamDoneOrNot);
     const demoExamAessmentDetailsList = useSelector((state) => state.questionNo.demoExamAessmentDetailsList);
     const onlineScholasticExamAessmentDetailsList = useSelector((state) => state.onlineexam.onlineScholasticExamAessmentDetailsList);
     const feedbackDetails = useSelector((state) => state.onlineexam.feedbackDetails);
@@ -150,8 +147,9 @@ const DemoAssessment = (props) => {
 
     useEffect(() => {
         return () => {
-            dispatch(onlineScholasticAssessmentListFailureAction([]))
-            setFeedbackModal(false)
+            console.log("return from Demo Assessment")
+            dispatch(onlineScholasticAssessmentListFailureAction([]));
+            setFeedbackModal(false);
         }
     }, []);
 
@@ -159,7 +157,10 @@ const DemoAssessment = (props) => {
         if (props.route.params.page == 4 || props.route.params.page == 5) {
             props.navigation.goBack()
         } else {
-            dispatch(drawerMenuActiveIdUpdateAction(1))
+            console.log("Demo Assessment Dashboard icon click")
+            dispatch(drawerMenuActiveIdUpdateAction(1));
+            // dispatch(onlineScholasticAssessmentListSuccessAction([]));
+            dispatch(onlineScholasticAssessmentListFailureAction([]));
             props.navigation.navigate('drawerScenes', {
                 screen: "Dashboard",
             })

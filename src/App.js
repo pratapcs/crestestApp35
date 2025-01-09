@@ -80,7 +80,7 @@ const App = (props) => {
                 setIsConnected(state.isConnected)
             }
         });
-    });
+    },[]);
 
     /* useEffect(() => {
         const handleDeepLink = (event) => {

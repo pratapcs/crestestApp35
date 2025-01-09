@@ -132,7 +132,7 @@ const OnlineExamsDetails = (props) => {
 
     useEffect(() => {
         checkLocked();
-    });
+    },[]);
 
     useEffect(() => {
         return () => {
@@ -164,7 +164,7 @@ const OnlineExamsDetails = (props) => {
     }, [warningSound, timeUpWarning,]);
 
     useEffect(() => {
-        setPendingTime(time_used)
+        setPendingTime(time_used);
     }, [time_used, calllCurrentQuestionNo,]);
 
     useEffect(() => {

@@ -15,7 +15,7 @@ apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.grad
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-
+def env = "PRODUCTION"; //"DEVELOPMENT"; // PRODUCTION
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -129,26 +129,62 @@ android {
         applicationId "com.schemaphic.crestest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.06"
+        versionCode 1
+        versionName "1.01"
         vectorDrawables.useSupportLibrary = true
     }
+    // signingConfigs {
+    //     debug {
+    //         storeFile file('debug.keystore')
+    //         storePassword 'android'
+    //         keyAlias 'androiddebugkey'
+    //         keyPassword 'android'
+    //     }
+    // }
     signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+        if ( env == "DEVELOPMENT" ){
+            debug {
+                storeFile file('debug.keystore')
+                storePassword 'android'
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
+            }
+        } else {
+            release {
+                //storeFile file('crestest_llp_release.keystore')
+                //storePassword '5I<]zHOoG8deave'
+                //keyAlias 'SSIPL'
+                // keyPassword '5I<]zHOoG8deave'
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
+    // buildTypes {
+    //     debug {
+    //         signingConfig signingConfigs.debug
+    //     }
+    //     release {
+    //         // Caution! In production, you need to generate your own keystore file.
+    //         // see https://reactnative.dev/docs/signed-apk-android.
+    //         signingConfig signingConfigs.debug
+    //         minifyEnabled enableProguardInReleaseBuilds
+    //         proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    //     }
+    // }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            matchingFallbacks = ['debug', 'release'] // <- add this line
         }
-        release {
+        release {   
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
