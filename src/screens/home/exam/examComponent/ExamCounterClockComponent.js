@@ -18,18 +18,18 @@ export default function ExamCounterClockComponent(props) {
 
     const dispatch = useDispatch();
 
-    const [remainingHours, setRemainingHours] = useState()
-    const [remainingMinutes, setRemainingMinutes] = useState()
-    const [remainingSeconds, setRemainingSeconds] = useState()
-    const [isPlaying, setIsPlaying] = useState(props.isPlaying)
-    const [examTime, setExamTime] = useState(props.examTime)
-    const [countdownCircleTimerKey, setCountdownCircleTimerKey] = useState(1)
-    const [frontColor, setfrontColor] = useState('#F7B801')
-    const [examSubmit, setExamSubmit] = useState(0)
+    const [remainingHours, setRemainingHours] = useState();
+    const [remainingMinutes, setRemainingMinutes] = useState();
+    const [remainingSeconds, setRemainingSeconds] = useState();
+    const [isPlaying, setIsPlaying] = useState(props.isPlaying);
+    const [examTime, setExamTime] = useState(props.examTime);
+    const [countdownCircleTimerKey, setCountdownCircleTimerKey] = useState(1);
+    const [frontColor, setfrontColor] = useState('#F7B801');
+    const [examSubmit, setExamSubmit] = useState(0);
 
     useEffect(() => {
         setExamTime(props?.examTime);
-        setIsPlaying(props?.isPlaying)
+        setIsPlaying(props?.isPlaying);
     }, [props?.examTime, props?.isPlaying])
 
     const timeUpWarning = useSelector((state) => state.questionNo.timeUpWarning);

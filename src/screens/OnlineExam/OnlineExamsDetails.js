@@ -135,7 +135,6 @@ const OnlineExamsDetails = (props) => {
     });
 
     useEffect(() => {
-
         return () => {
             Orientation.lockToPortrait();
             checkLocked();
@@ -174,12 +173,10 @@ const OnlineExamsDetails = (props) => {
         // console.log("onlineCompetitiveQuestionList-----------", onlineCompetitiveQuestionList.length);
         // console.log("currentQuestion-------------------------", currentQuestion.length);
         // console.log("============================================================");
-
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
             let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
 
             setCurrentQuestion(updatedVisitData)
-
             // dispatch(getQuestionUploadCompletetAction(0));
             // dispatch(ModuleMockQuestionUploadAction(0));
             // dispatch(competitiveQuestionUploadAction(0));
@@ -191,13 +188,10 @@ const OnlineExamsDetails = (props) => {
                 setExamTime(onlineCompetitiveQuestionList[0]?.exam_duration);
             }
         }
-
     }, [scholasticQuestionListForSubscriber, onlineModuleMockQuestionList, onlineCompetitiveQuestionList]);
 
     useEffect(() => {
-
         if (!!currentQuestion.length) {
-
             if (total_attempts == 1) { // reload exam intermData
                 if (currentQuestion?.[currentQuestionNumber]) {
                     currentQuestion[currentQuestionNumber].is_visited = 1;
@@ -208,7 +202,6 @@ const OnlineExamsDetails = (props) => {
             }
 
             visited_count();
-
             if (total_attempts > 1) { // reload exam intermData
                 dispatch(selectDemoQuestionNumber(currentQuestion[0].last_visited_ques_no))// intermData reload exam -- current question number
                 storeAnswerValue()
@@ -225,7 +218,6 @@ const OnlineExamsDetails = (props) => {
 
 
     useEffect(() => {
-
         if (!!currentQuestion.length && hasSubmitted) {
             // setIsPlaying(false);
             examSubmit();
@@ -233,8 +225,6 @@ const OnlineExamsDetails = (props) => {
         }
 
     }, [hasSubmitted, currentQuestion]); //
-
-
 
     useEffect(() => {
         setCurrentQuestionNumber(currentQestionNo);
@@ -260,7 +250,6 @@ const OnlineExamsDetails = (props) => {
     }, [timeUpWarning, currentQestionNo, examinterm])
 
     useEffect(() => {
-
         return () => {
             clearInterval(_interval);
         }
@@ -291,7 +280,6 @@ const OnlineExamsDetails = (props) => {
 
 
     useEffect(() => {
-
         if (timeUpWarning == 1 && callOneTimeTimeupModalRef.current) {
             setTimeUpVisible(true)
             clearInterval(_interval);
