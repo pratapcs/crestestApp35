@@ -183,7 +183,6 @@ const OnlineExamsDetails = (props) => {
         }
     }, [scholasticQuestionListForSubscriber, onlineModuleMockQuestionList, onlineCompetitiveQuestionList]);
 
-                                                                
 
     useEffect(() => {
         if (!!currentQuestion.length) {
@@ -341,13 +340,13 @@ const OnlineExamsDetails = (props) => {
     }
 
     const uploadQuestion = () => {
-        // console.log("total_attempts------uploadQuestion-------", total_attempts)
+        console.log("total_attempts------uploadQuestion-------", total_attempts)
         if (total_attempts == 3) {
-            // console.log("@1===========",)
+            console.log("@1===========",)
             setIsPlaying(false);
             setHasSubmitted(true);
         } else {
-            // console.log("@2===========",)
+            console.log("@2===========",)
             if (props?.route.params.examFrom == 1) {
                 dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
             } else if (props?.route.params.examFrom == 2) {
@@ -359,7 +358,7 @@ const OnlineExamsDetails = (props) => {
                     dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
                 }
             } else if (props?.route.params.examFrom == 3) {
-                // console.log("@3===========",)
+                console.log("@3===========",)
                 dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
             }
             dispatch(selectDemoQuestionNumber(0));
@@ -722,7 +721,7 @@ const OnlineExamsDetails = (props) => {
 
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-                {/* {console.log("isPlaying-------------------", isPlaying)} */}
+                {console.log("isPlaying-------------------", isPlaying)}
                 {!!currentQuestion?.length && visableQuestion && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
@@ -734,7 +733,7 @@ const OnlineExamsDetails = (props) => {
                                             <>
                                                 <MaterialCommunityIcons name="clock-minus-outline" size={18} color="#fff" />
                                                 <View style={{ overflow: 'hidden', alignItems: 'flex-start', top: -1 }}>
-                                                    <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} />
+                                                    {/* <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} /> */}
                                                     {/* <ExamCounterClockComponent examTime={305} isPlaying={isPlaying} /> */}
                                                 </View>
                                             </>
