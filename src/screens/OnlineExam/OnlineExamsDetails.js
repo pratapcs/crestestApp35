@@ -183,13 +183,7 @@ const OnlineExamsDetails = (props) => {
         }
     }, [scholasticQuestionListForSubscriber, onlineModuleMockQuestionList, onlineCompetitiveQuestionList]);
 
-    /* useEffect(() => {
-        if (currentQuestion !== null || currentQuestion !== undefined || currentQuestion.length > 0) {
-            dispatch(getQuestionUploadCompletetAction(0));
-            dispatch(ModuleMockQuestionUploadAction(0));
-            dispatch(competitiveQuestionUploadAction(0));
-        }
-    }, [currentQuestion]); */
+                                                                
 
     useEffect(() => {
         if (!!currentQuestion.length) {
