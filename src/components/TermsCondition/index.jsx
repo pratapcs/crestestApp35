@@ -44,7 +44,7 @@ const TermsCondition = (props) => {
                         <View style={styles.containContainer}>
                             <ScrollView
                                 keyboardShouldPersistTaps="handled"
-                                contentContainerStyle={{ flexGrow: 1 }}
+                                contentContainerStyle={{ flexGrow: 1,paddingRight:10, }}
                                 showsVerticalScrollIndicator={true}
                                 persistentScrollbar={true}
                             >

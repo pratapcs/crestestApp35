@@ -31,9 +31,9 @@ const HeaderComponent = (props) => {
         getUserDetails();
     }, []);
 
-    useEffect(() => {
+    /* useEffect(() => {
         setCartValue(cartList.length)
-    }, [cartList]);
+    }, [cartList]); */
 
     const goToProfilePage = () => {
         navigation.navigate('nonAuthScenes', {
@@ -74,10 +74,10 @@ const HeaderComponent = (props) => {
 
                 {userid > 0 ?
                     <TouchableOpacity onPress={() => goTpCartPage()} style={styles.cartParentContainer}>
-                        <Ionicons name={cartValue > 0 ? 'cart' : 'cart-outline'} size={25} color={'#fff'} onPress={props.rightIconHandeler} />
-                        {cartValue > 0 ?
+                        <Ionicons name={cartList.length > 0 ? 'cart' : 'cart-outline'} size={25} color={'#fff'} onPress={props.rightIconHandeler} />
+                        {cartList.length  > 0 ?
                             <View style={styles.cartCounterContainer}>
-                                <Text style={styles.cartCounterValue}>{cartValue > 0 ? cartValue : ''}</Text>
+                                <Text style={styles.cartCounterValue}>{cartList.length  > 0 ? cartList.length  : ''}</Text>
                             </View>
                             : null}
                     </TouchableOpacity>

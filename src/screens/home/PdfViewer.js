@@ -13,6 +13,7 @@ import {
     Modal,
     TextInput,
     FlatList,
+    ActivityIndicator
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { decryptAES } from "../../utils/Util";
@@ -39,7 +40,6 @@ import HeaderComponent from '../../components/HeaderComponent';
 import { getAskQuestionData, getSearTextFailureAction, getSearTextSuccessAction, getClickQuestionNoAction } from '../../store/actions/StudentAction';
 import { eliraryCategoryAction, postStoreElibraryTimeSpendDetails, } from '../../store/actions/LibraryAction';
 import { logout } from '../../store/actions/AuthActions';
-import { ActivityIndicator } from 'react-native-paper';
 
 
 const trasparent = 'rgba(0,0,0,0.5)';
@@ -82,7 +82,9 @@ const PdfViewer = (props) => {
     const [isPdfLoading, setIsPdfLoading] = useState(true);
 
     const [headingArrowSize, setHeadingArrowSize] = useState(15)
-    const [headingArrowColor, setHeadingArrowColor] = useState("#fff")
+    const [headingArrowColor, setHeadingArrowColor] = useState("#fff");
+
+    const [listLoader, setlistLoader] = useState(false);
 
     const questionRef = useRef();
 
@@ -236,18 +238,23 @@ const PdfViewer = (props) => {
     }
 
     const submitHandeler = () => {
+        setlistLoader(true);
         askmeValidateData()
             .then((response) => {
                 if (response.success == 1) {
                     dispatch(getSearTextSuccessAction([]));
                     setActiveAccordion('')
-                    dispatch(getAskQuestionData(question, props.route.params.item.subject_id, props))
+                    dispatch(getAskQuestionData(question, ElibraryCategory[1] === "Demo" ? '' : props.route.params.item.subject_id, disableListLoader, props))
                 }
             })
             .catch((error) => {
                 // dispatch(elibraryLoading(false));
-                Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: error.response.data });
+                // Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: error.response.data });
             });
+    }
+
+    const disableListLoader = (val) => {
+        setlistLoader(val);
     }
 
     const selectAccordianIndex = (d, i) => {
@@ -328,7 +335,7 @@ const PdfViewer = (props) => {
 
         props.navigation.navigate('nonAuthScenes', {
             screen: 'PdfViewerForDetails',
-            params: { elibraryPdfPath: decodePdfUrl, item: props.route.params.item }
+            params: { elibraryPdfPath: decodePdfUrl, item: props.route.params.item, elitraryType: ElibraryCategory[1] }
         });
 
     }
@@ -378,7 +385,7 @@ const PdfViewer = (props) => {
 
                                 <Text style={styles.detailsText}>{eCategory} <><Ionicons name="chevron-forward" size={headingArrowSize} color={headingArrowColor} /></> {elibraryTitle} </Text>
                             </View>
-                            
+
                             : ElibraryScholasticCategory.length <= 0 && ElibraryCategory[1] == "" ?
                                 <View style={styles.detailsContainer}>
 
@@ -475,11 +482,16 @@ const PdfViewer = (props) => {
                                             keyExtractor={(item, index) => index.toString()}
                                         />
                                         :
-                                        searchText == '' && searchTextCallOrNot != 0 ?
-                                            <View style={styles.nodataContainer}>
-                                                <Text>No data found</Text>
-                                            </View>
-                                            : null
+                                        <>
+                                            {searchText == '' && searchTextCallOrNot != 0 ?
+                                                <View style={styles.nodataContainer}>
+                                                    {listLoader ? <ActivityIndicator /> :
+                                                        <Text>No data found</Text>
+                                                    }
+                                                </View> 
+                                                : null
+                                            }
+                                        </>
                                     }
 
                                     {activeAccordion == 'yes' && searchText != '' ?

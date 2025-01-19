@@ -139,7 +139,7 @@ const ExamsDetails = (props) => {
             updatedVisitData[currentQuestionNumber].is_visited = 1
             setCurrentQuestion(updatedVisitData)
             // setCurrentQuestion(scholasticQuestionList)
-            dispatch(getQuestionUploadCompletetAction(0));
+            // dispatch(getQuestionUploadCompletetAction(0));
             setExamTime(scholasticQuestionList[0].exam_duration)
         }
         return () => {
@@ -149,14 +149,16 @@ const ExamsDetails = (props) => {
     }, [scholasticQuestionList]);
 
     useEffect(() => {
+        if (currentQuestion !== null || currentQuestion !== undefined || currentQuestion.length > 0) {
+            dispatch(getQuestionUploadCompletetAction(0));
+        }
+    }, [currentQuestion]);
 
+    useEffect(() => {
         // console.log("newStudentid--11--", newStudentid, "demoExamSubmit----", demoExamSubmit, currentQuestion.length)
         if (newStudentid != null && newStudentid != undefined && demoExamSubmit == 0 && !!currentQuestion.length) {
             submitDemoExam();
-            // console.log("navigation---", navigation)
-            // console.log("props---", props)
             dispatch(logout(props));
-
             props.navigation.navigate('authScenes', {
                 screen: "SuccessRegister",
             })
