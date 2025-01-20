@@ -38,7 +38,7 @@ const PrivacyPolicy = (props) => {
                 leftIcon='menu-outline'
                 leftIconHandeler={leftIconHandeler}
             />
-            
+
             <View style={styles.parentContainer}>
 
                 <View style={styles.bodyContainer}>
@@ -48,17 +48,20 @@ const PrivacyPolicy = (props) => {
                     <View style={styles.containContainer}>
                         <ScrollView
                             keyboardShouldPersistTaps="handled"
-                            contentContainerStyle={{ flexGrow: 1 }}
+                            contentContainerStyle={{ flexGrow: 1, }}
                             showsVerticalScrollIndicator={true}
                             persistentScrollbar={true}
-                        >
-                            <RenderHtml
-                                contentWidth={200}
-                                source={{ html: privacyPolicy }}
-                            />
+                        >   
+                        <View style={{borderWidth:1,}}>
+                                <RenderHtml
+                                    contentWidth={200}
+                                    source={{ html: privacyPolicy }}
+                                />
+                            </View>
+
                         </ScrollView>
                     </View>
-                    
+
                 </View>
             </View>
         </>
@@ -94,6 +97,7 @@ const styles = StyleSheet.create(
         containContainer: {
             height: 550,
             overflow: 'hidden',
+            paddingRight: 20,
         },
         bottomContainer: {
             height: 70,

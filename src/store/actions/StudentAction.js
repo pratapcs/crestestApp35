@@ -203,7 +203,7 @@ export function demoUserRecordExistsOrNot(mobile, email, props) {
     };
 }
 
-export function getAskQuestionData(search_text, subject_id, props) {
+export function getAskQuestionData(search_text, subject_id, disableListLoader, props) {
     Emitter.emit(Events.SHOW_PRELOADER);
     return (dispatch) => {
         askQuestionData(search_text, subject_id)
@@ -211,6 +211,7 @@ export function getAskQuestionData(search_text, subject_id, props) {
                 if (response.data.status == 200) {
                     dispatch(getSearTextSuccessAction(response.data.data));
                     Emitter.emit(Events.HIDE_PRELOADER);
+                    disableListLoader(false)
                 } else {
                     dispatch(getSearTextFailureAction(response.data.data));
                     Emitter.emit(Events.HIDE_PRELOADER);

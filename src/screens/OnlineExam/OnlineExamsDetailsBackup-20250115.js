@@ -167,12 +167,16 @@ const OnlineExamsDetails = (props) => {
     }, [time_used, calllCurrentQuestionNo,]);
 
     useEffect(() => {
+<<<<<<< HEAD:src/screens/OnlineExam/OnlineExamsDetailsBackup-20250115.js
         console.log("moduleMockQuestionUploaded-----", scholasticQuestionUploaded, moduleMockQuestionUploaded, competitiveQuestionUploaded);
         // console.log("scholasticQuestionListForSubscriber-----", scholasticQuestionListForSubscriber.length);
         // console.log("onlineModuleMockQuestionList------------", onlineModuleMockQuestionList.length);
         // console.log("onlineCompetitiveQuestionList-----------", onlineCompetitiveQuestionList.length);
         // console.log("currentQuestion-------------------------", currentQuestion.length);
         // console.log("============================================================");
+=======
+
+>>>>>>> ee3b05a9548d3b1ccc8214880468d22201b37c5d:src/screens/OnlineExam/OnlineExamsDetails.js
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
             // let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
             // console.log("updatedVisitData-----", updatedVisitData[0])
@@ -186,9 +190,13 @@ const OnlineExamsDetails = (props) => {
                 dispatch(ModuleMockQuestionUploadAction(0));
             }, 0);
 
+<<<<<<< HEAD:src/screens/OnlineExam/OnlineExamsDetailsBackup-20250115.js
             // dispatch(getQuestionUploadCompletetAction(0));
             // dispatch(ModuleMockQuestionUploadAction(0));
             // dispatch(competitiveQuestionUploadAction(0));
+=======
+            setCurrentQuestion(updatedVisitData)
+>>>>>>> ee3b05a9548d3b1ccc8214880468d22201b37c5d:src/screens/OnlineExam/OnlineExamsDetails.js
             if (props.route.params.examFrom == 1) {
                 setExamTime(scholasticQuestionListForSubscriber[0]?.exam_duration);
             } else if (props.route.params.examFrom == 2) {
@@ -198,6 +206,7 @@ const OnlineExamsDetails = (props) => {
             }
         }
     }, [scholasticQuestionListForSubscriber, onlineModuleMockQuestionList, onlineCompetitiveQuestionList]);
+
 
     useEffect(() => {
         if (!!currentQuestion.length) {

@@ -81,14 +81,16 @@ const PdfViewerForDetails = (props) => {
 
         return () => {
             clearInterval(interval);
-
-            dispatch(postStoreElibraryTimeSpendDetails(props.route.params.item.subject_id, _visitTime, props.route.params.item.short_code, props));
-            _visitTime = 0
+           
+            if (props?.route?.params?.elitraryType !== "Demo") {
+                dispatch(postStoreElibraryTimeSpendDetails(props.route.params.item.subject_id, _visitTime, props.route.params.item.short_code, props));
+                _visitTime = 0
+            }
         }
 
     }, [])
 
-    
+
     useEffect(() => {
         async function getUserDetails() {
             let result = await getData("crestestUserDetails");
@@ -113,7 +115,7 @@ const PdfViewerForDetails = (props) => {
     });
 
     const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
-    
+
 
 
     const getPdfContentFromAWSS3BucketPrivately = (url) => {
@@ -125,7 +127,7 @@ const PdfViewerForDetails = (props) => {
         let pdfFileWithoutPageNumber = pdfFileName.split("#");
         let finalPdfFileWithoutPageNumber = pdfFileWithoutPageNumber[0];
         const showIntialPageNumber = pdfFileName.split("=")[1];
-        
+
         setShowFirstPageView(showIntialPageNumber == undefined ? 0 : parseInt(showIntialPageNumber))
         let fullPathPdf = `elibrary/${finalPdfFileWithoutPageNumber}`
 
@@ -317,7 +319,7 @@ const PdfViewerForDetails = (props) => {
                     leftIcon='chevron-back'
                     leftIconHandeler={leftIconHandeler}
                 />
-
+                {console.log("props.route.params.item.subject_id,===1111", props?.route?.params?.item?.subject_id)}
                 {ElibraryCategory[1] == "Demo" ?
                     ElibraryCategory.length > 0 ?
                         <View style={styles.detailsContainer}>

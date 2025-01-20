@@ -21,7 +21,7 @@ import Gstyles from '../../../../styles/GlobalStyle';
 import { useNavigation } from '@react-navigation/native';
 
 const QuestionDetails = (props) => {
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
 
     const [isShowResendOtp, setIsShowResendOtp] = useState(0);
 
