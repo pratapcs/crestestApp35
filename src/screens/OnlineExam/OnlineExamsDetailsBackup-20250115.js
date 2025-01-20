@@ -110,12 +110,11 @@ const OnlineExamsDetails = (props) => {
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
+    
+    const [tempQuestion, setTempQuestion] = useState([{"answer": "U2FsdGVkX1/YFT0Jz/f8vlyc9WmmLRL1sO7IerJWHOo=", "assigned_desiner": 0, "branch": "AR", "branch_id": 25, "chapter": "CH5", "chapter_id": 112, "class": "0", "class_id": 0, "css_group_id": null, "demo_exam": 0, "editor_type": 1, "exam_category": 2, "exam_duration": 7200, "exam_subtype": "SAT", "exam_subtype_id": 1, "exam_type": "NT", "exam_type_id": 1, "id": 6930, "is_approve": 1, "option_a": "<p>3:2</p>", "option_a_editor_type": 1, "option_a_image": "", "option_b": "<p>2:3</p>", "option_b_editor_type": 1, "option_b_image": "", "option_c": "<p>4:3</p>", "option_c_editor_type": 1, "option_c_image": "", "option_d": "<p>3:4</p>", "option_d_editor_type": 1, "option_d_image": "", "options": [{"A": "<p>3:2</p>", "B": "<p>2:3</p>", "C": "<p>4:3</p>", "D": "<p>3:4</p>"}], "question": "<p>Two trains running in opposite direction cross a man standing on the platform in 27 sec and 17 sec and they cross each other in 23 sec. The ratio of their speeds is :</p>", "question_counter": 1, "question_image": "", "question_no": "NT00ARCH5PQS55", "question_type": "PQS", "question_type_id": 0, "reason": "<p><img src=\"assets/special_charectors/tag_image-1685010853142.png\"></p>", "reason_editor_type": 1, "supporting_reason": "undefined", "total_attempts": 1, "upload_id": 442, "user_id": 38}, {"answer": "U2FsdGVkX1/YFT0Jz/f8vlyc9WmmLRL1sO7IerJWHOo=", "assigned_desiner": 0, "branch": "AR", "branch_id": 25, "chapter": "CH5", "chapter_id": 112, "class": "0", "class_id": 0, "css_group_id": null, "demo_exam": 0, "editor_type": 1, "exam_category": 2, "exam_duration": 7200, "exam_subtype": "SAT", "exam_subtype_id": 1, "exam_type": "NT", "exam_type_id": 1, "id": 6930, "is_approve": 1, "option_a": "<p>3:2</p>", "option_a_editor_type": 1, "option_a_image": "", "option_b": "<p>2:3</p>", "option_b_editor_type": 1, "option_b_image": "", "option_c": "<p>4:3</p>", "option_c_editor_type": 1, "option_c_image": "", "option_d": "<p>3:4</p>", "option_d_editor_type": 1, "option_d_image": "", "options": [{"A": "<p>3:2</p>", "B": "<p>2:3</p>", "C": "<p>4:3</p>", "D": "<p>3:4</p>"}], "question": "<p>Two trains running in opposite direction cross a man standing on the platform in 27 sec and 17 sec and they cross each other in 23 sec. The ratio of their speeds is :</p>", "question_counter": 1, "question_image": "", "question_no": "NT00ARCH5PQS55", "question_type": "PQS", "question_type_id": 0, "reason": "<p><img src=\"assets/special_charectors/tag_image-1685010853142.png\"></p>", "reason_editor_type": 1, "supporting_reason": "undefined", "total_attempts": 1, "upload_id": 442, "user_id": 38}]);
+
     const currentQuestionLengthRef = useRef();
-
-    useEffect(() => {
-        currentQuestionLengthRef.current = currentQuestion;
-    }, [currentQuestion]);
-
+    currentQuestionLengthRef.current = currentQuestion;
 
     const currentTimeRef = useRef();
     currentTimeRef.current = pendingTime;
@@ -168,15 +167,25 @@ const OnlineExamsDetails = (props) => {
     }, [time_used, calllCurrentQuestionNo,]);
 
     useEffect(() => {
+        console.log("moduleMockQuestionUploaded-----", scholasticQuestionUploaded, moduleMockQuestionUploaded, competitiveQuestionUploaded);
         // console.log("scholasticQuestionListForSubscriber-----", scholasticQuestionListForSubscriber.length);
         // console.log("onlineModuleMockQuestionList------------", onlineModuleMockQuestionList.length);
         // console.log("onlineCompetitiveQuestionList-----------", onlineCompetitiveQuestionList.length);
         // console.log("currentQuestion-------------------------", currentQuestion.length);
         // console.log("============================================================");
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
-            let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
+            // let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
+            // console.log("updatedVisitData-----", updatedVisitData[0])
+            // setCurrentQuestion(updatedVisitData)
+            setCurrentQuestion(tempQuestion)
+            console.log("useEffect------@1");
 
-            setCurrentQuestion(updatedVisitData)
+            setTimeout(() => { 
+                dispatch(competitiveQuestionUploadAction(0)); 
+                dispatch(getQuestionUploadCompletetAction(0));
+                dispatch(ModuleMockQuestionUploadAction(0));
+            }, 0);
+
             // dispatch(getQuestionUploadCompletetAction(0));
             // dispatch(ModuleMockQuestionUploadAction(0));
             // dispatch(competitiveQuestionUploadAction(0));
@@ -203,7 +212,7 @@ const OnlineExamsDetails = (props) => {
 
             visited_count();
             if (total_attempts > 1) { // reload exam intermData
-                dispatch(selectDemoQuestionNumber(currentQuestion[0].last_visited_ques_no))// intermData reload exam -- current question number
+                dispatch(selectDemoQuestionNumber(currentQuestion[0].last_visited_ques_no)) // intermData reload exam -- current question number
                 storeAnswerValue()
             }
 
@@ -294,11 +303,11 @@ const OnlineExamsDetails = (props) => {
             dispatch(getOnlineScholasticModuleListSuccessAction([]));
             dispatch(getOnlineScholasticMockListSuccessAction([]));
             dispatch(getOnlineCompetitiveSuccessAction([]));
-            setCurrentQuestion([]);
+            // setCurrentQuestion([]);
             // setVisableQuestion(false);
-            dispatch(getQuestionUploadCompletetAction(0));
-            dispatch(ModuleMockQuestionUploadAction(0));
-            dispatch(competitiveQuestionUploadAction(0));
+            // dispatch(getQuestionUploadCompletetAction(0));
+            // dispatch(ModuleMockQuestionUploadAction(0));
+            // dispatch(competitiveQuestionUploadAction(0));
         }
     }, [])
 
@@ -346,13 +355,15 @@ const OnlineExamsDetails = (props) => {
     }
 
     const uploadQuestion = () => {
-        console.log("total_attempts------uploadQuestion-------", total_attempts)
+
+        console.log( "uploadQuestion > total_attempts : ", total_attempts );
+
         if (total_attempts == 3) {
             console.log("@1===========",)
             setIsPlaying(false);
             setHasSubmitted(true);
         } else {
-            console.log("@2===========",)
+            // console.log("@2===========",)
             if (props?.route.params.examFrom == 1) {
                 dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
             } else if (props?.route.params.examFrom == 2) {
@@ -364,7 +375,7 @@ const OnlineExamsDetails = (props) => {
                     dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
                 }
             } else if (props?.route.params.examFrom == 3) {
-                console.log("@3===========",)
+                // console.log("@3===========",)
                 dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
             }
             dispatch(selectDemoQuestionNumber(0));
@@ -591,7 +602,7 @@ const OnlineExamsDetails = (props) => {
 
         let page = 2; /* online Exam box icon id */
         setExaminterm(0);
-        previousDataBlank();
+        // previousDataBlank();
         dispatch(totalAttemptsAction(0));
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
@@ -727,7 +738,8 @@ const OnlineExamsDetails = (props) => {
 
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-                {console.log("isPlaying-------------------", isPlaying)}
+                {/* {console.log("isPlaying-------------------", isPlaying)} */}
+                {console.log("question details-------------------", currentQuestion?.length, visableQuestion, total_attempts)}
                 {!!currentQuestion?.length && visableQuestion && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
