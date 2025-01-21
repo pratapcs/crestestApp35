@@ -21,11 +21,11 @@ import InstructionsOnTakingExams from '../home/exam/examComponent/InstructionsOn
 import UserDetails from '../home/exam/examComponent/UserDetails'
 import ExamStartInstructions from '../home/exam/examComponent/ExamStartInstructions'
 
-import { getScholasticExamQuestionsDataForSubscriber, getQuestionUploadCompletetAction, getScholasticExamAnswerSubmitForSubscriber, totalAttemptsAction, getscholasticIntermExamSubmitforSubscriber, getScholasticExamAnswerSubmitForSubscriberTimeupSubmit, scholoasticQuestionListForSubscriberSuccessAction } from '../../store/actions/ScholasticAction';
+import { getScholasticExamQuestionsDataForSubscriber, getQuestionUploadCompletetAction, getScholasticExamAnswerSubmitForSubscriber, totalAttemptsAction, getscholasticIntermExamSubmitforSubscriber, getScholasticExamAnswerSubmitForSubscriberTimeupSubmit } from '../../store/actions/ScholasticAction';
 
-import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction, timeUsedForExamAction } from '../../store/actions/demoExamAction';
+import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction } from '../../store/actions/demoExamAction';
 
-import { getOnlineScholasticModuleQuestionListData, getOnlineScholasticMockQuestionListData, getscholasticexamsdetailsCasestudytData, getOnlineCompetitiveQuestionListData, ModuleMockQuestionUploadAction, competitiveQuestionUploadAction, competitiveExamAnswerSubmitForSubscriber, competitiveExamAnswerSubmitForSubscriberTimeup, getOnlineScholasticModuleListSuccessAction, getOnlineScholasticMockListSuccessAction, getOnlineCompetitiveSuccessAction } from '../../store/actions/OnlineExamAction';
+import { getOnlineScholasticModuleQuestionListData, getOnlineScholasticMockQuestionListData, getscholasticexamsdetailsCasestudytData, getOnlineCompetitiveQuestionListData, ModuleMockQuestionUploadAction, competitiveQuestionUploadAction, competitiveExamAnswerSubmitForSubscriber, competitiveExamAnswerSubmitForSubscriberTimeup } from '../../store/actions/OnlineExamAction';
 
 import ExamCounterClockComponent from '../home/exam/examComponent/ExamCounterClockComponent'
 
@@ -50,15 +50,15 @@ const OnlineExamsDetails = (props) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-    // const examcategoryList = useSelector(state => state.category.examcategoryList);
-
+    const examcategoryList = useSelector(state => state.category.examcategoryList);
+    // const scholasticQuestionList = useSelector(state => state.branch.scholasticQuestionList);
     const scholasticQuestionUploaded = useSelector(state => state.branch.scholasticQuestionUploaded);
     const moduleMockQuestionUploaded = useSelector(state => state.onlineexam.moduleMockQuestionUploaded);
     const competitiveQuestionUploaded = useSelector(state => state.onlineexam.competitiveQuestionUploaded);
-    const currentQestionNo = useSelector(state => state.questionNo.currentQestionNo ?? 0);
-    // const demoExamSubmit = useSelector((state) => state.questionNo.demoExamDoneOrNot);
-    // const user_id = useSelector((state) => state.auth.user_id);
-    // const newStudentid = useSelector(state => state.student.newStudentid);
+    const currentQestionNo = useSelector(state => state.questionNo.currentQestionNo);
+    const demoExamSubmit = useSelector((state) => state.questionNo.demoExamDoneOrNot);
+    const user_id = useSelector((state) => state.auth.user_id);
+    const newStudentid = useSelector(state => state.student.newStudentid);
     const warningSound = useSelector((state) => state.questionNo.warningSound); //-----
     const timeUpWarning = useSelector((state) => state.questionNo.timeUpWarning); //-----
     const total_attempts = useSelector((state) => state.questionNo.total_attempts);
@@ -70,19 +70,21 @@ const OnlineExamsDetails = (props) => {
     const time_used = useSelector((state) => state.questionNo.time_used);
 
     const callFirstTimeRef = useRef(true);
-    const callOneTimeTimeupModalRef = useRef(true);
-    const moreThanThreeTimesRef = useRef(true);
+    const callAfterThreeTimeRef = useRef(true);
+
+
+    // const [sampleQuestion, setSampleQuestion] = useState('In the given figure, O is the centre of the circle whose diameter is AB. If ∠AOE = 150° and ∠DAO = 55° then find ∠CBE. <img src="https://admin.clvdev.in//question_images/q_image/1680259500535NTMCH24Q43F43.png" alt="crestest_img" style="width:90%;margin-top:10px;" ')
 
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState(parseInt(currentQestionNo))
-    const [currentQuestion, setCurrentQuestion] = useState([])
+    const [currentQuestion, setCurrentQuestion] = useState('')
     const [selected, setSelected] = useState([]);
     const [is_visited_count, setIs_visited_count] = useState(0)
     const [is_answered_count, setIs_answered_count] = useState(0)
-    // const [isDemo, setIsDemo] = useState('')
+    const [isDemo, setIsDemo] = useState('')
     const [isPlaying, setIsPlaying] = useState(true)
     const [timeUpModal, setTimeUpModal] = useState(false);
     const [examTime, setExamTime] = useState(0);
-    // const [showExam, setShowExam] = useState(false);
+    const [showExam, setShowExam] = useState(false);
     const [calllCurrentQuestionNo, setCalllCurrentQuestionNo] = useState(true) //intermData
     const [pendingTime, setPendingTime] = useState(0)
 
@@ -90,9 +92,9 @@ const OnlineExamsDetails = (props) => {
     const [isUploadQuestion, setIsUploadQuestion] = useState(0)
 
     const [isLocked, setLocked] = useState();
-    // const [orientation, setOrientation] = useState();
-    // const [deviceOrientation, setDeviceOrientation] = useState();
-    // const [lock, setLock] = useState();
+    const [orientation, setOrientation] = useState();
+    const [deviceOrientation, setDeviceOrientation] = useState();
+    const [lock, setLock] = useState();
     const [modalVisible, setModalVisible] = useState(false);
 
     const [dashboardModalVisible, setDashboardModalVisible] = useState(false);
@@ -106,26 +108,22 @@ const OnlineExamsDetails = (props) => {
     const [answerSheetExpan, setAnswerSheetExpan] = useState(false);
 
     const [gestureName, setGestureName] = useState();
-    const [visableQuestion, setVisableQuestion] = useState(false)
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const currentQuestionLengthRef = useRef();
-
-    useEffect(() => {
-        currentQuestionLengthRef.current = currentQuestion;
-    }, [currentQuestion]);
-
+    currentQuestionLengthRef.current = currentQuestion
 
     const currentTimeRef = useRef();
-    // currentTimeRef.current = pendingTime;
-    // currentTimeRef.current = time_used;
+    currentTimeRef.current = pendingTime;
 
     const totalAttemptsRef = useRef();
     totalAttemptsRef.current = total_attempts;
+
     useEffect(() => {
-        dispatch(alertSoundAction(0));
+        // console.log("examStartInstructionHandeler---123")
         if (callFirstTimeRef.current) {
+            // console.log("examStartInstructionHandeler---examStartInstructionHandeler")
             examStartInstructionHandeler();
         }
         callFirstTimeRef.current = false
@@ -133,9 +131,10 @@ const OnlineExamsDetails = (props) => {
 
     useEffect(() => {
         checkLocked();
-    }, []);
+    });
 
     useEffect(() => {
+
         return () => {
             Orientation.lockToPortrait();
             checkLocked();
@@ -154,6 +153,8 @@ const OnlineExamsDetails = (props) => {
     }, []);
 
     useEffect(() => {
+        // document.addEventListener('keydown', detectKeyDown, true)
+
         if (timeUpWarning == 1) {
             setIsPlaying(false);
             setTimeUpModal(true);
@@ -162,64 +163,93 @@ const OnlineExamsDetails = (props) => {
         if (timeUpWarning == 0) {
             setTimeUpModal(false)
         }
+
+        /* return () => {
+
+        } */
     }, [warningSound, timeUpWarning,]);
 
-    /* useEffect(() => {
-        setPendingTime(time_used);
-    }, [time_used, calllCurrentQuestionNo,]); */
+    useEffect(() => {
+        // setPendingTime(time_used);
+        if (pendingTime !== time_used) {
+            setPendingTime(time_used);
+        }
+        // console.log(">>>time_used>>", time_used)
+
+    }, [time_used, pendingTime, calllCurrentQuestionNo,]); //
 
     useEffect(() => {
-
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
             let updatedVisitData = props.route.params.examFrom == 1 ? scholasticQuestionListForSubscriber : props.route.params.examFrom == 2 ? onlineModuleMockQuestionList : props.route.params.examFrom == 3 ? onlineCompetitiveQuestionList : null;
-
+            // updatedVisitData[currentQuestionNumber].is_visited = 1
+            // console.log("updatedVisitData-----", updatedVisitData);
             setCurrentQuestion(updatedVisitData)
+            // setCurrentQuestion(scholasticQuestionList);
+            setTimeout(() => {
+                dispatch(getQuestionUploadCompletetAction(0));
+                dispatch(ModuleMockQuestionUploadAction(0));
+                dispatch(competitiveQuestionUploadAction(0));
+            }, 0);
+
             if (props.route.params.examFrom == 1) {
-                setExamTime(scholasticQuestionListForSubscriber[0]?.exam_duration);
+                // console.log("props.route.params.examFrom == 1")
+                setExamTime(scholasticQuestionListForSubscriber[0].exam_duration)
             } else if (props.route.params.examFrom == 2) {
-                setExamTime(onlineModuleMockQuestionList[0]?.exam_duration);
+                // console.log("props.route.params.examFrom == 2")
+                setExamTime(onlineModuleMockQuestionList[0].exam_duration)
             } else if (props.route.params.examFrom == 3) {
-                setExamTime(onlineCompetitiveQuestionList[0]?.exam_duration);
+                // console.log("props.route.params.examFrom == 3")
+                setExamTime(onlineCompetitiveQuestionList[0].exam_duration)
             }
+
         }
+        return () => {
+            // dispatch(getQuestionUploadCompletetAction(0));
+        };
+
     }, [scholasticQuestionListForSubscriber, onlineModuleMockQuestionList, onlineCompetitiveQuestionList]);
 
-
     useEffect(() => {
+        // console.log("currentQuestion--- total_attempts == 1", currentQuestion)
         if (!!currentQuestion.length) {
+
             if (total_attempts == 1) { // reload exam intermData
-                if (currentQuestion?.[currentQuestionNumber]) {
-                    currentQuestion[currentQuestionNumber].is_visited = 1;
-                }
+                // console.log("total_attempts == 1 && scholasticQuestionUploaded == 1")
+                currentQuestion[currentQuestionNumber].is_visited = 1; // reload exam intermData // && 
                 if (scholasticQuestionUploaded == 1) {
                     ScholasticExamintermSubmit(currentQestionNo)
                 }
             }
 
             visited_count();
+
             if (total_attempts > 1) { // reload exam intermData
+                // console.log("total_attempts > 1-----", currentQuestion[0].last_visited_ques_no )
                 dispatch(selectDemoQuestionNumber(currentQuestion[0].last_visited_ques_no))// intermData reload exam -- current question number
-                storeAnswerValue()
+                storeAnswerValue();
             }
 
-            /* if (total_attempts > 3) {
-                console.log("total_attempts > 3----1-",);
-                setIsPlaying(false);
-                examSubmit();
-            } */
+             if (total_attempts > 3 && callAfterThreeTimeRef.current) { // reload exam intermData
+                 // exitFullscreen();
+                 // ScholasticExamSubmit()
+                 console.log("total_attempts > 3 ---------------------------");
+                 examSubmit();
+                 setIsPlaying(false);
+                 callAfterThreeTimeRef.current = false;
+             }
         }
 
     }, [total_attempts, currentQuestion]); //
 
-
     useEffect(() => {
         if (!!currentQuestion.length && hasSubmitted) {
-            // setIsPlaying(false);
+            setIsPlaying(false);
             examSubmit();
-            setHasSubmitted(false)
+            setHasSubmitted(false);
         }
 
     }, [hasSubmitted, currentQuestion]); //
+
 
     useEffect(() => {
         setCurrentQuestionNumber(currentQestionNo);
@@ -228,7 +258,6 @@ const OnlineExamsDetails = (props) => {
     useEffect(() => {
         if (examinterm == 1) {
             _interval = setInterval(() => {
-                console.log("setInterval---------------------------------")
                 _visitTime++;
                 ScholasticExamintermSubmitInterval(currentQestionNo)
             }, 20000);
@@ -236,6 +265,7 @@ const OnlineExamsDetails = (props) => {
         }
 
         if (timeUpWarning == 1) {
+            // console.log( ">>>timePratap>>>@@>", timeUpWarning )
             clearInterval(_interval);
         }
 
@@ -244,11 +274,6 @@ const OnlineExamsDetails = (props) => {
         }
     }, [timeUpWarning, currentQestionNo, examinterm])
 
-    useEffect(() => {
-        return () => {
-            clearInterval(_interval);
-        }
-    }, []);
 
     /* intermData */
     useEffect(() => {
@@ -275,39 +300,12 @@ const OnlineExamsDetails = (props) => {
 
 
     useEffect(() => {
-        if (timeUpWarning == 1 && callOneTimeTimeupModalRef.current) {
+
+        if (timeUpWarning == 1) {
             setTimeUpVisible(true)
             clearInterval(_interval);
-            callOneTimeTimeupModalRef.current = false
         }
     }, [warningSound, timeUpWarning]);
-
-    useEffect(() => {
-        return () => {
-            // console.log("remove Return==========================================")
-            dispatch(scholoasticQuestionListForSubscriberSuccessAction([]));
-            dispatch(getOnlineScholasticModuleListSuccessAction([]));
-            dispatch(getOnlineScholasticMockListSuccessAction([]));
-            dispatch(getOnlineCompetitiveSuccessAction([]));
-            setCurrentQuestion([]);
-            // setVisableQuestion(false);
-            dispatch(getQuestionUploadCompletetAction(0));
-            dispatch(ModuleMockQuestionUploadAction(0));
-            dispatch(competitiveQuestionUploadAction(0));
-        }
-    }, [])
-
-    const previousDataBlank = () => {
-        dispatch(scholoasticQuestionListForSubscriberSuccessAction([]));
-        dispatch(getOnlineScholasticModuleListSuccessAction([]));
-        dispatch(getOnlineScholasticMockListSuccessAction([]));
-        dispatch(getOnlineCompetitiveSuccessAction([]));
-        // setCurrentQuestion([]);
-        // setVisableQuestion(false);
-        dispatch(getQuestionUploadCompletetAction(0));
-        dispatch(ModuleMockQuestionUploadAction(0));
-        dispatch(competitiveQuestionUploadAction(0));
-    }
 
     const mmlOptions = {
         /* --------------- */
@@ -333,6 +331,10 @@ const OnlineExamsDetails = (props) => {
         TeX: { extensions: ['AMSmath.js', 'AMSsymbols.js', 'noErrors.js', 'noUndefined.js'], },
     };
 
+    const leftIconHandeler = () => {
+        navigation.goBack()
+    }
+
     const checkLocked = () => {
         const locked = Orientation.isLocked();
         if (locked !== isLocked) {
@@ -341,29 +343,30 @@ const OnlineExamsDetails = (props) => {
     }
 
     const uploadQuestion = () => {
-        console.log("total_attempts------uploadQuestion-------", total_attempts)
-        if (total_attempts == 3) {
-            console.log("@1===========",)
-            setIsPlaying(false);
-            setHasSubmitted(true);
-        } else {
-            console.log("@2===========",)
-            if (props?.route.params.examFrom == 1) {
-                dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
-            } else if (props?.route.params.examFrom == 2) {
-                if (previousValue.isModuleOrMock == 1) {
-                    dispatch(getOnlineScholasticModuleQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
-                } else if (previousValue.isModuleOrMock == 2) {
-                    dispatch(getOnlineScholasticMockQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
-                } else if (previousValue.isModuleOrMock == 3) {
-                    dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
-                }
-            } else if (props?.route.params.examFrom == 3) {
-                console.log("@3===========",)
-                dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
+        if (props.route.params.examFrom == 1) {
+            // console.log("@@3331--")
+            // console.log("props.route.params.examFrom == 1")
+            dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
+        } else if (props.route.params.examFrom == 2) {
+            // console.log("props.route.params.examFrom == 2")
+            if (previousValue.isModuleOrMock == 1) {
+                // console.log("@@11--")
+                dispatch(getOnlineScholasticModuleQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+            } else if (previousValue.isModuleOrMock == 2) {
+                // console.log("@@22222---------",)
+                dispatch(getOnlineScholasticMockQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+            } else if (previousValue.isModuleOrMock == 3) {
+                // console.log("@@444--")
+                dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
             }
-            dispatch(selectDemoQuestionNumber(0));
+        } else if (props.route.params.examFrom == 3) {
+            // console.log("@@3333333---------", previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype,)
+            // console.log("props.route.params.examFrom == 3")
+            // console.log("@@5555--")
+            dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
         }
+        dispatch(selectDemoQuestionNumber(0))
+
     }
 
     const onDashboardHandeler = () => {
@@ -372,6 +375,7 @@ const OnlineExamsDetails = (props) => {
     }
 
     const questionNumber = (id) => {
+        // console.log("questionNumber=====", id)
         dispatch(selectDemoQuestionNumber(id))
         if (currentQuestion[id].is_visited == 1) {
             if (currentQuestion[id].is_answered == 1) {
@@ -396,6 +400,7 @@ const OnlineExamsDetails = (props) => {
         Emitter.emit(Events.SHOW_PRELOADER);
         Emitter.emit(Events.SHOW_MENU_FROM_BOTTOM,
             {
+                // 'component': <EditClubMenuScene navigation={this.props.navigation} parent={this} />, currentQuestionNumber: currentQuestionNumber 
                 'component': <QuestionDetails navigation={navigation} callQuestionNumber={questionNumber} params={{ totalQuestionNumber: currentQuestion.length, currentQuestionNumber: currentQuestionNumber, is_answered_count: is_answered_count, is_visited_count: is_visited_count, questionList: currentQuestion }} />,
                 'componentHeight': 250,
             });
@@ -421,14 +426,11 @@ const OnlineExamsDetails = (props) => {
     }
 
     const examStartInstructionHandeler = () => {
+        // console.log("****--33-examStartInstructionHandeler")
         Emitter.emit(Events.SHOW_PRELOADER);
         Emitter.emit(Events.SHOW_MENU_FROM_BOTTOM,
             {
-                'component': <ExamStartInstructions
-                    navigation={navigation}
-                    quitExam={quitExam}
-                    startExam={startExam}
-                    params={{ mobile: 'mobileNumber', email: 'emailId', }} />,
+                'component': <ExamStartInstructions navigation={navigation} quitExam={quitExam} startExam={startExam} params={{ mobile: 'mobileNumber', email: 'emailId', }} />,
                 'componentHeight': 550,
             });
     }
@@ -481,6 +483,7 @@ const OnlineExamsDetails = (props) => {
     }
 
     const answerSetSelected = (data, index) => {
+        // console.log("+++11", data)
         let temp_data = [...selected]
         temp_data[currentQuestionNumber] = data
 
@@ -496,6 +499,7 @@ const OnlineExamsDetails = (props) => {
             currentQuestion[currentQuestionNumber].is_corrected = 0;
         }
         setCalllCurrentQuestionNo(!calllCurrentQuestionNo) //intermData
+        // ScholasticExamintermSubmit(props.questionNo) //intermDataF
         ScholasticExamintermSubmit(currentQuestionNumber) //intermDataF
     }
 
@@ -507,6 +511,7 @@ const OnlineExamsDetails = (props) => {
         for (var i = 0; i < currentQuestion.length; i++) {
             id_wise_value = {};
             id_wise_value = currentQuestion[i].is_answered_data //guest_post_ans;
+            // id_wise_value['is_visit'] = props.scholasticQuestionList[i].is_visited;
             ansdata.push(id_wise_value);
         }
 
@@ -542,8 +547,10 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
 
-
-        dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestion[0].exam_category, time_used, current_question_number, previousValue.group_subject_id, props));
+        // if (examdata != "") {
+        // console.log("#####---@1", previousValue.exam_type, previousValue.branchSortCode,)
+        dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestion[0].exam_category, time_used, current_question_number, previousValue.group_subject_id, props)); //props.questionNo
+        // }
     }
 
     const ScholasticExamintermSubmitInterval = (current_question_number) => {
@@ -565,17 +572,20 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
 
-        dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestionLengthRef.current[0]?.exam_category, currentTimeRef.current, current_question_number, previousValue.group_subject_id, props));
+        // if (examdata != "") {
+        // if(props.route.params.examFrom != 3) {
+        dispatch(getscholasticIntermExamSubmitforSubscriber(previousValue.exam_type, previousValue.exam_type == "NSTSE" ? 0 : previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 || (previousValue.exam_type == "NTSE" || previousValue.exam_type == "NSTSE") ? [previousValue.set_no] : [previousValue.caseStudy_no], examdata, previousValue.subject_id, currentQuestionLengthRef.current[0].exam_category, currentTimeRef.current, current_question_number, previousValue.group_subject_id, props)); //props.questionNo
+        // }
 
     }
 
     const examSubmit = () => {
-
+        // console.log("Submit Fnal Answer ", previousValue.group_subject_id);
         var examdata = [];
         var id_wise_value = null;
 
         for (var i = 0; i < currentQuestion.length; i++) {
-
+            // console.log("currentQuestion[i].is_answered_data----", currentQuestion[i].is_answered_data)
             id_wise_value = {};
             id_wise_value['question_id'] = currentQuestion[i].id;
             id_wise_value['question_no'] = currentQuestion[i].question_no;
@@ -584,16 +594,12 @@ const OnlineExamsDetails = (props) => {
             examdata.push(id_wise_value);
         }
 
+        // if (examdata != "") {
         let page = 2; /* online Exam box icon id */
-        setExaminterm(0);
-        previousDataBlank();
-        dispatch(totalAttemptsAction(0));
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
-            setExaminterm(0);
             dispatch(getScholasticExamAnswerSubmitForSubscriber(previousValue.exam_type, previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 ? previousValue.set_no : previousValue.caseStudy_no, examdata, previousValue.subject_id.toString(), previousValue.chapter_no, previousValue.group_subject_id, page, previousValue.exam_category_id, props));
         } else {
-            setExaminterm(0);
             dispatch(competitiveExamAnswerSubmitForSubscriber(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, examdata, previousValue.subtype, previousValue.group_subject_id, page, previousValue.exam_category_id, props))
         }
     }
@@ -612,35 +618,36 @@ const OnlineExamsDetails = (props) => {
             id_wise_value['guest_post_ans_status'] = currentQuestion[i].is_corrected;
             examdata.push(id_wise_value);
         }
+        // if (examdata != "") {
         let page = 2;
-        setExaminterm(0);
-        // previousDataBlank();
+        // console.log("props.route.params.examFrom---", props.route.params.examFrom)
+
         clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
-            setExaminterm(0);
             dispatch(getScholasticExamAnswerSubmitForSubscriberTimeupSubmit(previousValue.exam_type, previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 ? previousValue.set_no : previousValue.caseStudy_no, examdata, previousValue.subject_id.toString(), previousValue.chapter_no, previousValue.group_subject_id, page, previousValue.exam_category_id, props));
         } else {
-            setExaminterm(0);
             dispatch(competitiveExamAnswerSubmitForSubscriberTimeup(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, examdata, previousValue.subtype, previousValue.group_subject_id, page, previousValue.exam_category_id, props))
         }
     }
 
 
     const submitFinalAnswer = () => {
-        setModalVisible(false);
-        setIsPlaying(false);
-        dispatch(timeUpAction(0));
-        examSubmit();
+        setModalVisible(false)
+        setIsPlaying(false)
+        dispatch(timeUpAction(0))
+        examSubmit()
     }
 
     const timeUpSubmit = () => {
         clearInterval(_interval);
+        // console.log("timeUpSubmit")
         dispatch(timeUpAction(0)) //-----
-        setIsPlaying(false);
+        setIsPlaying(false)
         submitFinalAnswer();
     }
 
     const quitExam = () => {
+        // props.navigation.goBack()
         props.navigation.replace('drawerScenes', {
             screen: 'Dashboard',
             params: { data: 0 },
@@ -648,30 +655,26 @@ const OnlineExamsDetails = (props) => {
     }
 
     const startExam = () => {
+
         Emitter.emit(Events.HIDE_MENU_FROM_BOTTOM);
+
         if (total_attempts < 4) {
             Orientation.lockToLandscape();
             checkLocked();
-            setExaminterm(1);
+            setExaminterm(1)
             uploadQuestion();
-            setVisableQuestion(true);
         }
     }
 
     const openOtherOption = () => {
-        setOtherOptionModalVisible(true);
+        setOtherOptionModalVisible(true)
     }
 
     const goToDashboard = () => {
-        currentTimeRef.current = time_used;
-        
-        dispatch(alertSoundAction(0));
-        dispatch(drawerMenuActiveIdUpdateAction(1));
+        dispatch(alertSoundAction(0))
+        dispatch(drawerMenuActiveIdUpdateAction(1))
         setDashboardModalVisible(false);
-        setExaminterm(0);
         setIsPlaying(false);
-        dispatch(timeUsedForExamAction(''));
-        
         props.navigation.navigate('drawerScenes', {
             screen: "Dashboard",
         })
@@ -679,9 +682,9 @@ const OnlineExamsDetails = (props) => {
 
     const timeupHandeler = () => {
         clearInterval(_interval);
-        setExaminterm(0);
+        setExaminterm(0)
         setTimeUpVisible(false);
-        timeUpSubmit();
+        timeUpSubmit()
     }
 
     const answerExpan = (value) => {
@@ -723,14 +726,18 @@ const OnlineExamsDetails = (props) => {
                 // style={container}
                 style={Gstyles.examParentContainer}
             >
-
+                {console.log("pendingTime----------", pendingTime, isPlaying)}
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
-                {console.log("isPlaying-------------------", isPlaying)}
-                {!!currentQuestion?.length && visableQuestion && total_attempts < 4 ?
+                {!!currentQuestion.length && total_attempts < 4 ?
                     <View style={Gstyles.examParentContainer} >
                         <View style={Gstyles.examTopContainer}>
                             <View style={[Gstyles.examInsideTopContainer, Gstyles.fdr, Gstyles.jcsb]}>
+
+                                {/* <View style={Gstyles.examInfoInsideContainer}>
+                                    <MaterialIcons name="monitor" size={20} color="#fff" />
+                                    <View style={Gstyles.examInfoTextContainer}><Text style={Gstyles.examRemainingTextWhite} >{currentQuestionNumber + 1}/{currentQuestion.length}</Text></View>
+                                </View> */}
                                 <View>
                                     <View style={[Gstyles.examInfoInsideContainer, { height: 30, top: -3 }]}>
 
@@ -739,7 +746,7 @@ const OnlineExamsDetails = (props) => {
                                                 <MaterialCommunityIcons name="clock-minus-outline" size={18} color="#fff" />
                                                 <View style={{ overflow: 'hidden', alignItems: 'flex-start', top: -1 }}>
                                                     <ExamCounterClockComponent examTime={examTime} isPlaying={isPlaying} />
-                                                    {/* <ExamCounterClockComponent examTime={305} isPlaying={isPlaying} /> */}
+                                                    {/* <ExamCounterClockComponent examTime={14400} isPlaying={isPlaying} /> */}
                                                 </View>
                                             </>
                                             :
@@ -792,6 +799,7 @@ const OnlineExamsDetails = (props) => {
 
                                     <ScrollView
                                         keyboardShouldPersistTaps="handled"
+                                        // contentContainerStyle={Gstyles.examScrollViewContainer}
                                         showsVerticalScrollIndicator={false}
                                     >
                                         <GestureRecognizer
@@ -800,10 +808,13 @@ const OnlineExamsDetails = (props) => {
                                             <View style={{ height: 300 }} >
 
                                                 {currentQuestion != '' ?
-                                                    currentQuestion[currentQuestionNumber]?.question != '' ?
+                                                    currentQuestion[currentQuestionNumber].question != '' ?
                                                         <MathJax
                                                             mathJaxOptions={mmlOptions}
-                                                            html={currentQuestion[currentQuestionNumber]?.question}
+                                                            html={currentQuestion[currentQuestionNumber].question}
+
+                                                        // html={sampleQuestion}
+                                                        // style={{backgroundColor:'red',}}
                                                         />
                                                         : <ActivityIndicator />
                                                     : null}
@@ -834,7 +845,7 @@ const OnlineExamsDetails = (props) => {
                                         >
 
                                             {currentQuestion != '' ?
-                                                Object.keys(currentQuestion?.[currentQuestionNumber]?.options?.[0] || {}).map(([key, value]) => {
+                                                Object.keys(currentQuestion[currentQuestionNumber].options[0]).map(([key, value]) => {
 
                                                     return (
                                                         <React.Fragment key={key}>
@@ -853,12 +864,13 @@ const OnlineExamsDetails = (props) => {
                                                                             <View style={Gstyles.answerOption}>
                                                                                 <>
                                                                                     {currentQuestion != '' ?
-                                                                                        currentQuestion[currentQuestionNumber]?.options[0][key] == '' ? <ActivityIndicator /> :
+                                                                                        currentQuestion[currentQuestionNumber].options[0][key] == '' ? <ActivityIndicator /> :
                                                                                             <>
                                                                                                 <MathJax
                                                                                                     mathJaxOptions={mmlOptions}
-                                                                                                    html={currentQuestion[currentQuestionNumber]?.options[0][key]}
-
+                                                                                                    html={currentQuestion[currentQuestionNumber].options[0][key]}
+                                                                                                    // style={{ backgroundColor: 'red', }}
+                                                                                                    // onHeightUpdated={height => console.log(height)}
                                                                                                     onHeightUpdated={{ minHeight: 38, }}
                                                                                                 />
                                                                                             </>
@@ -883,12 +895,13 @@ const OnlineExamsDetails = (props) => {
                                                                             <View style={Gstyles.answerOption}>
                                                                                 <>
                                                                                     {currentQuestion != '' ?
-                                                                                        currentQuestion[currentQuestionNumber]?.options[0][key] == '' ? <ActivityIndicator /> :
+                                                                                        currentQuestion[currentQuestionNumber].options[0][key] == '' ? <ActivityIndicator /> :
                                                                                             <>
                                                                                                 <MathJax
                                                                                                     mathJaxOptions={mmlOptions}
-                                                                                                    html={currentQuestion[currentQuestionNumber]?.options[0][key]}
-
+                                                                                                    html={currentQuestion[currentQuestionNumber].options[0][key]}
+                                                                                                    // style={{ backgroundColor: 'red', }}
+                                                                                                    // onHeightUpdated={height => console.log(height)}
                                                                                                     onHeightUpdated={{ minHeight: 38 }}
                                                                                                 />
                                                                                             </>
@@ -951,6 +964,7 @@ const OnlineExamsDetails = (props) => {
                     <AlertOnlineExam
                         isVisable={(modalVisible)}
                         modalHeading="Do you want to submit?"
+                        // cartDetails='Submit your exam'
                         isCancelRequire={true}
                         cancelHandeler={() => setModalVisible(false)}
                         submitHandeler={submitFinalAnswer}
@@ -963,7 +977,7 @@ const OnlineExamsDetails = (props) => {
                     <AlertOnlineExam
                         isVisable={(dashboardModalVisible)}
                         modalHeading="Do you want to go back to dashboard?"
-
+                        // cartDetails='Go to dashboard'
                         isCancelRequire={true}
                         cancelHandeler={() => setDashboardModalVisible(false)}
                         submitHandeler={goToDashboard}
