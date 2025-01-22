@@ -54,4 +54,3 @@ export function timeUsedForExamAction(data) {
         payload: data,
     };
 }
-    
