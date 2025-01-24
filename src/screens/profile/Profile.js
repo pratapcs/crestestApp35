@@ -19,7 +19,7 @@ import { getData } from "../../utils/Util"
 import Emitter from '../../utils/Emitter';
 import * as Events from '../../configs/Events';
 import { decryptAES, } from "../../utils/Util";
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions,  } from '@react-navigation/native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 const { width, height } = Dimensions.get('window');
@@ -37,9 +37,12 @@ import MobileVerification from './MobileVerification'
 import ClassVerification from './ClassVerification'
 import ImageUploadOption from './ImageUploadOption'
 
+
+
 const Profile = (props) => {
 
     const dispatch = useDispatch();
+    // const navigation = useNavigation(); //useNavigation
 
     const status = useSelector(state => state.student.status);
     const mOtp = useSelector(state => state.student.mobile_otp);
@@ -265,8 +268,6 @@ const Profile = (props) => {
             setIsPageRefresh(!isPageRefresh)
         }
     }, [schoolList]);
-
-
 
     useEffect(() => {
         if (profileUpdatedWithMobile == 1) {

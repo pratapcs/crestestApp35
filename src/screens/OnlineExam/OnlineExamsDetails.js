@@ -232,7 +232,7 @@ const OnlineExamsDetails = (props) => {
                  // exitFullscreen();
                  // ScholasticExamSubmit()
                  console.log("total_attempts > 3 ---------------------------");
-                 examSubmit();
+                //  examSubmit();
                  setIsPlaying(false);
                  callAfterThreeTimeRef.current = false;
              }

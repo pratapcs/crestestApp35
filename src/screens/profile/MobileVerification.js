@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 //styles
-import { colors, containerInside, rbSheetBorderRdious } from '../../styles/Crestest.config';
+import { colors, containerInside } from '../../styles/Crestest.config';
 
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import CounterClockComponent from '../../components/CounterClockComponent'
@@ -22,14 +22,13 @@ import { sendVerificationOtp, verificationInputBoxAction, verificationCodeAction
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { validateEmail, decryptAES } from "../../utils/Util";
+import { decryptAES } from "../../utils/Util";
 
 import Gstyles from '../../styles/GlobalStyle';
-import { useNavigation } from '@react-navigation/native';
 
 const MobileVerification = (props) => {
 
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
 
     const [emailOtp, setEmailOtp] = useState('');
     const [mobileOtp, setMobileOtp] = useState('');

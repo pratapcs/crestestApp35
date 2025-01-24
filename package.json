@@ -63,6 +63,7 @@
     "react-native-reanimated-table": "^0.0.2",
     "react-native-render-html": "^6.3.4",
     "react-native-responsive-screen": "^1.4.2",
+    "react-native-restart": "^0.0.27",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.4.0",
     "react-native-select-dropdown": "^3.3.4",
