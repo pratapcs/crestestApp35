@@ -38,7 +38,7 @@ import {
 import Emitter from '../../utils/Emitter';
 import * as Events from '../../configs/Events';
 
-export function getOnlineScholasticModuleQuestionListData(chapter_id, subject_id, branchSortCode, module, group_subject_id, props) {
+export function getOnlineScholasticModuleQuestionListData(chapter_id, subject_id, branchSortCode, module, group_subject_id, callBack, props) {
     Emitter.emit(Events.SHOW_PRELOADER);
     return async (dispatch) => {
         getOnlineScholasticModuleQuestionList(chapter_id, subject_id, module, group_subject_id)
@@ -47,8 +47,13 @@ export function getOnlineScholasticModuleQuestionListData(chapter_id, subject_id
                 if (response.data.status == 200) {
                     if (response.data.data != "") {
                         dispatch(getOnlineScholasticModuleListSuccessAction(response.data.data));
-                        console.log("ModuleMock-----@1");
-                        dispatch(ModuleMockTotalAttemptsAction(response.data.data[0].total_attempts));
+                        if (response.data.data && response.data.data.length > 0) {
+                            dispatch(ModuleMockTotalAttemptsAction(response.data.data[0].total_attempts));
+                            if (response.data.data[0].total_attempts >= 4) {
+                                callBack();
+                            }
+                        }
+
                         Emitter.emit(Events.HIDE_PRELOADER);
                     } else {
                         props.navigation.replace('drawerScenes', {
@@ -75,18 +80,20 @@ export function getOnlineScholasticModuleQuestionListData(chapter_id, subject_id
     };
 }
 
-export function getOnlineScholasticMockQuestionListData(chapter_id, subject_id, branchSortCode, mock, group_subject_id, props) { //module
+export function getOnlineScholasticMockQuestionListData(chapter_id, subject_id, branchSortCode, mock, group_subject_id, callBack, props) { //module
     Emitter.emit(Events.SHOW_PRELOADER);
     return async (dispatch) => {
         getOnlineScholasticMockQuestionList(chapter_id, subject_id, mock, group_subject_id)
             .then((response) => {
-                // console.log("getOnlineScholasticMockQuestionListData-----", response.data.data)
                 if (response.data.status == 200) {
                     if (response.data.data != "") {
                         dispatch(getOnlineScholasticMockListSuccessAction(response.data.data));
-                        console.log("ModuleMock-----@2")
-                        dispatch(ModuleMockTotalAttemptsAction(response.data.data[0].total_attempts));
-                        /* history.push({ pathname: '/page-scholastic-exam-moudle-mock', state: { exam_type: 3, branchSortCode: branchSortCode, chapter: 'CH0', set_no: mock, subject_id: subject_id } }); */
+                        if (response.data.data && response.data.data.length > 0) {
+                            dispatch(ModuleMockTotalAttemptsAction(response.data.data[0].total_attempts));
+                            if (response.data.data[0].total_attempts >= 4) {
+                                callBack();
+                            }
+                        }
                     } else {
                         props.navigation.replace('drawerScenes', {
                             screen: 'dashboard',
@@ -116,18 +123,21 @@ export function getOnlineScholasticMockQuestionListData(chapter_id, subject_id, 
 }
 
 //competitive Exam data
-export function getOnlineCompetitiveQuestionListData(exam_type, subscription_id, set_no, subtype, props) {
+export function getOnlineCompetitiveQuestionListData(exam_type, subscription_id, set_no, subtype, callBack, props) {
     Emitter.emit(Events.SHOW_PRELOADER);
     return async (dispatch) => {
         getOnlineCompetitiveQuestionList(exam_type, subtype, set_no)
-            .then((response) => {
-                // console.log("%%%%%%%%%---", response.data.questions)
+            .then( async (response) => {
+                // console.log("%%%%%%%%%---", response.data.questions.length)
                 if (response.data.status == 200) {
                     if (response.data.questions != "") {
-                        dispatch(getOnlineCompetitiveSuccessAction(response.data.questions));
-                        
-                        dispatch(ModuleMockTotalAttemptsAction(response.data.questions[0].total_attempts));
-                        // history.push({ pathname: '/page-competitive-exam', state: { exam_type: exam_type, subscription_id: subscription_id, set_no: set_no, subtype: subtype } });
+                        await dispatch(getOnlineCompetitiveSuccessAction(response.data.questions));
+                        if (response.data.questions && response.data.questions.length > 0) {
+                            await dispatch(ModuleMockTotalAttemptsAction(response.data.questions[0].total_attempts));
+                            if (response.data.questions[0].total_attempts >= 4) {
+                                callBack();
+                            }
+                        }
                         Emitter.emit(Events.HIDE_PRELOADER);
                     } else {
                         dispatch(getOnlineCompetitiveFailureAction(response.data.questions));
@@ -251,17 +261,17 @@ export function competitiveExamAnswerSubmitForSubscriber(exam_type, subscription
                     localStorage.setItem('refreshExamId', JSON.stringify(examDetails)); */
 
                     dispatch(onlineExamIdAction(response.data.exam_id))
-                    
+
                     dispatch(totalAttemptsAction(0));
-                    
+
                     dispatch(ModuleMockTotalAttemptsAction(0));
-                    
+
                     // history.push({ pathname: '/online-assessment-details', state: { exam: 2, fromExam: 1 } });
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
                         params: { page: page, category_id: exam_category_id, exam_unique_id: response.data.exam_id }
                     });
-                    
+
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                     // utility.showSuccess(response.data.msg);
                     Emitter.emit(Events.HIDE_PRELOADER);
@@ -293,12 +303,12 @@ export function competitiveExamAnswerSubmitForSubscriberTimeup(exam_type, subscr
                     dispatch(RemovePrevouseExamIdAction(0))
 
                     // localStorage.setItem('refreshExamId', JSON.stringify(response.data.exam_id));
-                   /*  const examDetails = {
-                        examId: response.data.exam_id,
-                        exam: 2,
-                        fromExam: 1
-                    }
-                    localStorage.setItem('refreshExamId', JSON.stringify(examDetails)); */
+                    /*  const examDetails = {
+                         examId: response.data.exam_id,
+                         exam: 2,
+                         fromExam: 1
+                     }
+                     localStorage.setItem('refreshExamId', JSON.stringify(examDetails)); */
 
                     dispatch(onlineExamIdAction(response.data.exam_id))
                     // history.push({ pathname: '/online-assessment-details', state: { exam: 2, fromExam: 1 } });
@@ -375,15 +385,13 @@ export function storeFeedbackDetails(feedback, exam_unique_id, props) {
     };
 }
 
-export function getscholasticexamsdetailsCasestudytData(subject_id, branchSortCode, caseStudy_data, group_subject_id, history) {
+export function getscholasticexamsdetailsCasestudytData(subject_id, branchSortCode, caseStudy_data, group_subject_id, callBack, history) {
     return async (dispatch) => {
         getscholasticexamsdetailsCasestudy(subject_id, group_subject_id)
             .then((response) => {
                 if (response.data.status == 200) {
 
                     if (response.data.data != "") {
-                        //dispatch(getscholasticexamsdetailsCasestudyAction(response.data.data));
-                        //history.push({ pathname: '/page-scholastic-exam-moudle-mock', state: { exam_type: 3, branchSortCode: branchSortCode, chapter: 'CH0', set_no: module, subject_id: subject_id } });
                         dispatch(getOnlineScholasticModuleListSuccessAction(response.data.data));
                         history.push({ pathname: '/page-scholastic-exam-moudle-mock', state: { exam_type: 4, branchSortCode: branchSortCode, chapter: 'CH0', caseStudy_no: caseStudy_data, subject_id: subject_id } });
                     } else {

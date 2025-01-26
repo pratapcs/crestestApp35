@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { View, StatusBar, KeyboardAvoidingView, Text, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator, BackHandler, } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,11 +21,11 @@ import InstructionsOnTakingExams from '../home/exam/examComponent/InstructionsOn
 import UserDetails from '../home/exam/examComponent/UserDetails'
 import ExamStartInstructions from '../home/exam/examComponent/ExamStartInstructions'
 
-import { getScholasticExamQuestionsDataForSubscriber, getQuestionUploadCompletetAction, getScholasticExamAnswerSubmitForSubscriber, totalAttemptsAction, getscholasticIntermExamSubmitforSubscriber, getScholasticExamAnswerSubmitForSubscriberTimeupSubmit } from '../../store/actions/ScholasticAction';
+import { getScholasticExamQuestionsDataForSubscriber, getQuestionUploadCompletetAction, getScholasticExamAnswerSubmitForSubscriber, totalAttemptsAction, getscholasticIntermExamSubmitforSubscriber, getScholasticExamAnswerSubmitForSubscriberTimeupSubmit, scholoasticQuestionListForSubscriberSuccessAction } from '../../store/actions/ScholasticAction';
 
 import { selectDemoQuestionNumber, selectPrevousDemoQuestion, selectNextDemoQuestion, timeUpAction, alertSoundAction } from '../../store/actions/demoExamAction';
 
-import { getOnlineScholasticModuleQuestionListData, getOnlineScholasticMockQuestionListData, getscholasticexamsdetailsCasestudytData, getOnlineCompetitiveQuestionListData, ModuleMockQuestionUploadAction, competitiveQuestionUploadAction, competitiveExamAnswerSubmitForSubscriber, competitiveExamAnswerSubmitForSubscriberTimeup } from '../../store/actions/OnlineExamAction';
+import { getOnlineScholasticModuleQuestionListData, getOnlineScholasticMockQuestionListData, getscholasticexamsdetailsCasestudytData, getOnlineCompetitiveQuestionListData, ModuleMockQuestionUploadAction, competitiveQuestionUploadAction, competitiveExamAnswerSubmitForSubscriber, competitiveExamAnswerSubmitForSubscriberTimeup, getOnlineScholasticModuleListSuccessAction, getOnlineScholasticMockListSuccessAction, getOnlineCompetitiveSuccessAction } from '../../store/actions/OnlineExamAction';
 
 import ExamCounterClockComponent from '../home/exam/examComponent/ExamCounterClockComponent'
 
@@ -115,7 +115,8 @@ const OnlineExamsDetails = (props) => {
     currentQuestionLengthRef.current = currentQuestion
 
     const currentTimeRef = useRef();
-    currentTimeRef.current = pendingTime;
+    currentTimeRef.current = time_used;
+    // currentTimeRef.current = pendingTime;
 
     const totalAttemptsRef = useRef();
     totalAttemptsRef.current = total_attempts;
@@ -131,7 +132,7 @@ const OnlineExamsDetails = (props) => {
 
     useEffect(() => {
         checkLocked();
-    },[]);
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -168,14 +169,14 @@ const OnlineExamsDetails = (props) => {
         } */
     }, [warningSound, timeUpWarning,]);
 
-    useEffect(() => {
+    /* useEffect(() => {
         // setPendingTime(time_used);
         if (pendingTime !== time_used) {
             setPendingTime(time_used);
         }
         // console.log(">>>time_used>>", time_used)
 
-    }, [time_used, pendingTime, calllCurrentQuestionNo,]); //
+    }, [time_used, pendingTime, calllCurrentQuestionNo,]); */ //
 
     useEffect(() => {
         if (scholasticQuestionUploaded == 1 || moduleMockQuestionUploaded == 1 || competitiveQuestionUploaded == 1) {
@@ -192,13 +193,13 @@ const OnlineExamsDetails = (props) => {
 
             if (props.route.params.examFrom == 1) {
                 // console.log("props.route.params.examFrom == 1")
-                setExamTime(scholasticQuestionListForSubscriber[0].exam_duration)
+                setExamTime(scholasticQuestionListForSubscriber[0]?.exam_duration)
             } else if (props.route.params.examFrom == 2) {
                 // console.log("props.route.params.examFrom == 2")
-                setExamTime(onlineModuleMockQuestionList[0].exam_duration)
+                setExamTime(onlineModuleMockQuestionList[0]?.exam_duration)
             } else if (props.route.params.examFrom == 3) {
                 // console.log("props.route.params.examFrom == 3")
-                setExamTime(onlineCompetitiveQuestionList[0].exam_duration)
+                setExamTime(onlineCompetitiveQuestionList[0]?.exam_duration)
             }
 
         }
@@ -213,7 +214,6 @@ const OnlineExamsDetails = (props) => {
         if (!!currentQuestion.length) {
 
             if (total_attempts == 1) { // reload exam intermData
-                // console.log("total_attempts == 1 && scholasticQuestionUploaded == 1")
                 currentQuestion[currentQuestionNumber].is_visited = 1; // reload exam intermData // && 
                 if (scholasticQuestionUploaded == 1) {
                     ScholasticExamintermSubmit(currentQestionNo)
@@ -228,25 +228,36 @@ const OnlineExamsDetails = (props) => {
                 storeAnswerValue();
             }
 
-             if (total_attempts > 3 && callAfterThreeTimeRef.current) { // reload exam intermData
-                 // exitFullscreen();
-                 // ScholasticExamSubmit()
-                 console.log("total_attempts > 3 ---------------------------");
+            if (total_attempts > 3 ) { // reload exam intermData
+                // exitFullscreen();
+                // ScholasticExamSubmit()
+                console.log("total_attempts > 3 ---------------------------");
                 //  examSubmit();
-                 setIsPlaying(false);
-                 callAfterThreeTimeRef.current = false;
-             }
+                //setIsPlaying(false);
+                //setHasSubmitted(true);
+                //callAfterThreeTimeRef.current = false;
+            }
         }
 
     }, [total_attempts, currentQuestion]); //
 
+    /* useEffect(() => {
+        console.log("hasSubmitted > 3 -----11-", currentQuestion.length, total_attempts);
+        if (!!currentQuestion.length && total_attempts > 3 && callAfterThreeTimeRef.current) { // reload exam intermData
+            console.log("hasSubmitted > 3 -----22-", currentQuestion.length);
+            setHasSubmitted(true);
+            callAfterThreeTimeRef.current = false;
+            // checkNoOfAttacm();
+        }
+    }, [total_attempts, currentQuestion]); */ //
+
     useEffect(() => {
         if (!!currentQuestion.length && hasSubmitted) {
+            console.log("hasSubmitted > 3 ---------------------------");
             setIsPlaying(false);
             examSubmit();
             setHasSubmitted(false);
         }
-
     }, [hasSubmitted, currentQuestion]); //
 
 
@@ -306,6 +317,37 @@ const OnlineExamsDetails = (props) => {
         }
     }, [warningSound, timeUpWarning]);
 
+    useEffect(() => {
+        return () => {
+            console.log("remove Return==========================================")
+            dispatch(scholoasticQuestionListForSubscriberSuccessAction([]));
+            dispatch(getOnlineScholasticModuleListSuccessAction([]));
+            dispatch(getOnlineScholasticMockListSuccessAction([]));
+            dispatch(getOnlineCompetitiveSuccessAction([]));
+            // setCurrentQuestion([]);
+            // setVisableQuestion(false);
+            // dispatch(getQuestionUploadCompletetAction(0));
+            // dispatch(ModuleMockQuestionUploadAction(0));
+            // dispatch(competitiveQuestionUploadAction(0));
+        }
+    }, [])
+
+    const previousDataBlank = () => {
+        console.log("previousDataBlank------")
+        dispatch(scholoasticQuestionListForSubscriberSuccessAction([]));
+        dispatch(getOnlineScholasticModuleListSuccessAction([]));
+        dispatch(getOnlineScholasticMockListSuccessAction([]));
+        dispatch(getOnlineCompetitiveSuccessAction([]));
+        // setCurrentQuestion([]);
+        // setVisableQuestion(false);
+        dispatch(getQuestionUploadCompletetAction(0));
+        dispatch(ModuleMockQuestionUploadAction(0));
+        dispatch(competitiveQuestionUploadAction(0));
+        clearInterval(_interval);
+        setExaminterm(0);
+        dispatch(totalAttemptsAction(0));
+    }
+
     const mmlOptions = {
         /* --------------- */
         styles: {
@@ -341,32 +383,37 @@ const OnlineExamsDetails = (props) => {
         }
     }
 
-    const uploadQuestion = () => {
+    const checkNoOfAttempts = () => {
+            console.log("@1========checkNoOfAttacm===",)
+            setIsPlaying(false);
+            setHasSubmitted(true)
+    }
+
+    const uploadQuestion = useCallback(() => {
+
         if (props.route.params.examFrom == 1) {
             // console.log("@@3331--")
             // console.log("props.route.params.examFrom == 1")
-            dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, props));
+            dispatch(getScholasticExamQuestionsDataForSubscriber(previousValue.branchSortCode, previousValue.chapter, previousValue.subject_id, previousValue.set_no.toString(), previousValue.chapter_no, previousValue.group_subject_id, checkNoOfAttempts, props));
+            
         } else if (props.route.params.examFrom == 2) {
             // console.log("props.route.params.examFrom == 2")
             if (previousValue.isModuleOrMock == 1) {
                 // console.log("@@11--")
-                dispatch(getOnlineScholasticModuleQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+                dispatch(getOnlineScholasticModuleQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, checkNoOfAttempts, props));
             } else if (previousValue.isModuleOrMock == 2) {
                 // console.log("@@22222---------",)
-                dispatch(getOnlineScholasticMockQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+                dispatch(getOnlineScholasticMockQuestionListData(previousValue.selectChapterId, previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, checkNoOfAttempts, props));
             } else if (previousValue.isModuleOrMock == 3) {
-                // console.log("@@444--")
-                dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, props));
+                dispatch(getscholasticexamsdetailsCasestudytData(previousValue.subject_id, previousValue.branchSortCode, previousValue.set_no, previousValue.group_subject_id, checkNoOfAttempts, props));
             }
         } else if (props.route.params.examFrom == 3) {
-            // console.log("@@3333333---------", previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype,)
-            // console.log("props.route.params.examFrom == 3")
-            // console.log("@@5555--")
-            dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, props));
+            console.log("getOnlineCompetitiveQuestionListData-----", props.route.params.examFrom)
+            dispatch(getOnlineCompetitiveQuestionListData(previousValue.exam_type, previousValue.subscription_id, previousValue.set_no, previousValue.subtype, checkNoOfAttempts, props));
         }
         dispatch(selectDemoQuestionNumber(0))
 
-    }
+    },[])
 
     const onDashboardHandeler = () => {
         setOtherOptionModalVisible(false)
@@ -595,7 +642,8 @@ const OnlineExamsDetails = (props) => {
 
         // if (examdata != "") {
         let page = 2; /* online Exam box icon id */
-        clearInterval(_interval);
+        previousDataBlank();
+        // clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
             dispatch(getScholasticExamAnswerSubmitForSubscriber(previousValue.exam_type, previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 ? previousValue.set_no : previousValue.caseStudy_no, examdata, previousValue.subject_id.toString(), previousValue.chapter_no, previousValue.group_subject_id, page, previousValue.exam_category_id, props));
         } else {
@@ -620,8 +668,8 @@ const OnlineExamsDetails = (props) => {
         // if (examdata != "") {
         let page = 2;
         // console.log("props.route.params.examFrom---", props.route.params.examFrom)
-
-        clearInterval(_interval);
+        previousDataBlank();
+        // clearInterval(_interval);
         if (props.route.params.examFrom != 3) {
             dispatch(getScholasticExamAnswerSubmitForSubscriberTimeupSubmit(previousValue.exam_type, previousValue.branchSortCode, previousValue.chapter, previousValue.exam_type == 1 ? previousValue.setlectSet : previousValue.exam_type == 2 || previousValue.exam_type == 3 ? previousValue.set_no : previousValue.caseStudy_no, examdata, previousValue.subject_id.toString(), previousValue.chapter_no, previousValue.group_subject_id, page, previousValue.exam_category_id, props));
         } else {
@@ -634,7 +682,7 @@ const OnlineExamsDetails = (props) => {
         setModalVisible(false)
         setIsPlaying(false)
         dispatch(timeUpAction(0))
-        examSubmit()
+        examSubmit();
     }
 
     const timeUpSubmit = () => {
@@ -656,7 +704,6 @@ const OnlineExamsDetails = (props) => {
     const startExam = () => {
 
         Emitter.emit(Events.HIDE_MENU_FROM_BOTTOM);
-
         if (total_attempts < 4) {
             Orientation.lockToLandscape();
             checkLocked();
@@ -674,6 +721,7 @@ const OnlineExamsDetails = (props) => {
         dispatch(drawerMenuActiveIdUpdateAction(1))
         setDashboardModalVisible(false);
         setIsPlaying(false);
+        previousDataBlank();
         props.navigation.navigate('drawerScenes', {
             screen: "Dashboard",
         })
@@ -725,7 +773,9 @@ const OnlineExamsDetails = (props) => {
                 // style={container}
                 style={Gstyles.examParentContainer}
             >
-                {console.log("pendingTime----------", pendingTime, isPlaying)}
+                {/* {console.log("pendingTime----------", pendingTime, isPlaying)} */}
+                {/* {console.log("currentQuestion----------", currentQuestion && currentQuestion)} */}
+                {/* {console.log("total_attempts----------", total_attempts && total_attempts)} */}
                 {/* <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent hidden={false} /> */}
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
                 {!!currentQuestion.length && total_attempts < 4 ?
@@ -1003,7 +1053,7 @@ const OnlineExamsDetails = (props) => {
             {
                 otherOptionModalVisible ?
                     <OtherOptionModal
-                        intermNumber={currentQuestion[0].total_attempts}
+                        intermNumber={currentQuestion[0]?.total_attempts}
                         cancelHandeler={() => setOtherOptionModalVisible(false)}
                         onDashboardHandeler={() => onDashboardHandeler()}
                         onQuestionDetailsHandeler={onQuestionDetailsHandeler}
@@ -1025,5 +1075,4 @@ const OnlineExamsDetails = (props) => {
 
     );
 };
-
 export default OnlineExamsDetails;

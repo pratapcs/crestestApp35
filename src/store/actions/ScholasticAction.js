@@ -52,6 +52,8 @@ import * as Events from '../../configs/Events';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { storeData, getData, clearAllData } from "../../utils/Util";
 
+import examThree from  '../../../examThree.json'
+
 
 // import * as utility from '../../utility/Utility';
 
@@ -134,7 +136,7 @@ export function submitScholasticExam(data, id, exam_category_id, props) {
                     dispatch(demoExamSubmitAction(1));
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
-                        params: { exam_category_id, student_id: registerUserId == 0 ? id : registerUserId, student_status: registerUserId == 0 ? 0 : 1, page:44 }
+                        params: { exam_category_id, student_id: registerUserId == 0 ? id : registerUserId, student_status: registerUserId == 0 ? 0 : 1, page: 44 }
                     })
                     // props.push({ pathname: './demo-assessment-details', state: { exam_category_id, student_id: registerUserId == 0 ? id : registerUserId, student_status: registerUserId == 0 ? 0 : 1 } });
 
@@ -241,19 +243,26 @@ export function branchListAgainstSubjectid(id, props) {
     };
 }
 
-export function getScholasticExamQuestionsDataForSubscriber(branch, chapter, subject_id, set_no, chapter_no, group_subject_id, props) {
-    
+export function getScholasticExamQuestionsDataForSubscriber(branch, chapter, subject_id, set_no, chapter_no, group_subject_id, callBack, props) {
     Emitter.emit(Events.SHOW_PRELOADER);
     return async (dispatch) => {
         scholasticExamQuestionsListForSubscriber(branch, chapter, subject_id, set_no, chapter_no, group_subject_id)
-            .then((response) => {
-                
+            .then( async (response) => {
                 if (response.data.status == 200) {
+                    
                     if (response.data.data != "") {
-                        dispatch(scholoasticQuestionListForSubscriberSuccessAction(response.data.data));
-                        dispatch(totalAttemptsAction(response.data.data[0].total_attempts));
+                        console.log("response.data.data[0].total_attempts------", response.data.data[0].total_attempts, response.data.data.length)
+                        await dispatch(scholoasticQuestionListForSubscriberSuccessAction(response.data.data));
+                        // dispatch(totalAttemptsAction(response.data.data[0].total_attempts));
+                            if (response.data.data && response.data.data.length > 0) {
+                                await dispatch(totalAttemptsAction(response.data.data[0].total_attempts));
+                                if (response.data.data[0].total_attempts >= 4) {
+                                    callBack();
+                                }
+                            }
                         Emitter.emit(Events.HIDE_PRELOADER);
                     } else {
+                        console.log("@123>>>>>>>>>>>>>>>")
                         dispatch(scholoasticQuestionListForSubscriberFailureAction(response.data.data));
                         props.navigation.replace('drawerScenes', {
                             screen: 'Dashboard',
@@ -300,14 +309,14 @@ export function getScholasticExamAnswerSubmitForSubscriber(exam_type, branch, ch
                     // localStorage.setItem('refreshExamId', JSON.stringify(response.data.exam_id));
                     localStorage.setItem('refreshExamId', JSON.stringify(examDetails)); */
                     // props.push({ pathname: '/online-assessment-details', state: { exam: 1, fromExam: 1 } });
-                    
+
                     dispatch(totalAttemptsAction(0));
                     // dispatch(ModuleMockTotalAttemptsAction(0));
                     props.navigation.navigate('nonAuthScenes', {
                         screen: "DemoAssessment",
                         params: { page: page, category_id: exam_category_id, exam_unique_id: response.data.exam_id }
                     });
-                    
+
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                     // utility.showSuccess(response.data.msg);
                     // dispatch(onlineExamIdAction(response.data.exam_id))

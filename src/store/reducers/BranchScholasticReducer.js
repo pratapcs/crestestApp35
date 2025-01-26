@@ -77,6 +77,7 @@ export function BranchScholasticReducer(state = initialState, action) {
     }
 
     if (action.type === SCHOLASTIC_QUESTIONS_LIST_SUCCESS) {
+        // console.log("SCHOLASTIC_QUESTIONS_LIST_SUCCESS=====", JSON.stringify(action.payload))
         return {
             ...state,
             scholasticQuestionListForSubscriber: action.payload,
@@ -86,6 +87,7 @@ export function BranchScholasticReducer(state = initialState, action) {
     }
 
     if (action.type === SCHOLASTIC_QUESTIONS_LIST_FAILURE) {
+        console.log("SCHOLASTIC_QUESTIONS_LIST_FAILURE=====")
         return {
             ...state,
             scholasticQuestionListForSubscriber: [],
