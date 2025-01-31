@@ -37,7 +37,7 @@ function CompetitivePerformanceActivityCard(props) {
         areaChart
         spacing={100}
       />
-      <View style={{flexDirection: 'row', marginTop: 10}}>
+      <View style={{flexDirection: 'row', marginTop: 10, marginBottom:10,}}>
         {props?.labels.map((item, index) => {
           return (
             <TagButton

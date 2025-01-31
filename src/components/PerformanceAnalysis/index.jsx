@@ -1,7 +1,7 @@
 import React from 'react';
-import {Alert, Dimensions, StyleSheet, Text, View} from 'react-native';
-import {BarChart} from 'react-native-gifted-charts';
-import {colors, fonts} from '../../styles/Crestest.config';
+import { Alert, Dimensions, StyleSheet, Text, View } from 'react-native';
+import { BarChart } from 'react-native-gifted-charts';
+import { colors, fonts } from '../../styles/Crestest.config';
 import LableUi from '../LabelUi';
 
 function PerformanceAnalysis(props) {
@@ -14,7 +14,7 @@ function PerformanceAnalysis(props) {
         testType: 'Mock',
         spacing: 2,
       },
-      
+
       {
         value: parseFloat(props?.moduleData?.data[index] ?? 0),
         frontColor: 'rgba(255, 172, 49, 1)',
@@ -31,7 +31,7 @@ function PerformanceAnalysis(props) {
         spacing: 12,
         labelComponent: () => {
           return (
-            <View style={{width: 80, marginLeft:-30}}>
+            <View style={{ width: 80, marginLeft: -30 }}>
               <Text
                 style={{
                   textAlign: 'left',
@@ -47,18 +47,19 @@ function PerformanceAnalysis(props) {
           );
         },
       },
-      
+
     ];
   });
   return (
     <View style={styles.card}>
-      <View style={[styles.cardContainer, {marginBottom: 20}]}>
+      <View style={[styles.cardContainer, { marginBottom: 20 }]}>
         <Text style={styles.scoreSpectrumTitle}>Performance Analysis</Text>
       </View>
+      
       <BarChart
         data={data.flat()}
         width={Dimensions.get('window').width * 0.65}
-        barWidth={14}
+        barWidth={18}
         initialSpacing={5}
         spacing={0}
         barBorderRadius={4}
@@ -75,7 +76,7 @@ function PerformanceAnalysis(props) {
         // rotateLabel={true}
         shiftX={20}
       />
-      <View style={{flexDirection: 'row', marginTop: 10}}>
+      <View style={{ flexDirection: 'row', marginTop: 10 }}>
         <LableUi
           color={`rgba(133, 145, 203, 1)`}
           title={props?.mockData?.name}

@@ -79,6 +79,7 @@ const OverallCompetitivePerformanceScore = props => {
         dispatch(competitiveOverAllPerformanceSuccessAction([]));
         dispatch(getCompetitiveSetwiseScoreSuccessAction([]));
         dispatch(getcompetitiveSubjectAvgscoreDataAction([]));
+        dispatch(getCompareScholasticCompetitiveDataAction([]));
       };
     }
   }, [examType]);

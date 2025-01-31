@@ -46,7 +46,8 @@ function CompetitiveGradeGridCard({
                 width: '100%',
               }}>
 
-              {!isNaN(data[0].value) && data[0].value !== null && data[0].value !== undefined && data[0].value !== 0 ?
+              {console.log("data[0]-----------", data[0])}
+              {!isNaN(data[0].value) && data[0].value !== null && data[0].value !== undefined  ?
                 <>
                   <View>
                     {data.map((item, index) => {

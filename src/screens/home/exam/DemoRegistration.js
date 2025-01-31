@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     ScrollView,
     TextInput,
+    BackHandler
 } from 'react-native';
 
 //styles
@@ -80,7 +81,7 @@ const DemoRegistration = (props) => {
     const [privacyPolicyModal, setPrivacyPolicyModal] = useState(false);
     const [showTermsCondition, setShowTermsCondition] = useState(false);
 
-    const [isShowVerification, setIsShowVerification ] = useState(false)
+    const [isShowVerification, setIsShowVerification] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -103,9 +104,9 @@ const DemoRegistration = (props) => {
     const isShowOtpBox = useSelector(state => state.auth.isShowOtpBox);
 
     useEffect(() => {
-        console.log("#11-Demo")
-        console.log("@props----route--", props?.route?.params?.pageFrom)
-        console.log("@2222----route--", props?.route?.params?.pageFrom)
+        // console.log("#11-Demo")
+        // console.log("@props----route--", props?.route?.params?.pageFrom)
+        // console.log("@2222----route--", props?.route?.params?.pageFrom)
         // dispatch(verificationCodeInputOffAction(0));
         // dispatch(getClassStandardData(navigation));
         // dispatch(getBoardData(navigation));
@@ -115,9 +116,9 @@ const DemoRegistration = (props) => {
     useFocusEffect(
         React.useCallback(() => {
             // Do something when the screen is focused
-            console.log("#11-Demo")
-            console.log("@props----route--", props?.route?.params?.pageFrom)
-            console.log("@2222----route--", props?.route?.params?.pageFrom)
+            // console.log("#11-Demo")
+            // console.log("@props----route--", props?.route?.params?.pageFrom)
+            // console.log("@2222----route--", props?.route?.params?.pageFrom)
             dispatch(verificationCodeInputOffAction(0));
             dispatch(getClassStandardData(navigation));
             dispatch(getBoardData(navigation));
@@ -168,6 +169,17 @@ const DemoRegistration = (props) => {
             console.log("Demo registration return useEffect")
             setIsShowVerification(false)
         }
+    }, []);
+
+    useEffect(() => {
+        const backAction = (e) => {
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction,
+        );
+        return () => backHandler.remove();
     }, []);
 
 
@@ -239,13 +251,13 @@ const DemoRegistration = (props) => {
     }
 
     const checkingForMobileEmail = () => {
-        console.log("#7")
+        // console.log("#7")
         dispatch(verificationCodeInputOffAction(0));
         dispatch(userDetailsExistsOrNot(emailId, mobileNumber, isShowDemoVerificationHandeler, navigation));
     }
 
     const submitStudentDetails = () => {
-        console.log("submitStudentDetails---Demo Registration---")
+        // console.log("submitStudentDetails---Demo Registration---")
         Emitter.emit(Events.HIDE_MENU_FROM_BOTTOM);
         setIsShowVerification(false);
         dispatch(verificationCodeInputOffAction(0));
@@ -436,7 +448,7 @@ const DemoRegistration = (props) => {
 
                     <View style={Gstyles.signupBottomParentContainer}>
                         <View style={Gstyles.topHeadingContainer}>
-                            <Text style={Gstyles.heading}>Sign Up</Text>
+                            <Text style={Gstyles.heading}>Sign Up de</Text>
                             <Text style={Gstyles.details}>(<Text style={Gstyles.inputMandatoryMark}>*</Text>) Marked fields are mandatory to fill</Text>
                         </View>
 
@@ -591,9 +603,9 @@ const DemoRegistration = (props) => {
                                         // maxLength={200}
                                         autoCapitalize='none' //words: first letter of each word.
                                         returnKeyType="next"
-                                        /* onSubmitEditing={() => {
-                                            passwordRef.current.focus();
-                                        }} */
+                                    /* onSubmitEditing={() => {
+                                        passwordRef.current.focus();
+                                    }} */
                                     />
                                 </View>
 

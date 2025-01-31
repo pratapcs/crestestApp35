@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StatusBar,
@@ -9,25 +9,26 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import HeaderComponent from '../../components/HeaderComponent';
-import {Table, Row, Rows} from 'react-native-reanimated-table';
-import {container} from '../../styles/Crestest.config';
+import { Table, Row, Rows } from 'react-native-reanimated-table';
+import { container } from '../../styles/Crestest.config';
 import Gstyles from '../../styles/GlobalStyle';
-import {colors, fonts} from '../../styles/Crestest.config';
+import { colors, fonts } from '../../styles/Crestest.config';
 import {
   clearScholasticData,
   getScholasticAllData,
+  getCompareScholasticCompetitiveDataAction
 } from '../../store/actions/PerformanceScoreAction';
 import ScholasticCompetitiveIndex from '../../components/ScholasticCompetitiveIndex';
 import PerformanceAnalysis from '../../components/PerformanceAnalysis';
 import TableBottomSheet from '../../components/TableBottomSheet';
-import {capitalizeFirstLetter} from '../../utils/StringUtil';
+import { capitalizeFirstLetter } from '../../utils/StringUtil';
 import ScoreSpectrum from '../../components/ScoreSpectrum';
 import StrengthAnalysis from '../../components/StrengthAnalysis';
 const OverallScholasticPerformanceScore = props => {
   const dispatch = useDispatch();
-  const {data} = props?.route?.params;
+  const { data } = props?.route?.params;
   const mockData = useSelector(state => state.performance.MockData);
   const mockLable = useSelector(state => state.performance.mockLable);
   const moduleData = useSelector(state => state.performance.ModuleData);
@@ -48,7 +49,7 @@ const OverallScholasticPerformanceScore = props => {
   );
 
   const userStandard = useSelector(state => state.auth.standard);
-  
+
   const userBoard = useSelector(state => state.auth.board_name);
 
   const [detailsModalVisible, setDetailsModalVisible] = useState(false);
@@ -62,6 +63,7 @@ const OverallScholasticPerformanceScore = props => {
       dispatch(getScholasticAllData(data?.subejct_id, 'Competitive', props));
       return () => {
         dispatch(clearScholasticData());
+        dispatch(getCompareScholasticCompetitiveDataAction([]));
       };
     }
   }, [data?.subejct_id]);
@@ -89,14 +91,14 @@ const OverallScholasticPerformanceScore = props => {
         <ImageBackground
           source={require('../../assets/images/scholastic_background.png')}
           style={Gstyles.imageBackgroundContainer}>
-          <View style={{width: '100%'}}>
+          <View style={{ width: '100%' }}>
             <View style={styles.subjectHolder}>
               <Text style={styles.subjectTitle}>{data?.subject_name}</Text>
               <Image
                 source={
                   data?.subject_image == ''
                     ? require('../../assets/images/dashboard.png')
-                    : {uri: data?.subject_image}
+                    : { uri: data?.subject_image }
                 }
                 style={styles.subjectImage}
               />
@@ -105,9 +107,9 @@ const OverallScholasticPerformanceScore = props => {
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
             keyboardShouldPersistTaps="handled"
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}>
-              
+
             {scholasticOverAllPerformance.length !== 0 && (
               <ScoreSpectrum
                 value={scholasticOverAllPerformance[1]?.total}
@@ -128,19 +130,28 @@ const OverallScholasticPerformanceScore = props => {
                 onPressSubject={(sortName) => {
                   props.navigation.navigate('nonAuthScenes', {
                     screen: 'SubjectWiseScholasticScore',
-                    params: {subjectId: data?.subejct_id, sortName},
+                    params: { subjectId: data?.subejct_id, sortName },
                   });
                 }}
               />
             )}
-            {compareScholasticCompetitiveLabels.length !== 0 &&
-              compareScholasticCompetitiveDatasets.length !== 0 && (
+
+            {compareScholasticCompetitiveLabels !== undefined &&
+              compareScholasticCompetitiveDatasets !== undefined && (
                 <ScholasticCompetitiveIndex
                   pageHeading="Scholastic/Competitive Index (%)"
                   label={compareScholasticCompetitiveLabels}
                   dataSets={compareScholasticCompetitiveDatasets}
                 />
               )}
+            {/* {compareScholasticCompetitiveLabels.length !== 0 &&
+              compareScholasticCompetitiveDatasets.length !== 0 && (
+                <ScholasticCompetitiveIndex
+                  pageHeading="Scholastic/Competitive Index (%)"
+                  label={compareScholasticCompetitiveLabels}
+                  dataSets={compareScholasticCompetitiveDatasets}
+                />
+              )} */}
 
             {scholasticLabel.length !== 0 && (
               <PerformanceAnalysis
@@ -151,14 +162,14 @@ const OverallScholasticPerformanceScore = props => {
               />
             )}
           </ScrollView>
-          
+
           <TableBottomSheet
             title={'Weighted Average Performance'}
             description={`Scholastic > ${userBoard}:${userStandard} > Weighted Average Performance`}
             isVisible={detailsModalVisible}
             onCloseRequest={() => setDetailsModalVisible(false)}>
-            <View style={{height: 180}}>
-              <Table borderStyle={{borderWidth: 5, borderColor: '#ffffff'}}>
+            <View style={{ height: 180 }}>
+              <Table borderStyle={{ borderWidth: 5, borderColor: '#ffffff' }}>
                 <Row
                   flexArr={[3, 2, 2, 2, 2]}
                   data={
@@ -168,21 +179,21 @@ const OverallScholasticPerformanceScore = props => {
                       ),
                     )[0]
                   }
-                  style={{height: 40, backgroundColor: '#CAEBF9'}}
-                  textStyle={{textAlign: 'center', fontFamily:fonts.rBold, color:'#777777'}}
+                  style={{ height: 40, backgroundColor: '#CAEBF9' }}
+                  textStyle={{ textAlign: 'center', fontFamily: fonts.rBold, color: '#777777' }}
                 />
                 <Rows
                   data={scholasticOverAllPerformance.map(item =>
                     Object.values(item),
                   )}
                   flexArr={[3, 2, 2, 2, 2]}
-                  textStyle={{textAlign: 'center'}}
-                  style={{backgroundColor: '#D1D3D4', height: 70}}
+                  textStyle={{ textAlign: 'center' }}
+                  style={{ backgroundColor: '#D1D3D4', height: 70 }}
                 />
               </Table>
             </View>
           </TableBottomSheet>
-        </ImageBackground> 
+        </ImageBackground>
       </KeyboardAvoidingView>
     </>
   );
@@ -207,8 +218,8 @@ const styles = StyleSheet.create({
     height: 35,
     width: 35,
     marginLeft: 10,
-    backgroundColor:'white',
-    borderRadius:5
+    backgroundColor: 'white',
+    borderRadius: 5
   },
   scrollContainer: {
     width: '100%',

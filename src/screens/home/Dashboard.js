@@ -199,7 +199,7 @@ const Dashboard = (props) => {
             getUserDetails();
             dispatch(getCartData(props));
             dispatch(getAwsCredentialsData(props));
-            console.log("@11-----")
+            // console.log("@11-----")
             dispatch(drawerMenuActiveIdUpdateAction(1))
 
         });

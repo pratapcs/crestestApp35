@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, StatusBar, KeyboardAvoidingView, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useDispatch, useSelector } from 'react-redux';
@@ -96,6 +96,7 @@ const ScholasticExamsSubject = (props) => {
     const courseValidity = useSelector(state => state.subscribe.courseValidity);
     const courseAvailable = useSelector(state => state.subscribe.courseAvailable);
     const academicSessionDetals = useSelector(state => state.academic.academicSessionDetals);
+    const callFirstTimeRef = useRef(true);
 
     React.useEffect(() => {
 
@@ -114,17 +115,27 @@ const ScholasticExamsSubject = (props) => {
     }, []);
 
     useEffect(() => {
-        if (academicSessionDetals?.couese_exist !== 1 && academicSessionDetals?.msg) {
-            //   swal(props.academicSessionDetals?.msg);
-            setSubExpiryMessage(true)
-        } else if (
-            academicSessionDetals?.couese_exist == 1 &&
-            academicSessionDetals?.show_alert_msg == 1 && academicSessionDetals?.msg
-        ) {
-            //   swal(props.academicSessionDetals?.msg);
-            setSubExpiryMessage(true)
+        if (callFirstTimeRef.current) {
+            if (academicSessionDetals?.couese_exist !== 1 && academicSessionDetals?.msg) {
+                //   swal(props.academicSessionDetals?.msg);
+                console.log("setSubExpiryMessage(true)---@1")
+                setSubExpiryMessage(true);
+                callFirstTimeRef.current = false;
+            } else if (
+                academicSessionDetals?.couese_exist == 1 &&
+                academicSessionDetals?.show_alert_msg == 1 && academicSessionDetals?.msg
+            ) {
+                //   swal(props.academicSessionDetals?.msg);
+                console.log("setSubExpiryMessage(true)---@2>>>>>>>>>>>>>>>.")
+                setSubExpiryMessage(true);
+                callFirstTimeRef.current = false;
+            }
         }
     }, [academicSessionDetals]);
+
+    const showWarning = () => {
+
+    }
 
     useEffect(() => {
         let group_name = [];
@@ -149,7 +160,7 @@ const ScholasticExamsSubject = (props) => {
         setModuleMockChaterList(examCompletedChapterList)
         // console.log("moduleInterm----123--useEffect", moduleInterm)
         // if (exam_type == 2 || exam_type == 3 && moduleInterm == 0) {
-        
+
         if (exam_type == 2 && moduleInterm == 0 && moduleInterm !== undefined && moduleInterm !== null || exam_type == 3 && mockInterm == 0 && mockInterm !== undefined && mockInterm !== null) {
             Emitter.emit(Events.SHOW_PRELOADER);
             // console.log(console.log("exam_type---@123---", exam_type, moduleInterm, exam_type, mockInterm))
@@ -157,7 +168,7 @@ const ScholasticExamsSubject = (props) => {
         }
 
     }, [examCompletedChapterList, maxChapterSelect, maxChapterSelectMock, moduleInterm]);
-  
+
 
     useEffect(() => {
 
@@ -192,7 +203,7 @@ const ScholasticExamsSubject = (props) => {
     }
 
     const quitRbHandeler = () => {
-        console.log("quitRbHandeler------------------", );
+        console.log("quitRbHandeler------------------",);
         setExam_type(0);
         setSubjectSave('');
         dispatch(examCompletedListSuccessAction([]));
@@ -523,13 +534,13 @@ const ScholasticExamsSubject = (props) => {
     const getCourseValidityDate = (startDate, endDate) => {
         let output = "NA";
         if (startDate && endDate) {
-          let formattedStartDate = moment(startDate).format("DD/MM/YYYY");
-          let formattedEndDate = moment(endDate).format("DD/MM/YYYY");
-          output = `${formattedStartDate} - ${formattedEndDate}`;
+            let formattedStartDate = moment(startDate).format("DD/MM/YYYY");
+            let formattedEndDate = moment(endDate).format("DD/MM/YYYY");
+            output = `${formattedStartDate} - ${formattedEndDate}`;
         }
         return output;
-      };
-      
+    };
+
 
     const modalShowOff = () => {
         setSubExpiryMessage(false)
@@ -555,7 +566,7 @@ const ScholasticExamsSubject = (props) => {
                         <Text style={Gstyles.courseValidityText}>{`Academic Year : ${academicSessionDetals.academic_year}`}</Text>
                         {/* <Text style={Gstyles.courseValidityText}>{`Course Validity: ${getCourseValidityDateformat(courseValidity)}`}</Text> */}
                         <Text style={Gstyles.courseValidityText}>{`Course Validity: ${getCourseValidityDate(academicSessionDetals?.course_start_date, academicSessionDetals?.course_end_date)}`}</Text>
-                        
+
                     </View>
 
                     {/* 
