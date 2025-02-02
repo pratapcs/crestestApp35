@@ -448,7 +448,7 @@ const DemoRegistration = (props) => {
 
                     <View style={Gstyles.signupBottomParentContainer}>
                         <View style={Gstyles.topHeadingContainer}>
-                            <Text style={Gstyles.heading}>Sign Up de</Text>
+                            <Text style={Gstyles.heading}>Sign Up</Text>
                             <Text style={Gstyles.details}>(<Text style={Gstyles.inputMandatoryMark}>*</Text>) Marked fields are mandatory to fill</Text>
                         </View>
 

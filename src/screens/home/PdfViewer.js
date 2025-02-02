@@ -344,14 +344,14 @@ const PdfViewer = (props) => {
         console.log("registrationHandeler")
         setIsAskmeVisable(false)
         dispatch(logout(props));
-        props.navigation.navigate('authScenes', {
+        /* props.navigation.navigate('authScenes', {
             screen: "Registration",
             params: { examDemo: 0 },
-        })
-        /* props.navigation.navigate('nonAuthScenes', {
-            screen: "DemoRegistration",
-            params: {pageFrom:1}
         }) */
+        props.navigation.navigate('nonAuthScenes', {
+            screen: "DemoRegistration",
+            params: { pageFrom: 0 }
+        })
     }
 
 
@@ -363,7 +363,7 @@ const PdfViewer = (props) => {
             >
                 <StatusBar barStyle="light-content" backgroundColor="#245C75" translucent hidden={false} />
                 <HeaderComponent
-                    headerName='e-Library Pdf'
+                    headerName='e-Library Pdf '
                     leftIcon='chevron-back'
                     leftIconHandeler={leftIconHandeler}
                 />
@@ -488,7 +488,7 @@ const PdfViewer = (props) => {
                                                     {listLoader ? <ActivityIndicator /> :
                                                         <Text>No data found</Text>
                                                     }
-                                                </View> 
+                                                </View>
                                                 : null
                                             }
                                         </>

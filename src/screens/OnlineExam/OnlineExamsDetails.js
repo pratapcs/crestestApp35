@@ -821,11 +821,11 @@ const OnlineExamsDetails = (props) => {
                                     </ScrollView>
                                 </View>
 
-                                <View style={Gstyles.answerSubmitTopContainer}>
-                                    <TouchableOpacity style={Gstyles.answerSubmitTopInsideContainer} onPress={submitDemoExamHandeler}>
+                                <TouchableOpacity style={Gstyles.answerSubmitTopContainer} onPress={submitDemoExamHandeler} >
+                                    <View style={Gstyles.answerSubmitTopInsideContainer} >
                                         <Text style={Gstyles.examSubmitTopText}>Submit</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    </View>
+                                </TouchableOpacity>
 
                             </View>
 
@@ -855,9 +855,10 @@ const OnlineExamsDetails = (props) => {
                                             onSwipe={(direction, state) => onSwipe(direction, state)}
                                         >
                                             <View style={{ height: 300 }} >
-
-                                                {currentQuestion != '' ?
-                                                    currentQuestion[currentQuestionNumber].question != '' ?
+                                            {/* {console.log("currentQuestion.length====", currentQuestion.length)} */}
+                                            
+                                                {currentQuestion.length > 0 && currentQuestion != '' ?
+                                                    currentQuestion[currentQuestionNumber].question != '' || '' ?
                                                         <MathJax
                                                             mathJaxOptions={mmlOptions}
                                                             html={currentQuestion[currentQuestionNumber].question}
@@ -893,7 +894,7 @@ const OnlineExamsDetails = (props) => {
                                             showsVerticalScrollIndicator={false}
                                         >
 
-                                            {currentQuestion != '' ?
+                                            {currentQuestion.length > 0 && currentQuestion != '' ?
                                                 Object.keys(currentQuestion[currentQuestionNumber].options[0]).map(([key, value]) => {
 
                                                     return (
