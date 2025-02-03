@@ -136,8 +136,8 @@ const OverallScholasticPerformanceScore = props => {
               />
             )}
 
-            {compareScholasticCompetitiveLabels !== undefined &&
-              compareScholasticCompetitiveDatasets !== undefined && (
+            {compareScholasticCompetitiveLabels !== undefined && compareScholasticCompetitiveLabels.length !== 0 &&
+              compareScholasticCompetitiveDatasets !== undefined && compareScholasticCompetitiveDatasets.length !== 0 && (
                 <ScholasticCompetitiveIndex
                   pageHeading="Scholastic/Competitive Index (%)"
                   label={compareScholasticCompetitiveLabels}
