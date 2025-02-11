@@ -51,8 +51,8 @@ const PrivacyPolicy = (props) => {
                             contentContainerStyle={{ flexGrow: 1, }}
                             showsVerticalScrollIndicator={true}
                             persistentScrollbar={true}
-                        >   
-                        <View style={{borderWidth:1,}}>
+                        >
+                            <View>
                                 <RenderHtml
                                     contentWidth={200}
                                     source={{ html: privacyPolicy }}
