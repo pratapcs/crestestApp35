@@ -395,7 +395,7 @@ const CustomDrawer = (props) => {
     setActiveSubmenueItem(item.id)
 
     if (item.id == 92) {
-      let text = 'test text'
+      let text = 'Hello!'
       let whatsappNumber = '916289581169'
       // Linking.openURL(`whatsapp://send?text=${text}`);
       shareToWhatsAppWithContact(text, whatsappNumber)
