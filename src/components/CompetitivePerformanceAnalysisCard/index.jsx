@@ -29,12 +29,14 @@ function CompetitivePerformanceActivityCard(props) {
         onFocus={data =>
           Alert.alert('Performance Analysis', `${data?.label} : ${data?.value}`)
         }
+        focusProximity={30}
+        focusedDataPointRadius={7}
         maxValue={100}
         startOpacity={0.9}
         endOpacity={0.2}
         startFillColor1="rgba(255, 172, 49, 1)"
         endFillColor1="rgba(255, 172, 49, 1)"
-        areaChart
+        // areaChart
         spacing={100}
       />
       <View style={{flexDirection: 'row', marginTop: 10, marginBottom:10,}}>
