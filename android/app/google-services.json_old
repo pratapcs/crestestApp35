@@ -2,41 +2,12 @@
   "project_info": {
     "project_number": "800269731881",
     "project_id": "crestest-cf887",
-    "storage_bucket": "crestest-cf887.firebasestorage.app"
+    "storage_bucket": "crestest-cf887.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:800269731881:android:0d1eb75a9075506c9bf438",
-        "android_client_info": {
-          "package_name": "com.crestest"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "800269731881-fhb8crjvv0vutka85dg0ns3sdst62cku.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyA2zM_NYZRlIjA4hyGQ5RQFvwEITds3C30"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "800269731881-fhb8crjvv0vutka85dg0ns3sdst62cku.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:800269731881:android:f3cf6c824327720b9bf438",
         "android_client_info": {
           "package_name": "com.schemaphic.crestest"
         }
