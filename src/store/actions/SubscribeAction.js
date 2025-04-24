@@ -580,7 +580,7 @@ export function cartSuccessAction(order_id, status, signature_algorithm, status_
     return (dispatch) => {
         cartSuccess(order_id, status, signature_algorithm, status_id, signature)
             .then((response) => {
-                // console.log("removeData----", response.data)
+                console.log("cartSuccessAction----", response.data)
                 // Emitter.emit(Events.HIDE_PRELOADER);
                 if (response.data.status_id == 21) {
                     dispatch(getLastPaymentDetailsDataAction(response.data));

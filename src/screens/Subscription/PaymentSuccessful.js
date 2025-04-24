@@ -46,14 +46,14 @@ const PaymentSuccessful = (props) => {
             const dateConverter = () => {
                 var date = new Date(getLastPaymentDetails.payment_gateway_response.created);
                 // var date = new Date("2024-03-27T07:22:28Z");
-        
+
                 ////////////////////// fOR STAGING CALL THIS CODE ///////////////////
                 var isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
-                var showDate = moment(isoDateTime.slice(0,-1)).format('DD/MM/YYYY hh:mm A z')
+                var showDate = moment(isoDateTime.slice(0, -1)).format('DD/MM/YYYY hh:mm A z')
                 setPaymentDate(showDate)
                 // return isoDateTime
-        
-                
+
+
             }
             dateConverter()
         });
@@ -122,6 +122,7 @@ const PaymentSuccessful = (props) => {
                                 null
                         }
                         {/* <View className='mt-5'></View> */}
+                        {console.log("getLastPaymentDetails-------------------", getLastPaymentDetails?.upi?.payer_vpa)}
                         {props.route.params.statusId == 21 ?
                             getLastPaymentDetails != '' && getLastPaymentDetails != null && getLastPaymentDetails != undefined ?
                                 <View style={styles.detailsContainer}>
@@ -149,7 +150,15 @@ const PaymentSuccessful = (props) => {
                                             <Text>:</Text>
                                         </View>
                                         <View style={styles.rightContainer}>
-                                            <Text>{getLastPaymentDetails.card.card_brand}</Text>
+                                            {getLastPaymentDetails?.card?.card_brand &&
+                                                <Text>{getLastPaymentDetails?.card?.card_brand}</Text>
+                                            }
+                                            {getLastPaymentDetails?.upi?.payer_vpa &&
+                                                <Text>{getLastPaymentDetails?.upi?.payer_vpa}</Text>
+                                            }
+
+                                            {/* <Text>{getLastPaymentDetails?.card?.card_brand || getLastPaymentDetails?.upi?.payer_vpa }</Text> */}
+                                            {/* <Text>{getLastPaymentDetails?.upi?.payer_vpa}</Text> */}
                                         </View>
                                     </View>
 
@@ -277,9 +286,9 @@ const styles = StyleSheet.create({
         // borderWidth:1,
     },
     linkText: {
-        padding:5,
-        backgroundColor:'#7BA3B5',
-        borderRadius:5,
+        padding: 5,
+        backgroundColor: '#7BA3B5',
+        borderRadius: 5,
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
