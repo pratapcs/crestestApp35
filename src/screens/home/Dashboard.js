@@ -642,7 +642,7 @@ const Dashboard = (props) => {
                     </TouchableOpacity>
 
                 </View>
-                            {console.log("profile_pic------", profile_pic)}
+                
                 <TouchableWithoutFeedback
                     onPress={userid == 0 ? null : changeProfileImageOnlyHandeler}
                 >

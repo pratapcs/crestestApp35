@@ -122,7 +122,8 @@ const PaymentSuccessful = (props) => {
                                 null
                         }
                         {/* <View className='mt-5'></View> */}
-                        {console.log("getLastPaymentDetails-------------------", getLastPaymentDetails?.upi?.payer_vpa)}
+                        {/* {console.log("getLastPaymentDetails-------------------", getLastPaymentDetails?.upi?.payer_vpa)} */}
+                        {console.log("getLastPaymentDetails-------------------", getLastPaymentDetails)}
                         {props.route.params.statusId == 21 ?
                             getLastPaymentDetails != '' && getLastPaymentDetails != null && getLastPaymentDetails != undefined ?
                                 <View style={styles.detailsContainer}>
@@ -155,6 +156,9 @@ const PaymentSuccessful = (props) => {
                                             }
                                             {getLastPaymentDetails?.upi?.payer_vpa &&
                                                 <Text>{getLastPaymentDetails?.upi?.payer_vpa}</Text>
+                                            }
+                                            {getLastPaymentDetails?.payment_method &&
+                                                <Text>{getLastPaymentDetails?.payment_method}</Text>
                                             }
 
                                             {/* <Text>{getLastPaymentDetails?.card?.card_brand || getLastPaymentDetails?.upi?.payer_vpa }</Text> */}
