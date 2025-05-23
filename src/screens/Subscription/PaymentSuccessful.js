@@ -130,7 +130,7 @@ const PaymentSuccessful = (props) => {
                                     <View style={styles.individualContainer}>
                                         <View style={styles.leftContainer}><Text>Amount </Text></View>
                                         <View style={styles.middleContainer}><Text>:</Text></View>
-                                        <View style={styles.rightContainer}><Text>{getLastPaymentDetails.amount}</Text></View>
+                                        <View style={styles.rightContainer}>{getLastPaymentDetails?.amount && <Text>{getLastPaymentDetails?.amount}</Text>}</View>
                                     </View>
                                     <View style={styles.individualContainer}>
                                         <View style={styles.leftContainer}>
@@ -140,7 +140,7 @@ const PaymentSuccessful = (props) => {
                                             <Text>:</Text>
                                         </View>
                                         <View style={styles.rightContainer}>
-                                            <Text>{getLastPaymentDetails.txn_id}</Text>
+                                            {getLastPaymentDetails?.txn_id &&  <Text>{getLastPaymentDetails?.txn_id}</Text>}
                                         </View>
                                     </View>
                                     <View style={styles.individualContainer}>
@@ -157,7 +157,7 @@ const PaymentSuccessful = (props) => {
                                             {getLastPaymentDetails?.upi?.payer_vpa &&
                                                 <Text>{getLastPaymentDetails?.upi?.payer_vpa}</Text>
                                             }
-                                            {getLastPaymentDetails?.payment_method &&
+                                            { getLastPaymentDetails?.payment_method &&
                                                 <Text>{getLastPaymentDetails?.payment_method}</Text>
                                             }
 
@@ -172,7 +172,7 @@ const PaymentSuccessful = (props) => {
                                         <View style={styles.middleContainer}><Text>:</Text>
                                         </View>
                                         <View style={styles.rightContainer}>
-                                            <Text>{getLastPaymentDetails.order_id}</Text>
+                                            {getLastPaymentDetails?.order_id && <Text>{getLastPaymentDetails?.order_id}</Text>}
                                         </View>
                                     </View>
                                     <View style={styles.individualContainer}>
@@ -183,7 +183,7 @@ const PaymentSuccessful = (props) => {
                                             <Text>:</Text>
                                         </View>
                                         <View style={styles.rightContainer}>
-                                            <Text>{getLastPaymentDetails.payment_method_type}</Text>
+                                            {getLastPaymentDetails?.payment_method_type && <Text>{getLastPaymentDetails?.payment_method_type}</Text>}
                                         </View>
                                     </View>
                                     <View style={styles.individualContainer}>
@@ -194,7 +194,7 @@ const PaymentSuccessful = (props) => {
                                             <Text>:</Text>
                                         </View>
                                         <View style={styles.rightContainer}>
-                                            <Text>{getLastPaymentDetails.payment_gateway_response.epg_txn_id}</Text>
+                                            {getLastPaymentDetails?.payment_gateway_response?.epg_txn_id && <Text>{getLastPaymentDetails.payment_gateway_response?.epg_txn_id}</Text>}
                                         </View>
                                     </View>
                                     <View style={styles.individualContainer}>
@@ -206,7 +206,7 @@ const PaymentSuccessful = (props) => {
                                         </View>
                                         <View style={styles.rightContainer}>
                                             {/* <Text>{getLastPaymentDetails.payment_gateway_response.created}</Text> */}
-                                            <Text>{paymentDate}</Text>
+                                            {paymentDate && <Text>{paymentDate}</Text>}
                                         </View>
                                     </View>
                                 </View>

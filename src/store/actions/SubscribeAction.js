@@ -214,13 +214,16 @@ export function addToCartData(c_id, sub_id, sets, module, mock, type_id, class_n
 }
 
 export function getCartData(props) {
-    // console.log("@1")
+    // console.log("@1----getCartData")
     Emitter.emit(Events.SHOW_PRELOADER);
     return (dispatch) => {
         getcartlist()
             .then((response) => {
+                // console.log("@1----getCartData-----response", response.data.status )
                 if (response.data.status == 200) {
+                    // console.log("@1----getCartData-----200", response.data.status )
                     dispatch(getCartAction(response.data));
+                    // console.log("@1----@2-----200", response.data.status )
                     Emitter.emit(Events.HIDE_PRELOADER);
                 } else if (response.data.status == 400) {
                     Emitter.emit(Events.SHOW_MESSAGE, { type: "error", title: "Error!", message: response.data.msg });
@@ -326,8 +329,13 @@ export function getInvoicePDFData(transaction_id, props) {
     return (dispatch) => {
         getInvoicePDF(transaction_id)
             .then((response) => {
-                // console.log('response....', response.data.pdf_file_path);
-                Linking.openURL(response.data.pdf_file_path)
+                console.log('response....', response.data.pdf_file_path);
+                // console.log('response.........................', response.data);
+                const pdfUrl = response.data.pdf_file_path;
+                const uniqueUrl = `${pdfUrl}?t=${Date.now()}`;
+                // console.log("uniqueUrl----...................-", uniqueUrl)
+                Linking.openURL(uniqueUrl)
+                // Linking.openURL(response?.data?.pdf_file_path)
                 Emitter.emit(Events.SHOW_MESSAGE, { type: "success", title: "Success", message: response.data.msg });
                 /* // const source = "https://www.africau.edu/images/default/sample.pdf";
                 const source = "https://www.africau.edu/images/default/sample.pdf";
@@ -648,6 +656,7 @@ export function addToCartAction(data) {
     };
 }
 export function getCartAction(data) {
+    console.log("getCartAction(data)---------", data);
     return {
         type: GET_CART_LIST,
         payload: data,
